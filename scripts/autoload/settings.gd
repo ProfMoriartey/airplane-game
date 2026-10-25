@@ -135,7 +135,8 @@ func quality_value(key: String) -> Variant:
 	return QUALITY_SETTINGS[quality][key]
 
 
-## Applies everything and saves. Call after changing any setting.
+## Applies everything, so a change shows straight away. It isn't kept for the
+## next time the game starts until save() is called.
 func apply() -> void:
 	for bus: String in BUSES:
 		var index := AudioServer.get_bus_index(bus)
@@ -149,8 +150,33 @@ func apply() -> void:
 	viewport.msaa_3d = quality_value("msaa")
 	TranslationServer.set_locale(language if language != "" else OS.get_locale())
 	Controls.rebuild()
-	_save()
 	changed.emit()
+
+
+## Writes the current settings to disk.
+func save() -> void:
+	_save()
+
+
+## A copy of every saved setting, to compare against or go back to.
+func snapshot() -> Dictionary:
+	var values := {}
+	for key: String in SAVED:
+		var value: Variant = get(key)
+		values[key] = value.duplicate(true) if value is Dictionary or value is Array else value
+	return values
+
+
+## Puts every setting back the way a snapshot had it.
+func restore(values: Dictionary) -> void:
+	for key: String in values:
+		var value: Variant = values[key]
+		set(key, value.duplicate(true) if value is Dictionary or value is Array else value)
+	apply()
+
+
+func differs_from(values: Dictionary) -> bool:
+	return snapshot() != values
 
 
 ## The keys or mouse buttons a control uses, one per slot ({} for an empty slot).

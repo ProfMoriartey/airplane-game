@@ -30,12 +30,18 @@ var _axis_rest := {}
 var _key_note: Label
 var _pad_note: Label
 var _connected_note: Label
+## The settings as they were when the menu opened (or last saved).
+var _saved: Dictionary
+var _save_button: Button
+var _unsaved_dialog: ConfirmationDialog
 
 
 func _ready() -> void:
 	# Wide enough for every tab title.
 	$Panel.offset_left = -PANEL_WIDTH / 2
 	$Panel.offset_right = PANEL_WIDTH / 2
+	_saved = Settings.snapshot()
+	_add_save_button()
 	%BackButton.pressed.connect(close)
 	%ResetButton.pressed.connect(_reset_current_tab)
 	%Tabs.tab_changed.connect(func(_tab: int) -> void: _update_reset_button())
@@ -62,12 +68,56 @@ func _add_controller_hint() -> void:
 	%BackButton.get_parent().move_child(hint, 0)
 
 
+## Save sits between Reset and Back, and only lights up once something changed.
+func _add_save_button() -> void:
+	_save_button = Button.new()
+	_save_button.text = "Save"
+	_save_button.custom_minimum_size = %BackButton.custom_minimum_size
+	_save_button.pressed.connect(_save)
+	%BackButton.add_sibling(_save_button)
+	%BackButton.get_parent().move_child(_save_button, %BackButton.get_index())
+	_unsaved_dialog = ConfirmationDialog.new()
+	_unsaved_dialog.title = "Unsaved changes"
+	_unsaved_dialog.dialog_text = "Save your changes before leaving?"
+	_unsaved_dialog.ok_button_text = "Save"
+	_unsaved_dialog.cancel_button_text = "Keep editing"
+	_unsaved_dialog.add_button("Don't save", false, "discard")
+	_unsaved_dialog.confirmed.connect(func() -> void:
+		_save()
+		close())
+	_unsaved_dialog.custom_action.connect(func(_action: StringName) -> void:
+		_unsaved_dialog.hide()
+		Settings.restore(_saved)
+		close())
+	add_child(_unsaved_dialog)
+	_update_save_button()
+
+
+func _save() -> void:
+	Settings.save()
+	_saved = Settings.snapshot()
+	_update_save_button()
+
+
+func _update_save_button() -> void:
+	var changed := Settings.differs_from(_saved)
+	_save_button.disabled = not changed
+	_save_button.text = "Save" if changed else "Saved"
+
+
+## Leaves the menu, first asking about any changes that haven't been saved.
 func close() -> void:
+	if Settings.differs_from(_saved):
+		_unsaved_dialog.popup_centered()
+		_unsaved_dialog.get_ok_button().grab_focus()
+		return
 	closed.emit()
 	queue_free()
 
 
 func _input(event: InputEvent) -> void:
+	if _unsaved_dialog.visible:
+		return
 	if _rebinding != "":
 		_capture_key(event)
 		return
@@ -140,6 +190,7 @@ func _capture_pad(event: InputEvent) -> void:
 func _stop_rebinding(message: String) -> void:
 	_rebinding = ""
 	_rebinding_pad = ""
+	_update_save_button()
 	_refresh_keys()
 	_refresh_pads()
 	_key_note.text = message
@@ -271,6 +322,7 @@ func _reset_current_tab() -> void:
 		Settings.reset_keyboard()
 	_refresh_keys()
 	_refresh_pads()
+	_update_save_button()
 
 
 func _build_audio() -> void:
@@ -393,7 +445,8 @@ func _toggle(tab: VBoxContainer, label_text: String, value: bool, on_change: Cal
 	toggle.button_pressed = value
 	toggle.toggled.connect(func(on: bool) -> void:
 		on_change.call(on)
-		Settings.apply())
+		Settings.apply()
+		_update_save_button())
 	_row(tab, label_text, toggle)
 
 
@@ -405,7 +458,8 @@ func _choice(tab: VBoxContainer, label_text: String, options: Array, selected: i
 	picker.select(selected)
 	picker.item_selected.connect(func(index: int) -> void:
 		on_change.call(index)
-		Settings.apply())
+		Settings.apply()
+		_update_save_button())
 	_row(tab, label_text, picker)
 
 
@@ -418,5 +472,6 @@ func _slider(tab: VBoxContainer, label_text: String, minimum: float, maximum: fl
 	slider.value = value
 	slider.value_changed.connect(func(new_value: float) -> void:
 		on_change.call(new_value)
-		Settings.apply())
+		Settings.apply()
+		_update_save_button())
 	_row(tab, label_text, slider)
