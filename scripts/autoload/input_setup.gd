@@ -24,6 +24,7 @@ func _enter_tree() -> void:
 
 	# Camera.
 	_add("camera_toggle", [_key(KEY_C), _button(JOY_BUTTON_Y)])
+	_add("map_zoom", [_key(KEY_M), _button(JOY_BUTTON_DPAD_DOWN)])
 	_add("look_left", [_axis(JOY_AXIS_RIGHT_X, -1.0)])
 	_add("look_right", [_axis(JOY_AXIS_RIGHT_X, 1.0)])
 	_add("look_up", [_axis(JOY_AXIS_RIGHT_Y, -1.0)])

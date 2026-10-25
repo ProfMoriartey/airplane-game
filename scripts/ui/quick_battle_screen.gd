@@ -11,6 +11,7 @@ func _ready() -> void:
 	_option("Landscape", maps, QuickBattle.theater, func(index: int) -> void: QuickBattle.theater = index)
 	_option("Time of day", ["Dawn", "Noon", "Dusk"], QuickBattle.time_of_day, func(index: int) -> void: QuickBattle.time_of_day = index)
 	_option("Weather", ["Clear", "Overcast", "Rain", "Fog"], QuickBattle.weather, func(index: int) -> void: QuickBattle.weather = index)
+	_option("Fly for", ["The Allies", "The Central Powers"], QuickBattle.side, func(index: int) -> void: QuickBattle.side = index)
 	_option("Enemy pilots", ["Getting better each wave", "Rookies", "Veterans", "Aces"], QuickBattle.enemy_skill + 1, func(index: int) -> void: QuickBattle.enemy_skill = index - 1)
 	%BackButton.pressed.connect(SceneLoader.go_to_main_menu)
 	%StartButton.pressed.connect(SceneLoader.change_scene.bind(BATTLE_SCENE))

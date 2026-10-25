@@ -3,6 +3,8 @@ extends CanvasLayer
 
 signal retry_pressed
 
+var _return_scene := CAMPAIGN_SCREEN
+
 const CAMPAIGN_SCREEN := "res://scenes/ui/campaign_screen.tscn"
 const SUCCESS_COLOR := Color(0.55, 0.9, 0.5)
 const FAILURE_COLOR := Color(1.0, 0.45, 0.35)
@@ -10,7 +12,7 @@ const FAILURE_COLOR := Color(1.0, 0.45, 0.35)
 
 func _ready() -> void:
 	%RetryButton.pressed.connect(func() -> void: retry_pressed.emit())
-	%CampaignButton.pressed.connect(SceneLoader.change_scene.bind(CAMPAIGN_SCREEN))
+	%CampaignButton.pressed.connect(func() -> void: SceneLoader.change_scene(_return_scene))
 
 
 ## stats is a list of [label, value] pairs. career is what Profile.record_mission()
@@ -48,6 +50,12 @@ func setup(success: bool, reason: String, stats: Array, career: Dictionary, next
 	else:
 		%RetryButton.grab_focus()
 	%RetryButton.text = "Fly again" if success else "Retry"
+
+
+## Where the third button goes (normally the campaign screen).
+func set_return(label: String, scene: String) -> void:
+	%CampaignButton.text = label
+	_return_scene = scene
 
 
 ## Fanfares wait a moment so they don't trip over the victory music.

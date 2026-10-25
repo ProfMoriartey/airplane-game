@@ -64,6 +64,7 @@ var _field_noise := FastNoiseLite.new()
 var _forest_noise := FastNoiseLite.new()
 var _river_noise := FastNoiseLite.new()
 var _noise_ready := false
+var _map_textures := {}
 
 
 func _ready() -> void:
@@ -136,6 +137,14 @@ func get_surface_height(x: float, z: float) -> float:
 
 func is_underwater(x: float, z: float) -> bool:
 	return has_water and get_height(x, z) < water_level
+
+
+## A cached map texture of the ground (see create_map_image).
+func get_map_texture(pixels: int, extent: float) -> ImageTexture:
+	var key := Vector2(pixels, extent)
+	if not _map_textures.has(key):
+		_map_textures[key] = ImageTexture.create_from_image(create_map_image(pixels, extent))
+	return _map_textures[key]
 
 
 ## A top-down picture of the ground, covering `extent` metres in every direction

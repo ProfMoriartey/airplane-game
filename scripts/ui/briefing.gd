@@ -26,17 +26,17 @@ func setup(mission: Mission, terrain: Terrain, player: Aircraft) -> void:
 	var number := 0
 	for objective in mission.objectives:
 		if objective.optional:
-			lines.append("Bonus: %s" % objective.description)
+			lines.append("Bonus: %s" % Settings.fill_keys(objective.description))
 			markers.append({position = objective.get_map_position(), label = "+", optional = true})
 		else:
 			number += 1
-			lines.append("%d. %s" % [number, objective.description])
+			lines.append("%d. %s" % [number, Settings.fill_keys(objective.description)])
 			markers.append({position = objective.get_map_position(), label = str(number), optional = false})
 	%Objectives.text = "\n".join(lines)
 	_fill_aircraft(player.stats)
 
 	var map := %Map as TextureRect
-	map.texture = ImageTexture.create_from_image(terrain.create_map_image(MAP_PIXELS, MAP_EXTENT))
+	map.texture = terrain.get_map_texture(MAP_PIXELS, MAP_EXTENT)
 	var overlay := %MapMarkers
 	overlay.extent = MAP_EXTENT
 	overlay.markers = markers

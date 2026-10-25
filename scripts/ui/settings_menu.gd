@@ -56,6 +56,7 @@ func _build_gameplay() -> void:
 	_toggle(tab, "Show bomb sight", Settings.show_bomb_sight, func(on: bool) -> void: Settings.show_bomb_sight = on)
 	_toggle(tab, "Show target markers and arrows", Settings.show_markers, func(on: bool) -> void: Settings.show_markers = on)
 	_toggle(tab, "Show controls help", Settings.show_help, func(on: bool) -> void: Settings.show_help = on)
+	_toggle(tab, "Show minimap", Settings.show_minimap, func(on: bool) -> void: Settings.show_minimap = on)
 
 
 func _build_controls() -> void:

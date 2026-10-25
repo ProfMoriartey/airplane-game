@@ -28,12 +28,12 @@ const QUALITY_SETTINGS := {
 const REBINDABLE := {
 	pitch_up = "Nose up", pitch_down = "Nose down", roll_left = "Roll left", roll_right = "Roll right",
 	yaw_left = "Rudder left", yaw_right = "Rudder right", throttle_up = "Throttle up", throttle_down = "Throttle down",
-	fire = "Fire guns", bomb = "Drop bomb", camera_toggle = "Change view", pause = "Pause",
+	fire = "Fire guns", bomb = "Drop bomb", camera_toggle = "Change view", map_zoom = "Minimap zoom", pause = "Pause",
 }
 const BUSES := ["Master", "Music", "SFX", "UI"]
 ## Settings written to the save file.
 const SAVED := [
-	"difficulty", "auto_level", "show_lead_indicator", "show_bomb_sight", "show_markers", "show_help",
+	"difficulty", "auto_level", "show_lead_indicator", "show_bomb_sight", "show_markers", "show_help", "show_minimap",
 	"invert_pitch", "mouse_sensitivity", "key_bindings", "volumes",
 	"window_mode", "vsync", "max_fps", "render_scale", "quality", "film_grain",
 ]
@@ -45,6 +45,7 @@ var show_lead_indicator := true
 var show_bomb_sight := true
 var show_markers := true
 var show_help := true
+var show_minimap := true
 # Controls
 var invert_pitch := false
 var mouse_sensitivity := 1.0
@@ -107,6 +108,13 @@ func reset_controls() -> void:
 	invert_pitch = false
 	mouse_sensitivity = 1.0
 	apply()
+
+
+## Replaces action names in braces, like {fire}, with the player's keys.
+func fill_keys(text: String) -> String:
+	for action: String in REBINDABLE:
+		text = text.replace("{%s}" % action, key_name(action))
+	return text
 
 
 ## The key currently bound to an action, as text for the menu.

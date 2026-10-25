@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	var lines: PackedStringArray = []
 	var markers: Array[Vector3] = []
 	for objective in mission.get_active_objectives():
-		var line := objective.description
+		var line := Settings.fill_keys(objective.description)
 		var progress := objective.get_progress_text()
 		if progress != "":
 			line += "  %s" % progress

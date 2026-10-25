@@ -17,6 +17,7 @@ const MEDALS := [
 	{id = "theater_2", name = "Mud and Wire Ribbon", description = "Complete every mission in Mud and Wire."},
 	{id = "theater_3", name = "High Passes Ribbon", description = "Complete every mission in The High Passes."},
 	{id = "nemesis", name = "Order of the Crow", description = "Shoot down the Crimson Crow."},
+	{id = "duellist", name = "Knight of the Air", description = "Win every Ace Duel."},
 ]
 
 

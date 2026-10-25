@@ -7,6 +7,12 @@ const FIRST_WAVE_DELAY := 3.0
 const WAVE_DELAY := 4.0
 const MAX_WAVE_SIZE := 6
 const SPAWN_DISTANCE := 1100.0
+## Planes the Allies send against a player flying for the Central Powers.
+const ALLIED_FIGHTERS: Array[AircraftStats] = [
+	preload("res://data/aircraft/scout.tres"),
+	preload("res://data/aircraft/lark.tres"),
+	preload("res://data/aircraft/hornet.tres"),
+]
 
 var _wave := 0
 var _kills := 0
@@ -26,10 +32,12 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	super()
 	var aircraft := Profile.selected_aircraft()
+	# Flying for the other side: change team (and markings) before the plane is rebuilt.
+	player.team = QuickBattle.side
 	player.set_stats(aircraft, Profile.livery_of(aircraft.id))
 	Sound.start_flight_music()
 	_update_status()
-	hud.flash_banner("ENEMY FIGHTERS INBOUND")
+	hud.flash_banner("ALLIED FIGHTERS INBOUND" if _flying_for_central() else "ENEMY FIGHTERS INBOUND")
 	get_tree().create_timer(FIRST_WAVE_DELAY, false).timeout.connect(_start_next_wave)
 
 
@@ -63,6 +71,9 @@ func _spawn_enemy(skill: AircraftAI.Skill, angle: float) -> void:
 	spawn.y = maxf(player.global_position.y, ground + 250.0) + randf_range(-40.0, 80.0)
 
 	var enemy := ENEMY_SCENE.instantiate() as Aircraft
+	if _flying_for_central():
+		enemy.team = Aircraft.Team.ALLIES
+		enemy.stats = ALLIED_FIGHTERS.pick_random()
 	enemy.transform = Transform3D(Basis.IDENTITY, spawn).looking_at(player.global_position, Vector3.UP)
 	var ai := enemy.get_node("AI") as AircraftAI
 	ai.skill = skill
@@ -70,6 +81,10 @@ func _spawn_enemy(skill: AircraftAI.Skill, angle: float) -> void:
 	enemy.destroyed.connect(_on_enemy_destroyed)
 	add_child(enemy)
 	_enemies_alive += 1
+
+
+func _flying_for_central() -> bool:
+	return QuickBattle.side == Aircraft.Team.CENTRAL
 
 
 func _update_status() -> void:

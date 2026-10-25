@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AircraftStats" format=3]
+
+[ext_resource type="Script" path="res://scripts/aircraft/aircraft_stats.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+id = "ace_iron"
+display_name = "Iron Baron"
+description = ""
+unlock_rank = 99
+max_speed = 54.0
+thrust = 14.0
+stall_speed = 21.0
+start_speed = 44.0
+pitch_rate = 1.5
+roll_rate = 2.5
+yaw_rate = 0.5
+max_health = 200.0
+gun_fire_rate = 13.0
+gun_damage = 5.0
+bomb_capacity = 0
+paint_color = Color(0.33, 0.34, 0.36, 1)
+wing_color = Color(0.55, 0.56, 0.58, 1)
+triplane = true

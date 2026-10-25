@@ -6,3 +6,5 @@ static var time_of_day := Weather.TimeOfDay.NOON
 static var weather := Weather.Kind.CLEAR
 ## -1 means enemies get better with each wave.
 static var enemy_skill := -1
+## Which side the player flies for.
+static var side := Aircraft.Team.ALLIES

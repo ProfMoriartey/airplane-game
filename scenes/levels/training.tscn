@@ -1,0 +1,150 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="PackedScene" path="res://scenes/targets/balloon.tscn" id="balloon"]
+[ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="shed"]
+[ext_resource type="Script" path="res://scripts/mission/condition_objective.gd" id="condition"]
+
+[node name="Training" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="Weather" parent="."]
+time_of_day = 1
+kind = 0
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 1600)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = ""
+title = "Flight Training"
+briefing = "Welcome to the flying school, cadet. Your instructor will talk you through the controls one step at a time - just follow the instructions on the radio. Nothing here can shoot back."
+intro_radio = PackedStringArray("Instructor: Good morning, cadet. Let's get you flying.", "Instructor: First, open the throttle all the way: hold {throttle_up}.")
+
+[node name="Throttle" type="Node" parent="Mission"]
+script = ExtResource("condition")
+description = "Open the throttle fully ({throttle_up})"
+condition = 0
+amount = 0.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Good. Now pull the nose up with {pitch_up} and climb to 450 metres. Watch your speed - too slow and you'll stall.")
+
+[node name="Climb" type="Node" parent="Mission"]
+script = ExtResource("condition")
+description = "Climb to 450 metres ({pitch_up})"
+condition = 1
+amount = 450.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: To turn, roll the wings over with {roll_left} or {roll_right}, then pull back with {pitch_up}. Turn half a circle.")
+
+[node name="Turn" type="Node" parent="Mission"]
+script = ExtResource("condition")
+description = "Make a half-circle turn ({roll_left}/{roll_right}, then {pitch_up})"
+condition = 2
+amount = 180.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Lovely. See the yellow marker? Fly over it. The arrows at the edge of the screen and the minimap will lead you.")
+
+[node name="Marker" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Ring")
+description = "Fly to the yellow marker"
+radius = 250.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Now press {camera_toggle} to see from the cockpit.")
+
+[node name="Cockpit" type="Node" parent="Mission"]
+script = ExtResource("condition")
+description = "Switch to the cockpit view ({camera_toggle})"
+condition = 3
+amount = 0.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Hold the right mouse button and move the mouse to look around - always check behind you!")
+
+[node name="Look" type="Node" parent="Mission"]
+script = ExtResource("condition")
+description = "Look around (hold right mouse and move it)"
+condition = 5
+amount = 0.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Press {camera_toggle} again to go back outside.")
+
+[node name="Chase" type="Node" parent="Mission"]
+script = ExtResource("condition")
+description = "Back to the outside view ({camera_toggle})"
+condition = 4
+amount = 0.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Time for the guns. Hold {fire} and fire a few bursts. Keep an eye on the heat gauge - if it fills up, the guns stop.")
+
+[node name="Fire" type="Node" parent="Mission"]
+script = ExtResource("condition")
+description = "Fire your guns ({fire})"
+condition = 6
+amount = 40.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: There's a practice balloon ahead. Put the gun sight on it and shoot it down.")
+
+[node name="Balloon" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../PracticeBalloon")
+description = "Shoot down the practice balloon"
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Splendid! Now bombs. Fly low over the old barn, line up the orange bomb sight with it, and press {bomb}.")
+
+[node name="Barn" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../PracticeBarn")
+description = "Bomb the old barn ({bomb})"
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: Bullseye. Last lesson: a target plane is coming. It won't shoot back. Get behind it, put your sight on the small circle in front of it, and fire.")
+
+[node name="Drone" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../TargetPlane")
+description = "Shoot down the target plane"
+score_bonus = 0
+radio_on_complete = PackedStringArray("Instructor: That's how it's done! Bring her home, cadet - your training is complete.")
+
+[node name="Home" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to the airfield"
+radius = 350.0
+score_bonus = 0
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Ring" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, 450, 600)
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 1600)
+
+[node name="PracticeBalloon" type="Node3D" parent="."]
+
+[node name="Balloon" parent="PracticeBalloon" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -300, 0, 100)
+ground_offset = 260.0
+display_name = "Practice balloon"
+
+[node name="PracticeBarn" type="Node3D" parent="."]
+
+[node name="Barn" parent="PracticeBarn" instance=ExtResource("shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 0, -300)
+max_health = 60.0
+bullet_damage_scale = 0.02
+display_name = "Old barn"
+
+[node name="TargetPlane" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 300, 420, -900)
+script = ExtResource("squadron")
+count = 1
+skill = 0
+passive = true

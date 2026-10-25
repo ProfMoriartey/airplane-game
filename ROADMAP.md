@@ -101,7 +101,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [x] Health / damage indicator
 - [x] Crosshair and lead indicator (optional assist)
 - [x] Off-screen enemy arrows
-- [ ] Simple radar or compass
+- [x] Minimap: rotates with the plane, north marker, enemies, friends and objectives, zoomable
 
 ---
 
@@ -287,9 +287,9 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 
 - [x] Quick Battle / Instant Action (pick plane, enemies, map)
 - [x] Survival / endless waves mode
-- [ ] Ace duel mode (1v1 against named aces)
-- [ ] Training / tutorial missions
-- [ ] Optional: play the enemy side (like *Red Ace Squadron*)
+- [x] Ace duel mode (1v1 against named aces)
+- [x] Training / tutorial missions
+- [x] Optional: play the enemy side (like *Red Ace Squadron*)
 - [ ] Optional: local split-screen
 - [ ] Optional: online multiplayer (dogfight, co-op)
 

@@ -11,6 +11,8 @@ const ENEMY_SCENE := preload("res://scenes/aircraft/enemy_plane.tscn")
 @export var spacing := 60.0
 ## Go after balloons, guns and other ground targets, not just aircraft.
 @export var attack_ground_targets := false
+## Never shoot: harmless target planes, e.g. for training.
+@export var passive := false
 
 @export_group("Leader")
 ## Optional: the first plane is a named ace flying this aircraft type.
@@ -29,6 +31,7 @@ func spawn() -> Array[Aircraft]:
 		ai.skill = skill
 		ai.patrol_center = global_position
 		ai.attack_ground_targets = attack_ground_targets
+		ai.passive = passive
 		if index == 0 and leader_name != "":
 			enemy.pilot_name = leader_name
 			ai.skill = leader_skill

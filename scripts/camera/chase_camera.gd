@@ -41,6 +41,11 @@ func _ready() -> void:
 	global_transform = _desired_transform()
 
 
+## Whether the player is currently looking well away from straight ahead.
+func is_looking_around() -> bool:
+	return _look.length() > 0.8
+
+
 ## Adds camera shake, from 0 (none) to 1 (violent).
 func add_shake(amount: float) -> void:
 	_shake = minf(_shake + amount, 1.0)

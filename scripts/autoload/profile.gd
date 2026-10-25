@@ -156,6 +156,25 @@ func record_mission(mission_id: String, result: Dictionary) -> Dictionary:
 	}
 
 
+## --- Ace Duels ---
+
+func has_won_duel(ace_id: String) -> bool:
+	return _data.duels.has(ace_id)
+
+
+## Records a duel victory. Returns the ids of any medals it earned.
+func record_duel_win(ace_id: String) -> Array[String]:
+	var earned: Array[String] = []
+	if not _data.duels.has(ace_id):
+		_data.duels.append(ace_id)
+	var all_won := Aces.ACES.all(func(ace: Dictionary) -> bool: return _data.duels.has(ace.id))
+	if all_won and not _data.medals.has("duellist"):
+		_data.medals.append("duellist")
+		earned.append("duellist")
+	_save()
+	return earned
+
+
 func reset() -> void:
 	_data = _new_profile()
 	_save()
@@ -179,6 +198,7 @@ func _new_profile() -> Dictionary:
 		medals = [],
 		selected_aircraft = "scout",
 		liveries = {},
+		duels = [],
 	}
 
 
@@ -195,6 +215,7 @@ func _load() -> void:
 	_data.medals = parsed.get("medals", [])
 	_data.selected_aircraft = parsed.get("selected_aircraft", "scout")
 	_data.liveries = parsed.get("liveries", {})
+	_data.duels = parsed.get("duels", [])
 	var saved_totals: Dictionary = parsed.get("totals", {})
 	for key: String in _data.totals:
 		# JSON stores every number as a float.

@@ -122,9 +122,12 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 	return false
 
 
-## The crack of a bullet passing close by - only for bullets aimed at the player's side.
+## The crack of a bullet passing close by - only for bullets from the player's enemies.
 func _check_whizz(bullet: Bullet, next_position: Vector3) -> void:
-	if bullet.whizzed or not is_instance_valid(bullet.shooter) or bullet.shooter.team == Aircraft.Team.ALLIES:
+	if bullet.whizzed or not is_instance_valid(bullet.shooter):
+		return
+	var player := get_tree().get_first_node_in_group("player") as Aircraft
+	if player == null or bullet.shooter.team == player.team:
 		return
 	var camera := get_viewport().get_camera_3d()
 	if camera == null:

@@ -32,6 +32,7 @@ var _bars := {}
 @onready var _objectives: Label = $Objectives
 @onready var _radio: PanelContainer = $Radio
 @onready var _radio_text: Label = $Radio/Text
+@onready var _minimap: Minimap = $Minimap
 
 
 func _ready() -> void:
@@ -51,6 +52,10 @@ func _ready() -> void:
 func setup(plane: Aircraft) -> void:
 	_plane = plane
 	_overlay.plane = plane
+	_minimap.plane = plane
+	var terrain := get_tree().get_first_node_in_group("terrain") as Terrain
+	if terrain:
+		_minimap.set_terrain(terrain)
 	refresh_settings()
 
 
@@ -67,6 +72,7 @@ func refresh_settings() -> void:
 		"%s / %s  -  rudder left / right" % [key.call("yaw_left"), key.call("yaw_right")],
 		"%s / %s  -  throttle up / down" % [key.call("throttle_up"), key.call("throttle_down")],
 		"%s  -  chase / cockpit view" % key.call("camera_toggle"),
+		"%s  -  minimap zoom" % key.call("map_zoom"),
 		"Hold right mouse  -  look around",
 		"%s  -  pause      F1  -  hide help" % key.call("pause"),
 	])
@@ -100,11 +106,13 @@ func set_objectives(lines: PackedStringArray) -> void:
 ## Called every frame with the world positions the player should head for.
 func set_objective_markers(markers: Array[Vector3]) -> void:
 	_overlay.objective_markers = markers
+	_minimap.objective_markers = markers
 
 
-## Queues a radio message, written as "Speaker: message".
+## Queues a radio message, written as "Speaker: message". Action names in
+## braces, like {fire}, become the player's key for that action.
 func radio(line: String) -> void:
-	_radio_queue.append(line)
+	_radio_queue.append(Settings.fill_keys(line))
 
 
 func set_boundary_warning(active: bool) -> void:

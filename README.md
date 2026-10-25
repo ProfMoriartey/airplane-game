@@ -2,7 +2,7 @@
 
 A WWI-inspired arcade dogfighting game made with [Godot 4.7](https://godotengine.org/).
 
-From the main menu you can play the **Campaign** – 9 missions across three theaters, ending in a duel with the Crimson Crow – or **Free flight** with endless waves of enemy fighters. Campaign progress, ranks, medals and unlocked aircraft are saved automatically.
+From the main menu you can start with **Training**, play the **Campaign** – 9 missions across three theaters, ending in a duel with the Crimson Crow – challenge enemy aces in **Ace Duels**, or fight endless waves in **Quick Battle** (for either side). Campaign progress, ranks, medals and unlocked aircraft are saved automatically.
 
 ## Running the game
 
@@ -20,6 +20,7 @@ From the main menu you can play the **Campaign** – 9 missions across three the
 | Rudder left / right | Q / E | LB / RB |
 | Throttle up / down | Shift / Ctrl | RT / LT |
 | Chase / cockpit view | C | Y |
+| Minimap zoom | M | D-pad down |
 | Look around | Hold right mouse + move | Right stick |
 | Pause | Esc | Start |
 | Restart (after being shot down, free flight) | R | Back |
@@ -47,6 +48,7 @@ Missions are scenes that inherit `scenes/levels/base_level.tscn` (see `mission_0
 
 - `ReachAreaObjective` – fly to a marker
 - `DestroyObjective` – destroy everything under a node: ground targets, or an `EnemySquadron` whose fighters take off when the objective starts
+- `ConditionObjective` – the player does something (throttle up, climb, turn, change view, fire...), used by Training
 - `DefendObjective` – protect friendly ground targets from an attacking squadron
 - `EscortObjective` – keep friendly aircraft (e.g. `allied_bomber.tscn` with a route) alive until they reach a destination
 
