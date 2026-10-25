@@ -5,13 +5,13 @@ extends Node3D
 ## and a ray between their old and new position checks for hits. All tracers are
 ## drawn with a single MultiMesh, so hundreds of bullets stay cheap.
 
-signal hit_landed(shooter: Aircraft, target: Aircraft, position: Vector3)
+signal hit_landed(shooter: Aircraft, target: Node3D, position: Vector3)
 
 const MAX_BULLETS := 1024
 const LIFETIME := 1.3
 const BULLET_DROP := 4.0 ## A little gravity, in m/s².
 const TRACER_LENGTH := 6.0
-const HIT_MASK := 1 | 2 | 4 ## World, player and enemy layers.
+const HIT_MASK := 1 | 2 | 4 | 16 ## World, player, enemy and ground target layers.
 const SPARKS_SCENE := preload("res://scenes/effects/hit_sparks.tscn")
 const DUST_SCENE := preload("res://scenes/effects/ground_dust.tscn")
 
@@ -98,12 +98,12 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 		bullet.position = next_position
 		return true
 
-	var target := hit.collider as Aircraft
-	if target:
+	var target := hit.collider as Node3D
+	if target.has_method("take_damage") and target.is_alive():
 		var shooter := bullet.shooter if is_instance_valid(bullet.shooter) else null
-		# Planes on the same side don't hurt each other.
-		if shooter == null or target.is_hostile_to(shooter):
-			target.take_damage(bullet.damage, hit.position, shooter)
+		# Nobody hurts their own side.
+		if shooter == null or target.team != shooter.team:
+			target.take_damage(bullet.damage, hit.position, shooter, Damage.Kind.BULLET)
 			hit_landed.emit(shooter, target, hit.position)
 		_spawn_effect(SPARKS_SCENE, hit.position)
 	else:

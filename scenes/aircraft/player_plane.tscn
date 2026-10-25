@@ -4,5 +4,5 @@
 
 [node name="PlayerPlane" instance=ExtResource("1_base")]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 21
 player_controlled = true

@@ -1,0 +1,164 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="2_mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="3_mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="4_reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="5_destroy"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="6_squadron"]
+[ext_resource type="PackedScene" path="res://scenes/targets/balloon.tscn" id="7_balloon"]
+[ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="8_aa"]
+[ext_resource type="PackedScene" path="res://scenes/targets/truck.tscn" id="9_truck"]
+[ext_resource type="PackedScene" path="res://scenes/targets/tank.tscn" id="10_tank"]
+[ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="11_shed"]
+[ext_resource type="PackedScene" path="res://scenes/targets/fuel_tanks.tscn" id="12_fuel"]
+[ext_resource type="Script" path="res://scripts/targets/path_mover.gd" id="13_mover"]
+
+[sub_resource type="Curve3D" id="Curve_road"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 900, 0, -1500, 0, 0, 0, 0, 0, 0, 650, 0, -1150, 0, 0, 0, 0, 0, 0, 400, 0, -950, 0, 0, 0, 0, 0, 0, 150, 0, -600, 0, 0, 0, 0, 0, 0, 50, 0, -250),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Mission01" instance=ExtResource("1_base")]
+script = ExtResource("2_mission_level")
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 1900)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("3_mission")
+title = "Eyes of the Enemy"
+briefing = "Enemy observation balloons along the front are directing their artillery onto our trenches. Fly to the front and bring them down - expect anti-aircraft fire around them.
+
+Their fighters will come looking for you once the balloons burn. After that, bomb the supply depot behind their lines, then come home."
+intro_radio = PackedStringArray("Command: Morning, pilot. Head north to the front line - follow the yellow marker.", "Command: Bombs are loaded. Press B to drop one, and watch the orange bomb sight for where it will land.")
+
+[node name="ReachFront" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("4_reach")
+area = NodePath("../../Waypoints/FrontLine")
+radius = 350.0
+description = "Fly to the front line"
+score_bonus = 0
+
+[node name="SilenceGuns" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("5_destroy")
+targets = NodePath("../../AAGuns")
+description = "Silence the anti-aircraft guns"
+optional = true
+score_bonus = 150
+radio_on_complete = PackedStringArray("Command: Their guns have gone quiet. Nicely done.")
+
+[node name="DestroyBalloons" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("5_destroy")
+targets = NodePath("../../Balloons")
+description = "Shoot down the observation balloons"
+radio_on_start = PackedStringArray("Command: There they are - three balloons. Watch out for the flak!")
+radio_on_complete = PackedStringArray("Command: All balloons down! Enemy fighters are scrambling - watch your tail!")
+
+[node name="DestroyFighters" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("5_destroy")
+targets = NodePath("../../Interceptors")
+description = "Shoot down the enemy fighters"
+radio_on_complete = PackedStringArray("Command: Sky's clear. Now hit their supply depot to the north-west.")
+
+[node name="HitConvoy" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("5_destroy")
+targets = NodePath("../../Convoy")
+description = "Destroy the supply convoy"
+optional = true
+score_bonus = 200
+radio_on_start = PackedStringArray("Scout: There's a convoy on the road heading for the front. Hit it if you can - the trucks burn easily, the tank will need bombs.")
+radio_on_complete = PackedStringArray("Scout: Convoy destroyed. That'll hurt them.")
+
+[node name="BombDepot" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("5_destroy")
+targets = NodePath("../../Depot")
+description = "Bomb the supply depot"
+radio_on_start = PackedStringArray("Command: Line up on the depot and drop your bombs. Guns won't do much against buildings.")
+radio_on_complete = PackedStringArray("Command: Depot destroyed! Outstanding work. Return to base.")
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("4_reach")
+area = NodePath("../../Waypoints/Home")
+radius = 350.0
+description = "Return to base"
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="FrontLine" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 450)
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 1700)
+
+[node name="Balloons" type="Node3D" parent="."]
+
+[node name="Balloon1" parent="Balloons" instance=ExtResource("7_balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -450, 0, -150)
+
+[node name="Balloon2" parent="Balloons" instance=ExtResource("7_balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, -350)
+
+[node name="Balloon3" parent="Balloons" instance=ExtResource("7_balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 550, 0, -100)
+
+[node name="AAGuns" type="Node3D" parent="."]
+
+[node name="AAGun1" parent="AAGuns" instance=ExtResource("8_aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -300, 0, -220)
+
+[node name="AAGun2" parent="AAGuns" instance=ExtResource("8_aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 350, 0, -260)
+
+[node name="Interceptors" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 450, -1500)
+script = ExtResource("6_squadron")
+
+[node name="ConvoyRoad" type="Path3D" parent="."]
+curve = SubResource("Curve_road")
+
+[node name="Convoy" type="Node3D" parent="."]
+
+[node name="Tank" parent="Convoy" instance=ExtResource("10_tank")]
+
+[node name="PathMover" type="Node" parent="Convoy/Tank" node_paths=PackedStringArray("path")]
+script = ExtResource("13_mover")
+path = NodePath("../../../ConvoyRoad")
+speed = 6.0
+start_distance = 75.0
+
+[node name="Truck1" parent="Convoy" instance=ExtResource("9_truck")]
+
+[node name="PathMover" type="Node" parent="Convoy/Truck1" node_paths=PackedStringArray("path")]
+script = ExtResource("13_mover")
+path = NodePath("../../../ConvoyRoad")
+speed = 6.0
+start_distance = 50.0
+
+[node name="Truck2" parent="Convoy" instance=ExtResource("9_truck")]
+
+[node name="PathMover" type="Node" parent="Convoy/Truck2" node_paths=PackedStringArray("path")]
+script = ExtResource("13_mover")
+path = NodePath("../../../ConvoyRoad")
+speed = 6.0
+start_distance = 25.0
+
+[node name="Truck3" parent="Convoy" instance=ExtResource("9_truck")]
+
+[node name="PathMover" type="Node" parent="Convoy/Truck3" node_paths=PackedStringArray("path")]
+script = ExtResource("13_mover")
+path = NodePath("../../../ConvoyRoad")
+speed = 6.0
+
+[node name="Depot" type="Node3D" parent="."]
+
+[node name="Shed1" parent="Depot" instance=ExtResource("11_shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -900, 0, -850)
+
+[node name="Shed2" parent="Depot" instance=ExtResource("11_shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -875, 0, -880)
+
+[node name="FuelTanks" parent="Depot" instance=ExtResource("12_fuel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -920, 0, -885)

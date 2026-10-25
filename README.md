@@ -2,7 +2,7 @@
 
 A WWI-inspired arcade dogfighting game made with [Godot 4.7](https://godotengine.org/).
 
-The current sandbox level sends endless waves of enemy fighters at you, getting tougher every few waves.
+From the main menu you can play **Mission 1: Eyes of the Enemy** (balloons, flak, fighters, a convoy and a supply depot to bomb), or **Free flight** with endless waves of enemy fighters.
 
 ## Running the game
 
@@ -14,20 +14,31 @@ The current sandbox level sends endless waves of enemy fighters at you, getting 
 | Action | Keyboard / mouse | Gamepad |
 |---|---|---|
 | Fire guns | Space / left mouse | A |
+| Drop bomb | B | B |
 | Nose down / up | W / S | Left stick up / down |
 | Roll left / right | A / D | Left stick left / right |
 | Rudder left / right | Q / E | LB / RB |
 | Throttle up / down | Shift / Ctrl | RT / LT |
 | Chase / cockpit view | C | Y |
 | Look around | Hold right mouse + move | Right stick |
-| Restart | R | Back |
+| Pause | Esc | Start |
+| Restart (after being shot down, free flight) | R | Back |
 | Show / hide help | F1 | |
 | Debug info | F3 | |
 
 ## Project layout
 
-- `scenes/` – levels, aircraft, UI scenes
+- `scenes/` – levels, aircraft, ground targets, effects and UI scenes
 - `scripts/` – game code, organised the same way
+
+## Making a mission
+
+Missions are scenes that inherit `scenes/levels/base_level.tscn` (see `mission_01.tscn`). Add a `Mission` node, then give it objective children in the order they should happen:
+
+- `ReachAreaObjective` – fly to a marker
+- `DestroyObjective` – destroy everything under a node: ground targets, or an `EnemySquadron` whose fighters take off when the objective starts
+
+Tick **optional** for bonus objectives. Radio lines are written as `Speaker: message`.
 - `data/aircraft/` – per-aircraft flight stats (edit these to tune handling)
 - `assets/` – textures and other art
 

@@ -30,6 +30,7 @@ func _enter_tree() -> void:
 	_add("look_down", [_axis(JOY_AXIS_RIGHT_Y, 1.0)])
 
 	# General.
+	_add("pause", [_key(KEY_ESCAPE), _button(JOY_BUTTON_START)])
 	_add("restart", [_key(KEY_R), _button(JOY_BUTTON_BACK)])
 	_add("toggle_help", [_key(KEY_F1)])
 	_add("toggle_debug", [_key(KEY_F3)])

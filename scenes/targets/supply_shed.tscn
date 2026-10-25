@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/targets/ground_target.gd" id="1_target"]
+
+[sub_resource type="BoxShape3D" id="Shape_body"]
+size = Vector3(14, 12, 9)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.45, 0.33, 0.22, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_roof"]
+albedo_color = Color(0.3, 0.3, 0.32, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_walls"]
+material = SubResource("Mat_wood")
+size = Vector3(14, 10, 9)
+
+[sub_resource type="PrismMesh" id="Mesh_roof"]
+material = SubResource("Mat_roof")
+size = Vector3(15, 3, 10)
+
+[sub_resource type="BoxMesh" id="Mesh_crate"]
+material = SubResource("Mat_wood")
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="SupplyShed" type="StaticBody3D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_target")
+display_name = "Supply shed"
+max_health = 120.0
+bullet_damage_scale = 0.15
+score_value = 150
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("Shape_body")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Walls" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_walls")
+
+[node name="Roof" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
+mesh = SubResource("Mesh_roof")
+
+[node name="Crate1" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.75, 2)
+mesh = SubResource("Mesh_crate")
+
+[node name="Crate2" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.75, 3.8)
+mesh = SubResource("Mesh_crate")

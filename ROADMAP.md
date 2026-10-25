@@ -70,7 +70,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [x] Gun overheating / jamming mechanic
 - [x] Ammo count
 - [ ] Ammo resupply rules (e.g. land at friendly airfield)
-- [ ] Bombs (drop physics, explosion radius) — moved to milestone 3, alongside ground targets
+- [x] Bombs (drop physics, explosion radius) with a bomb sight
 - [ ] Optional: rockets (Le Prieur style) for balloon busting
 - [x] Hit detection and hit feedback (sparks, hit marker)
 - [ ] Hit sounds (see Audio)
@@ -108,39 +108,43 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 ## 3. Milestone: Mission System ("One complete mission")
 
 ### Mission framework
-- [ ] Mission data format (Resource or JSON): objectives, spawns, triggers, rewards
+- [x] Mission format: each mission is a scene with Objective nodes, built in the editor
 - [ ] Objective types:
-  - [ ] Destroy all enemy aircraft
-  - [ ] Destroy ground targets (tanks, AA guns, trucks, trains)
-  - [ ] Bomb a structure (factory, bridge, depot)
-  - [ ] Destroy observation balloons
+  - [x] Destroy all enemy aircraft
+  - [x] Destroy ground targets (tanks, AA guns, trucks, trains)
+  - [x] Bomb a structure (factory, bridge, depot)
+  - [x] Destroy observation balloons
   - [ ] Escort / protect a friendly (bomber, recon plane)
   - [ ] Defend a location (airfield, trench line)
-  - [ ] Reach waypoint / recon photo
+  - [x] Reach waypoint
+  - [ ] Recon photo
   - [ ] Rescue / cover downed pilot
   - [ ] Duel a named ace
-- [ ] Primary vs. optional (bonus) objectives
-- [ ] Trigger system (area enter, timer, objective complete, unit destroyed)
-- [ ] Wave/spawn system for enemies
-- [ ] Mission success/failure conditions
-- [ ] Mission timer and scoring
-- [ ] In-mission radio messages / dialogue lines
+- [x] Primary vs. optional (bonus) objectives
+- [x] Objective-complete triggers (next objective starts, enemies spawn)
+- [ ] More triggers: area enter, timers
+- [x] Wave/spawn system for enemies
+- [x] Mission success/failure conditions
+- [x] Mission timer and scoring
+- [x] In-mission radio messages / dialogue lines
 
 ### Ground units & structures
-- [ ] Tanks (moving along paths)
-- [ ] AA guns with flak bursts (shoot at player)
-- [ ] Trucks / convoys
+- [x] Tanks (moving along paths)
+- [x] AA guns with flak bursts (shoot at player)
+- [x] Trucks / convoys
 - [ ] Trains
-- [ ] Observation balloons
-- [ ] Buildings: factories, hangars, depots, bridges (destructible)
+- [x] Observation balloons
+- [x] Buildings: supply sheds, fuel tanks (destructible)
+- [ ] More buildings: factories, hangars, bridges
 - [ ] Trenches and infantry (visual dressing)
 - [ ] Friendly airfield (landing/repair zone)
 
 ### Mission flow
-- [ ] Briefing screen (map, objectives, plane select)
-- [ ] Loading screen
-- [ ] In-mission pause menu (resume, restart, settings, quit)
-- [ ] Debriefing screen (score, kills, accuracy, rank progress)
+- [x] Briefing screen (map, objectives)
+- [ ] Plane select on briefing
+- [x] Loading screen
+- [x] In-mission pause menu (resume, restart, settings, quit)
+- [x] Debriefing screen (score, kills, accuracy, rank progress)
 
 ---
 
@@ -245,7 +249,8 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 ## 8. UI & Menus
 
 - [ ] Title / splash screen
-- [ ] Main menu (Campaign, Quick Battle, Settings, Credits, Quit)
+- [x] Basic main menu (Mission 1, Free flight, Quit)
+- [ ] Full main menu (Campaign, Quick Battle, Settings, Credits, Quit)
 - [ ] Campaign map / mission select screen
 - [ ] Hangar screen (choose plane, view stats, liveries)
 - [ ] Briefing and debriefing screens (final art)
@@ -278,7 +283,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 
 - [ ] Save/load system (campaign progress, unlocks, settings)
 - [ ] Multiple save slots
-- [ ] Scene loading with progress (threaded loading)
+- [x] Scene loading with progress (threaded loading)
 - [x] Object pooling for bullets, effects, debris
 - [ ] Input handling for keyboard/mouse, gamepad, joystick (with dead zones)
 - [ ] Rumble / haptics for gamepad

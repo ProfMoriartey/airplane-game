@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/targets/balloon.gd" id="1_balloon"]
+
+[sub_resource type="CapsuleShape3D" id="Shape_envelope"]
+radius = 6.0
+height = 22.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_envelope"]
+albedo_color = Color(0.62, 0.6, 0.52, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_dark"]
+albedo_color = Color(0.25, 0.22, 0.18, 1)
+
+[sub_resource type="CapsuleMesh" id="Mesh_envelope"]
+material = SubResource("Mat_envelope")
+radius = 6.0
+height = 22.0
+radial_segments = 16
+rings = 6
+
+[sub_resource type="BoxMesh" id="Mesh_fin"]
+material = SubResource("Mat_envelope")
+size = Vector3(0.3, 5, 4)
+
+[sub_resource type="BoxMesh" id="Mesh_basket"]
+material = SubResource("Mat_dark")
+size = Vector3(1.5, 1.2, 1.5)
+
+[sub_resource type="CylinderMesh" id="Mesh_tether"]
+material = SubResource("Mat_dark")
+top_radius = 0.08
+bottom_radius = 0.08
+height = 1.0
+radial_segments = 4
+rings = 1
+
+[node name="Balloon" type="StaticBody3D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_balloon")
+display_name = "Observation balloon"
+max_health = 30.0
+score_value = 150
+ground_offset = 220.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+shape = SubResource("Shape_envelope")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Envelope" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("Mesh_envelope")
+
+[node name="FinTop" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 9)
+mesh = SubResource("Mesh_fin")
+
+[node name="FinLeft" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, -4, -1, 9)
+mesh = SubResource("Mesh_fin")
+
+[node name="FinRight" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 4, -1, 9)
+mesh = SubResource("Mesh_fin")
+
+[node name="Basket" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, -2)
+mesh = SubResource("Mesh_basket")
+
+[node name="Tether" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_tether")

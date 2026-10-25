@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="1_puff"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_smoke"]
+transparency = 1
+albedo_texture = ExtResource("1_puff")
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+billboard_mode = 3
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="Mesh_smoke"]
+material = SubResource("Mat_smoke")
+size = Vector2(5, 5)
+
+[sub_resource type="Gradient" id="Gradient_smoke"]
+colors = PackedColorArray(0.12, 0.11, 0.1, 0.75, 0.4, 0.4, 0.4, 0)
+
+[sub_resource type="Curve" id="Curve_grow"]
+_data = [Vector2(0, 0.4), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="WreckSmoke" type="CPUParticles3D"]
+physics_interpolation_mode = 2
+amount = 24
+lifetime = 7.0
+local_coords = false
+mesh = SubResource("Mesh_smoke")
+emission_shape = 1
+emission_sphere_radius = 1.5
+direction = Vector3(0.2, 1, 0)
+spread = 12.0
+gravity = Vector3(0.6, 1.2, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+scale_amount_curve = SubResource("Curve_grow")
+color_ramp = SubResource("Gradient_smoke")

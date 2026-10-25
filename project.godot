@@ -11,12 +11,14 @@ config_version=5
 [application]
 
 config/name="red-ace"
-run/main_scene="res://scenes/levels/flight_test.tscn"
+run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
+Events="*res://scripts/autoload/events.gd"
+SceneLoader="*res://scripts/autoload/scene_loader.gd"
 InputSetup="*res://scripts/autoload/input_setup.gd"
 Projectiles="*res://scripts/combat/projectiles.gd"
 

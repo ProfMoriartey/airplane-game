@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/aircraft/aircraft.gd" id="1_plane"]
 [ext_resource type="Resource" path="res://data/aircraft/scout.tres" id="2_stats"]
 [ext_resource type="Script" path="res://scripts/aircraft/guns.gd" id="3_guns"]
+[ext_resource type="Script" path="res://scripts/aircraft/bomb_bay.gd" id="4_bombs"]
 [ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="9_puff"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_body"]
@@ -174,6 +175,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.6, -2.4)
 
 [node name="MuzzleRight" type="Marker3D" parent="Guns"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.6, -2.4)
+
+[node name="BombBay" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, -0.8)
+script = ExtResource("4_bombs")
 
 [node name="Smoke" type="CPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -2.2)

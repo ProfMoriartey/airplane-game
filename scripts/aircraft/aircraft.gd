@@ -27,6 +27,8 @@ const PROPELLER_MAX_SPIN := 60.0
 const SMOKE_HEALTH := 0.5
 ## How hard an uneven wing pulls the plane into a roll.
 const WING_DAMAGE_ROLL := 0.5
+## Enemy wrecks are removed this long after hitting the ground, once their smoke has cleared.
+const WRECK_CLEANUP_TIME := 6.0
 const EXPLOSION_SCENE := preload("res://scenes/effects/explosion.tscn")
 
 @export var stats: AircraftStats
@@ -58,6 +60,7 @@ var _rates := Vector3.ZERO
 var _sink_speed := 0.0
 
 @onready var guns: Guns = $Guns
+@onready var bombs: BombBay = $BombBay
 @onready var _model: Node3D = $Model
 @onready var _propeller: Node3D = $Model/Propeller
 @onready var _cockpit: Marker3D = $CockpitPoint
@@ -67,6 +70,7 @@ var _sink_speed := 0.0
 
 func _ready() -> void:
 	add_to_group("aircraft")
+	add_to_group("damageable")
 	speed = stats.start_speed
 	health = stats.max_health
 	_apply_paint()
@@ -114,7 +118,12 @@ func is_hostile_to(other: Aircraft) -> bool:
 	return other.team != team
 
 
-func take_damage(amount: float, hit_position: Vector3, attacker: Aircraft) -> void:
+func take_damage(
+	amount: float,
+	hit_position: Vector3,
+	attacker: Aircraft,
+	_kind := Damage.Kind.BULLET,
+) -> void:
 	if is_destroyed:
 		return
 	health = maxf(health - amount, 0.0)
@@ -136,6 +145,7 @@ func repair() -> void:
 	tail_condition = 1.0
 	_smoke.emitting = false
 	guns.reload()
+	bombs.reload()
 
 
 func _damage_part(local_hit: Vector3, part_damage: float) -> void:
@@ -162,6 +172,7 @@ func _destroy(attacker: Aircraft) -> void:
 	yaw_input = 0.0
 	auto_level = false
 	destroyed.emit(attacker)
+	Events.aircraft_destroyed.emit(self, attacker)
 
 
 func _read_player_input(delta: float) -> void:
@@ -171,6 +182,8 @@ func _read_player_input(delta: float) -> void:
 	var throttle_change := Input.get_axis("throttle_down", "throttle_up")
 	throttle = clampf(throttle + throttle_change * THROTTLE_CHANGE_RATE * delta, 0.0, 1.0)
 	guns.trigger = Input.is_action_pressed("fire")
+	if Input.is_action_just_pressed("bomb"):
+		bombs.drop()
 
 
 func _update_speed(delta: float) -> void:
@@ -234,9 +247,9 @@ func _move(delta: float) -> void:
 	velocity = -global_basis.z * speed + Vector3.DOWN * _sink_speed
 	var collision := move_and_collide(velocity * delta)
 	if collision:
-		var other := collision.get_collider() as Aircraft
-		if other:
-			other.take_damage(other.health, collision.get_position(), self)
+		var other := collision.get_collider()
+		if other.has_method("take_damage"):
+			other.take_damage(INF, collision.get_position(), self, Damage.Kind.COLLISION)
 		_crash()
 
 
@@ -255,6 +268,8 @@ func _crash() -> void:
 	get_tree().current_scene.add_child(explosion)
 	explosion.global_position = global_position
 	crashed.emit()
+	if not player_controlled:
+		get_tree().create_timer(WRECK_CLEANUP_TIME, false).timeout.connect(queue_free)
 
 
 func _apply_paint() -> void:

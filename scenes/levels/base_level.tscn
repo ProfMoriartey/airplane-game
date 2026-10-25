@@ -1,10 +1,11 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/levels/flight_test.gd" id="1_level"]
+[ext_resource type="Script" path="res://scripts/levels/level.gd" id="1_level"]
 [ext_resource type="Script" path="res://scripts/world/terrain.gd" id="2_terrain"]
 [ext_resource type="PackedScene" path="res://scenes/aircraft/player_plane.tscn" id="3_plane"]
 [ext_resource type="Script" path="res://scripts/camera/chase_camera.gd" id="4_camera"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="6_pause"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.3, 0.48, 0.74, 1)
@@ -26,7 +27,7 @@ fog_density = 0.0006
 fog_aerial_perspective = 0.3
 fog_sky_affect = 0.0
 
-[node name="FlightTest" type="Node3D"]
+[node name="Level" type="Node3D"]
 script = ExtResource("1_level")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -50,3 +51,5 @@ script = ExtResource("4_camera")
 target_path = NodePath("../PlayerPlane")
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("6_pause")]

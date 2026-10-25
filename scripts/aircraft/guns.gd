@@ -21,6 +21,7 @@ var ammo := 0
 var heat := 0.0
 var is_overheated := false
 var is_jammed := false
+var shots_fired := 0
 
 var _cooldown := 0.0
 var _jam_timer := 0.0
@@ -64,6 +65,7 @@ func can_fire() -> bool:
 
 func _fire_round() -> void:
 	ammo -= 1
+	shots_fired += 1
 	heat += heat_per_shot
 	if heat >= 1.0:
 		heat = 1.0

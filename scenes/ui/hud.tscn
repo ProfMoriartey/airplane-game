@@ -3,6 +3,15 @@
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/combat_overlay.gd" id="2_overlay"]
 
+[sub_resource type="StyleBoxFlat" id="Style_radio"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.05, 0.05, 0.04, 0.65)
+border_width_left = 3
+border_color = Color(0.85, 0.7, 0.45, 1)
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hud")
 
@@ -28,7 +37,7 @@ text = "SPEED
 ALT
 THR"
 
-[node name="Score" type="Label" parent="."]
+[node name="Status" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -96,7 +105,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_top = -210.0
+offset_top = -230.0
 offset_right = 624.0
 offset_bottom = -20.0
 grow_vertical = 0
@@ -104,13 +113,14 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 16
 text = "Space / left mouse  —  fire guns
+B  —  drop bomb
 W / S  —  nose down / up
 A / D  —  roll left / right
 Q / E  —  rudder left / right
 Shift / Ctrl  —  throttle up / down
 C  —  chase / cockpit view
 Hold right mouse  —  look around
-R  —  restart      F1  —  hide help      F3  —  debug"
+Esc  —  pause      F1  —  hide help      F3  —  debug"
 vertical_alignment = 2
 
 [node name="DebugInfo" type="Label" parent="."]
@@ -118,12 +128,48 @@ visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -324.0
-offset_top = 20.0
+offset_left = -424.0
+offset_top = 200.0
 offset_right = -24.0
-offset_bottom = 120.0
+offset_bottom = 300.0
 grow_horizontal = 0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 2
+
+[node name="Objectives" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -444.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = 180.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.9, 0.55, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+autowrap_mode = 3
+
+[node name="Radio" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -504.0
+offset_top = -120.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("Style_radio")
+
+[node name="Text" type="Label" parent="Radio"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3

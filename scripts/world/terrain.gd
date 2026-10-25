@@ -23,10 +23,10 @@ const ROCK_COLOR := Color(0.45, 0.42, 0.36)
 var _height_noise := FastNoiseLite.new()
 var _field_noise := FastNoiseLite.new()
 var _forest_noise := FastNoiseLite.new()
+var _noise_ready := false
 
 
 func _ready() -> void:
-	_setup_noise()
 	var mesh := _build_mesh()
 
 	var mesh_instance := MeshInstance3D.new()
@@ -42,12 +42,39 @@ func _ready() -> void:
 
 ## Ground height in metres at a world position.
 func get_height(x: float, z: float) -> float:
+	# Other nodes may ask for heights before our _ready() has run.
+	if not _noise_ready:
+		_setup_noise()
 	var n := _height_noise.get_noise_2d(x, z) * 0.5 + 0.5
 	# Raising to a power flattens the valleys and keeps the hills rounded.
 	return pow(n, 1.8) * height_scale
 
 
+## A top-down picture of the ground, covering `extent` metres in every direction
+## from the centre. Used for the briefing map.
+func create_map_image(pixels: int, extent: float) -> Image:
+	var image := Image.create(pixels, pixels, false, Image.FORMAT_RGB8)
+	var step := extent * 2.0 / pixels
+	var light := Vector3(-1.0, 1.5, -1.0).normalized()
+	for py in pixels:
+		for px in pixels:
+			var x := (px + 0.5) * step - extent
+			var z := (py + 0.5) * step - extent
+			var normal := Vector3(
+				get_height(x - step, z) - get_height(x + step, z),
+				2.0 * step,
+				get_height(x, z - step) - get_height(x, z + step),
+			).normalized()
+			var shade := lerpf(0.65, 1.15, clampf(normal.dot(light), 0.0, 1.0))
+			var color := _ground_color(x, z, normal) * shade
+			if _forest_noise.get_noise_2d(x, z) > 0.25:
+				color = color.lerp(Color(0.16, 0.27, 0.12), 0.6)
+			image.set_pixel(px, py, color)
+	return image
+
+
 func _setup_noise() -> void:
+	_noise_ready = true
 	_height_noise.seed = terrain_seed
 	_height_noise.frequency = 0.0005
 	_height_noise.fractal_octaves = 5
