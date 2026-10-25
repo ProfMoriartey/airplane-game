@@ -11,7 +11,7 @@ From the main menu you can start with **Training**, play the **Campaign** – 9 
 
 ## Controls
 
-Rebind controls in Settings: **Keyboard & Mouse** gives every control two keys or mouse buttons, and **Controller** lets you choose **Gamepad** or **Flight stick** (a flight stick's throttle lever sets the throttle directly) and rebind every button and axis. Controller bindings apply to every connected controller. In **Two players**, each player picks their own device, aircraft and paint.
+Rebind controls in Settings: **Keyboard & Mouse** gives every control two keys or mouse buttons, and **Controller** lets you choose **Gamepad** or **Flight stick** (a flight stick's throttle lever sets the throttle directly) and rebind every button and axis. Controller bindings apply to every connected controller. In **Two players**, each player picks their own device, aircraft and paint. Every menu works with a controller: A chooses, B goes back, LB / RB switch settings tabs, and the right stick scrolls.
 
 | Action | Keyboard / mouse | Gamepad |
 |---|---|---|

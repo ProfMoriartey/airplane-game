@@ -66,6 +66,15 @@ func _enter_tree() -> void:
 	_add("pause", [_key(KEY_ESCAPE), _button(JOY_BUTTON_START)])
 	_add("toggle_help", [_key(KEY_F1)])
 	_add("toggle_debug", [_key(KEY_F3)])
+	# Menus: A presses the highlighted button and B goes back, on any controller.
+	_add("ui_accept", [_button(JOY_BUTTON_A)])
+	_add("ui_cancel", [_button(JOY_BUTTON_B)])
+	# Bumpers switch tabs, the right stick (or Page Up / Down) scrolls long text.
+	_add("ui_tab_previous", [_button(JOY_BUTTON_LEFT_SHOULDER)])
+	_add("ui_tab_next", [_button(JOY_BUTTON_RIGHT_SHOULDER)])
+	_add("ui_scroll_up", [_axis(JOY_AXIS_RIGHT_Y, -1.0), _key(KEY_PAGEUP)])
+	_add("ui_scroll_down", [_axis(JOY_AXIS_RIGHT_Y, 1.0), _key(KEY_PAGEDOWN)])
+	add_child(preload("res://scripts/ui/pad_menus.gd").new())
 
 
 func _add(action: StringName, events: Array[InputEvent]) -> void:
@@ -85,6 +94,13 @@ func _key(keycode: Key) -> InputEvent:
 func _mouse(button: MouseButton) -> InputEvent:
 	var event := InputEventMouseButton.new()
 	event.button_index = button
+	return event
+
+
+func _axis(axis: JoyAxis, value: float) -> InputEvent:
+	var event := InputEventJoypadMotion.new()
+	event.axis = axis
+	event.axis_value = value
 	return event
 
 

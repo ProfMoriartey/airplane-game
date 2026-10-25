@@ -66,6 +66,8 @@ func _build_mission_list() -> void:
 			if not Profile.is_unlocked(mission.id):
 				button.text = "%d. %s   (locked)" % [number, mission.title]
 				button.disabled = true
+				# Skip it when moving the highlight with a controller or the arrow keys.
+				button.focus_mode = Control.FOCUS_NONE
 			elif Profile.is_completed(mission.id):
 				button.text = "%d. %s   - %d" % [number, mission.title, Profile.best_score(mission.id)]
 			else:

@@ -278,6 +278,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
   - [x] Gameplay (difficulty, assists, HUD options)
 - [x] Final HUD art and layout
 - [x] Controller-navigable menus
+  - [x] A / B press and go back everywhere, bumpers switch settings tabs, right stick scrolls, lists follow the highlight
 - [x] Credits screen
 - [x] Consistent UI theme (khaki panels, brass trim)
 - [ ] Period-style font (an OFL-licensed typeface would suit)

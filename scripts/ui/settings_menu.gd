@@ -41,8 +41,20 @@ func _ready() -> void:
 	_build_audio()
 	_build_graphics()
 	_update_reset_button()
+	_add_controller_hint()
 	Input.joy_connection_changed.connect(func(_device: int, _connected: bool) -> void: _refresh_connected())
 	%Tabs.get_tab_bar().grab_focus()
+
+
+## A reminder of the controller buttons, next to Reset and Back.
+func _add_controller_hint() -> void:
+	var hint := Label.new()
+	hint.text = "Controller:  LB / RB  change tab    A  choose    B  back"
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint.add_theme_font_size_override("font_size", 13)
+	hint.add_theme_color_override("font_color", Color(0.7, 0.66, 0.58))
+	%BackButton.get_parent().add_child(hint)
+	%BackButton.get_parent().move_child(hint, 0)
 
 
 func close() -> void:
@@ -60,12 +72,19 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause"):
 		get_viewport().set_input_as_handled()
 		close()
+	elif event.is_action_pressed("ui_tab_previous") or event.is_action_pressed("ui_tab_next"):
+		get_viewport().set_input_as_handled()
+		var step := -1 if event.is_action_pressed("ui_tab_previous") else 1
+		%Tabs.current_tab = wrapi(%Tabs.current_tab + step, 0, %Tabs.get_tab_count())
+		%Tabs.get_tab_bar().grab_focus()
 
 
-## Waiting for a key: Esc cancels, Delete empties the slot.
+## Waiting for a key: Esc (or B / Start on a controller) cancels, Delete empties the slot.
 func _capture_key(event: InputEvent) -> void:
 	var binding := {}
-	if event is InputEventKey and event.pressed and not event.echo:
+	if event is InputEventJoypadButton and event.pressed and event.button_index in [JOY_BUTTON_B, JOY_BUTTON_START]:
+		_stop_rebinding("")
+	elif event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_ESCAPE:
 			_stop_rebinding("")
 		elif event.physical_keycode == KEY_DELETE:
