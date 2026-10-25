@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AircraftStats" format=3]
+
+[ext_resource type="Script" path="res://scripts/aircraft/aircraft_stats.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+display_name = "Scout"
+max_speed = 55.0
+thrust = 14.0
+stall_speed = 22.0
+start_speed = 42.0
+pitch_rate = 1.5
+roll_rate = 2.6
+yaw_rate = 0.5
+bank_turn_rate = 0.8
+control_response = 5.0
+stall_nose_drop = 1.2
+max_health = 100.0

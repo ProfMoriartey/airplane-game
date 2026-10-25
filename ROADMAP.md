@@ -21,44 +21,44 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [ ] Create an audio direction reference (engine sounds, music style)
 
 ### Project setup
-- [ ] Initialize git repository and first commit
-- [ ] Set up folder structure (`scenes/`, `scripts/`, `assets/`, `data/`, `ui/`, `audio/`)
-- [ ] Configure input map (pitch, roll, yaw, throttle, fire, bomb, camera, pause)
+- [x] Initialize git repository and first commit
+- [x] Set up folder structure (`scenes/`, `scripts/`, `assets/`, `data/`, `ui/`, `audio/`)
+- [x] Configure input map (pitch, roll, yaw, throttle, fire, bomb, camera, pause)
 - [ ] Set up autoload singletons (GameState, SaveManager, AudioManager, SceneLoader)
 - [ ] Choose code conventions (GDScript style, naming, signals vs. direct calls)
-- [ ] Set up physics layers and collision masks (player, enemy, bullets, ground, targets)
-- [ ] Set up a debug overlay (FPS, speed, altitude, AI state, toggles)
-- [ ] Set up a test/sandbox scene for rapid iteration
+- [x] Set up physics layers and collision masks (player, enemy, bullets, ground, targets)
+- [x] Set up a debug overlay (FPS, speed, altitude, AI state, toggles)
+- [x] Set up a test/sandbox scene for rapid iteration
 
 ---
 
 ## 1. Milestone: Flight Prototype ("Does flying feel good?")
 
 ### Flight model
-- [ ] Plane controller script (arcade physics: thrust, drag, lift, gravity)
-- [ ] Pitch / roll / yaw control with tunable rates
-- [ ] Throttle control with min/max speed
-- [ ] Speed-dependent control authority (sluggish when slow)
-- [ ] Stall behavior at low speed (nose drop, recovery)
-- [ ] Ground collision and crash detection
+- [x] Plane controller script (arcade physics: thrust, drag, lift, gravity)
+- [x] Pitch / roll / yaw control with tunable rates
+- [x] Throttle control with min/max speed
+- [x] Speed-dependent control authority (sluggish when slow)
+- [x] Stall behavior at low speed (nose drop, recovery)
+- [x] Ground collision and crash detection
 - [ ] Takeoff and landing support (or air-start option)
-- [ ] Tunable per-aircraft stats resource (speed, turn rate, climb rate, health)
-- [ ] Optional assists: auto-level, stall warning, auto-throttle
+- [x] Tunable per-aircraft stats resource (speed, turn rate, climb rate, health)
+- [ ] Optional assists: auto-level ✅, stall warning ✅, auto-throttle
 
 ### Camera
-- [ ] Chase camera with smoothing/lag
-- [ ] Cockpit camera
-- [ ] Free look (mouse/right stick)
+- [x] Chase camera with smoothing/lag
+- [x] Cockpit camera
+- [x] Free look (mouse/right stick)
 - [ ] Target-lock camera (look at nearest enemy / padlock view)
-- [ ] Camera shake on damage and gunfire
-- [ ] Field-of-view change with speed
+- [x] Camera shake on damage and gunfire
+- [x] Field-of-view change with speed
 
 ### Test environment
-- [ ] Simple heightmap terrain
-- [ ] Sky (procedural sky / skybox) and sun lighting
-- [ ] Distance fog
-- [ ] World boundary handling (turn-back warning or invisible wall)
-- [ ] Placeholder biplane model built from primitives
+- [x] Simple heightmap terrain
+- [x] Sky (procedural sky / skybox) and sun lighting
+- [x] Distance fog
+- [x] World boundary handling (turn-back warning or invisible wall)
+- [x] Placeholder biplane model built from primitives
 
 ---
 
