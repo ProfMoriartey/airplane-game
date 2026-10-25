@@ -45,8 +45,9 @@ func _ready() -> void:
 	_shot_sound = AudioStreamPlayer3D.new()
 	_shot_sound.stream = SHOT_SOUND
 	_shot_sound.bus = &"SFX"
-	_shot_sound.unit_size = 12.0
-	_shot_sound.volume_db = 3.0
+	# Loud enough to stand out over the plane's own engine.
+	_shot_sound.unit_size = 18.0
+	_shot_sound.volume_db = 6.0
 	_shot_sound.max_polyphony = 6
 	_shot_sound.position = Vector3(0, 0.6, -2.0)
 	add_child(_shot_sound)

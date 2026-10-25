@@ -5,7 +5,8 @@ Nothing here is sampled or recorded: each sound is built from oscillators,
 filtered noise and envelopes, so the results are fully original and safe to
 ship. Run it from the project root to (re)build assets/audio:
 
-    python3 tools/generate_audio.py
+    python3 tools/generate_audio.py            (every sound and piece of music)
+    python3 tools/generate_audio.py gunshot    (only the ones named)
 
 It uses only the Python standard library. Looping sounds get a WAV "smpl"
 chunk, which Godot reads as loop points when importing.
@@ -14,6 +15,7 @@ chunk, which Godot reads as loop points when importing.
 import math
 import os
 import random
+import sys
 import struct
 import wave
 
@@ -223,11 +225,18 @@ def wind_loop():
 
 
 def gunshot():
-    length = int(0.14 * RATE)
-    crack = multiply(highpass(noise(0.14), 900), envelope(length, 0.0005, 0.012))
-    thump = multiply(sine_sweep(0.14, 160, 70), envelope(length, 0.001, 0.05))
-    clack = multiply(bandpass(noise(0.14), 2500, 5000), [0.0] * int(0.03 * RATE) + envelope(length - int(0.03 * RATE), 0.0005, 0.01))
-    return fade_edges(mix(scale(crack, 0.8), scale(thump, 0.9), scale(clack, 0.25)))
+    """One round from a WWI machine gun: a deep thump and a mid-range bark give
+    it weight (so it carries over the engine), a short crack gives it bite, and
+    the action clacks just after. Soft clipping makes it dense and loud."""
+    seconds = 0.16
+    length = int(seconds * RATE)
+    thump = multiply(sine_sweep(seconds, 190, 55), envelope(length, 0.001, 0.07))
+    bark = multiply(bandpass(noise(seconds), 250, 1800), envelope(length, 0.0008, 0.045))
+    crack = multiply(highpass(noise(seconds), 1800), envelope(length, 0.0004, 0.01))
+    delay = int(0.035 * RATE)
+    clack = multiply(bandpass(noise(seconds), 2200, 4500), [0.0] * delay + envelope(length - delay, 0.0005, 0.012))
+    shot = mix(scale(thump, 1.0), scale(bark, 0.9), scale(crack, 0.45), scale(clack, 0.2))
+    return fade_edges(normalize(saturate(shot, 2.2)))
 
 
 def bullet_hit():
@@ -585,12 +594,17 @@ def main():
         "promotion": (promotion, False),
         "medal": (medal, False),
     }
+    # Name sounds on the command line to remake only those, e.g. "gunshot".
+    # The noise is random, so remaking a sound always changes it a little.
+    only = set(sys.argv[1:])
     print("Sound effects:")
     for name, (make, loop) in sfx.items():
-        write_wav(os.path.join(OUT_SFX, name + ".wav"), make(), loop)
+        if not only or name in only:
+            write_wav(os.path.join(OUT_SFX, name + ".wav"), make(), loop)
     print("Music:")
     for name, (make, loop) in music.items():
-        write_wav(os.path.join(OUT_MUSIC, name + ".wav"), make(), loop)
+        if not only or name in only:
+            write_wav(os.path.join(OUT_MUSIC, name + ".wav"), make(), loop)
 
 
 if __name__ == "__main__":
