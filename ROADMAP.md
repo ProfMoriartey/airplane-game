@@ -274,6 +274,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
   - [x] Graphics (resolution, fullscreen, quality presets, vsync)
   - [x] Audio (volume sliders per bus)
   - [x] Controls (rebinding, sensitivity, invert Y)
+  - [x] Separate Keyboard & Mouse and Controller tabs: two keys per control, mouse buttons, conflict handling, per-tab reset
   - [x] Gameplay (difficulty, assists, HUD options)
 - [x] Final HUD art and layout
 - [x] Controller-navigable menus
@@ -291,6 +292,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [x] Training / tutorial missions
 - [x] Optional: play the enemy side (like *Red Ace Squadron*)
 - [x] Local split-screen: co-op waves and versus, side by side or stacked, one device per player
+  - [x] Both players choose aircraft and paint on the two-player screen (with previews)
 - [ ] Optional: online multiplayer (dogfight, co-op)
 
 ---

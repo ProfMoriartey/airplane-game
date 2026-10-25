@@ -24,12 +24,8 @@ const QUALITY_SETTINGS := {
 	Quality.MEDIUM: {name = "Medium", shadows = true, msaa = Viewport.MSAA_2X, trees = 0.7, tree_distance = 2100.0},
 	Quality.HIGH: {name = "High", shadows = true, msaa = Viewport.MSAA_4X, trees = 1.0, tree_distance = 2600.0},
 }
-## Actions the player can rebind on the keyboard, with their names in the menu.
-const REBINDABLE := {
-	pitch_up = "Nose up", pitch_down = "Nose down", roll_left = "Roll left", roll_right = "Roll right",
-	yaw_left = "Rudder left", yaw_right = "Rudder right", throttle_up = "Throttle up", throttle_down = "Throttle down",
-	fire = "Fire guns", bomb = "Drop bomb", camera_toggle = "Change view", map_zoom = "Minimap zoom",
-}
+## How many keys or mouse buttons each control can have.
+const KEY_SLOTS := 2
 const BUSES := ["Master", "Music", "SFX", "UI"]
 ## Settings written to the save file.
 const SAVED := [
@@ -50,7 +46,8 @@ var show_minimap := true
 # Controls
 var invert_pitch := false
 var mouse_sensitivity := 1.0
-## action -> physical keycode, only for actions the player has changed.
+## Keyboard rebinds, only for controls the player has changed:
+## control -> KEY_SLOTS bindings, each {key}, {mouse} or {} for none.
 var key_bindings := {}
 ## Which controller layout to use (see InputSetup.PadScheme).
 var pad_scheme := 0
@@ -98,43 +95,102 @@ func apply() -> void:
 	changed.emit()
 
 
-## Rebinds an action to a single key (mouse and gamepad bindings are kept).
-func bind_key(action: String, keycode: Key) -> void:
-	key_bindings[action] = keycode
+## The keys or mouse buttons a control uses, one per slot ({} for an empty slot).
+func key_slots(control: String) -> Array:
+	if key_bindings.has(control):
+		return key_bindings[control]
+	var slots := []
+	for event: InputEvent in InputSetup.keyboard.get(control, []):
+		if slots.size() < KEY_SLOTS:
+			slots.append({key = event.physical_keycode} if event is InputEventKey else {mouse = event.button_index})
+	while slots.size() < KEY_SLOTS:
+		slots.append({})
+	return slots
+
+
+## Puts a key or mouse button ({key} or {mouse}, or {} to clear) in one of a
+## control's slots. Returns the name of the control it was taken from, if any.
+func bind_key(control: String, slot: int, binding: Dictionary) -> String:
+	var taken_from := ""
+	if not binding.is_empty():
+		for other: String in Controls.CONTROLS:
+			var slots := key_slots(other).duplicate()
+			var index := slots.find(binding)
+			if index >= 0 and not (other == control and index == slot):
+				slots[index] = {}
+				key_bindings[other] = slots
+				taken_from = Controls.CONTROLS[other] if other != control else ""
+	var slots := key_slots(control).duplicate()
+	slots[slot] = binding
+	key_bindings[control] = slots
 	apply()
+	return taken_from
 
 
-## Rebinds a controller control (in the current scheme) to a button or axis.
-func bind_pad(control: String, binding: Dictionary) -> void:
+## Rebinds a controller control (in the current scheme) to a button or axis,
+## or clears it with {}. Returns the name of the control it was taken from, if any.
+func bind_pad(control: String, binding: Dictionary) -> String:
 	var scheme := str(pad_scheme)
 	if not pad_bindings.has(scheme):
 		pad_bindings[scheme] = {}
+	var taken_from := ""
+	if not binding.is_empty():
+		for other: String in Controls.CONTROLS:
+			if other != control and Controls.pad_binding(other) == binding:
+				pad_bindings[scheme][other] = {}
+				taken_from = Controls.CONTROLS[other]
 	pad_bindings[scheme][control] = binding
+	# Both ends of the throttle lever are the same axis, so set them together.
+	var other_end: String = {throttle_lever_low = "throttle_lever_high", throttle_lever_high = "throttle_lever_low"}.get(control, "")
+	if other_end != "" and binding.has("axis"):
+		pad_bindings[scheme][other_end] = {axis = binding.axis, dir = -binding.dir}
+	apply()
+	return taken_from
+
+
+func reset_keyboard() -> void:
+	key_bindings.clear()
+	mouse_sensitivity = 1.0
 	apply()
 
 
-func reset_controls() -> void:
-	key_bindings.clear()
-	pad_bindings.clear()
-	invert_pitch = false
-	mouse_sensitivity = 1.0
+func reset_controller() -> void:
+	pad_bindings.erase(str(pad_scheme))
 	pad_deadzone = 0.2
 	apply()
 
 
 ## Replaces action names in braces, like {fire}, with the player's keys.
 func fill_keys(text: String) -> String:
-	for action: String in REBINDABLE:
+	for action: String in Controls.CONTROLS:
 		text = text.replace("{%s}" % action, key_name(action))
 	return text
 
 
-## The key currently bound to an action, as text for the menu.
+## The first key or mouse button bound to an action, as text.
 func key_name(action: String) -> String:
 	for event in InputMap.action_get_events(action):
 		if event is InputEventKey:
 			return OS.get_keycode_string(event.physical_keycode)
+		if event is InputEventMouseButton:
+			return binding_text({mouse = event.button_index})
 	return "-"
+
+
+## A keyboard binding ({key} or {mouse}) as text for the menu.
+static func binding_text(binding: Dictionary) -> String:
+	if binding.has("key"):
+		return OS.get_keycode_string(binding.key)
+	if binding.has("mouse"):
+		return MOUSE_NAMES.get(binding.mouse, "Mouse %d" % binding.mouse)
+	return "-"
+
+
+const MOUSE_NAMES := {
+	MOUSE_BUTTON_LEFT: "Left mouse", MOUSE_BUTTON_RIGHT: "Right mouse", MOUSE_BUTTON_MIDDLE: "Middle mouse",
+	MOUSE_BUTTON_WHEEL_UP: "Wheel up", MOUSE_BUTTON_WHEEL_DOWN: "Wheel down",
+	MOUSE_BUTTON_XBUTTON1: "Mouse back", MOUSE_BUTTON_XBUTTON2: "Mouse forward",
+}
 
 
 func _save() -> void:
@@ -153,3 +209,7 @@ func _load() -> void:
 			var value: Variant = file.get_value("settings", key)
 			if typeof(value) == typeof(get(key)):
 				set(key, value)
+	# Older saves kept one keycode per control.
+	for control: String in key_bindings.keys():
+		if typeof(key_bindings[control]) == TYPE_INT:
+			key_bindings[control] = [{key = key_bindings[control]}, {}]

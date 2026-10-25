@@ -11,7 +11,7 @@ From the main menu you can start with **Training**, play the **Campaign** – 9 
 
 ## Controls
 
-Controllers: choose **Gamepad** or **Flight stick** in Settings > Controls (a flight stick's throttle lever sets the throttle directly). Every key, button and axis can be rebound there.
+Rebind controls in Settings: **Keyboard & Mouse** gives every control two keys or mouse buttons, and **Controller** lets you choose **Gamepad** or **Flight stick** (a flight stick's throttle lever sets the throttle directly) and rebind every button and axis. Controller bindings apply to every connected controller. In **Two players**, each player picks their own device, aircraft and paint.
 
 | Action | Keyboard / mouse | Gamepad |
 |---|---|---|

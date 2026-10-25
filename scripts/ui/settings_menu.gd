@@ -4,26 +4,44 @@ extends CanvasLayer
 
 signal closed
 
+const BINDING_WIDTH := 170.0
+const HEADER_COLOR := Color(0.85, 0.7, 0.45)
 const WINDOW_SIZES := [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1920, 1080)]
 
-## The action waiting for a new key, while rebinding.
+## Keyboard controls that can't use a key: the throttle lever is a controller axis.
+const NOT_ON_KEYBOARD := ["throttle_lever_low", "throttle_lever_high"]
+## The right mouse button looks around, so it can't be bound.
+const RESERVED_MOUSE := [MOUSE_BUTTON_RIGHT]
+## An axis must move this far from where it was resting to be picked up.
+const AXIS_CAPTURE := 0.6
+## The tabs with a reset button, and what it says.
+const RESET_LABELS := {"Keyboard & Mouse": "Reset keyboard", "Controller": "Reset controller"}
+
+## The keyboard control and slot waiting for a new key, while rebinding.
 var _rebinding := ""
+var _rebinding_slot := 0
 var _key_buttons := {}
 ## The control waiting for a controller button or axis, while rebinding.
 var _rebinding_pad := ""
 var _pad_buttons := {}
+## Where each controller axis was resting when rebinding started.
+var _axis_rest := {}
+var _key_note: Label
+var _pad_note: Label
+var _connected_note: Label
 
 
 func _ready() -> void:
 	%BackButton.pressed.connect(close)
-	%ResetButton.pressed.connect(func() -> void:
-		Settings.reset_controls()
-		_refresh_keys()
-		_refresh_pads())
+	%ResetButton.pressed.connect(_reset_current_tab)
+	%Tabs.tab_changed.connect(func(_tab: int) -> void: _update_reset_button())
 	_build_gameplay()
-	_build_controls()
+	_build_keyboard()
+	_build_controller()
 	_build_audio()
 	_build_graphics()
+	_update_reset_button()
+	Input.joy_connection_changed.connect(func(_device: int, _connected: bool) -> void: _refresh_connected())
 	%Tabs.get_tab_bar().grab_focus()
 
 
@@ -34,31 +52,74 @@ func close() -> void:
 
 func _input(event: InputEvent) -> void:
 	if _rebinding != "":
-		if event is InputEventKey and event.pressed and not event.echo:
-			if event.physical_keycode != KEY_ESCAPE:
-				Settings.bind_key(_rebinding, event.physical_keycode)
-			_rebinding = ""
-			_refresh_keys()
-			get_viewport().set_input_as_handled()
+		_capture_key(event)
 		return
 	if _rebinding_pad != "":
-		var binding := {}
-		if event is InputEventJoypadButton and event.pressed:
-			binding = {button = event.button_index}
-		elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.6:
-			binding = {axis = event.axis, dir = int(signf(event.axis_value))}
-		elif event is InputEventKey and event.pressed and event.physical_keycode == KEY_ESCAPE:
-			_rebinding_pad = ""
-			_refresh_pads()
-		if not binding.is_empty():
-			Settings.bind_pad(_rebinding_pad, binding)
-			_rebinding_pad = ""
-			_refresh_pads()
-		get_viewport().set_input_as_handled()
+		_capture_pad(event)
 		return
 	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause"):
 		get_viewport().set_input_as_handled()
 		close()
+
+
+## Waiting for a key: Esc cancels, Delete empties the slot.
+func _capture_key(event: InputEvent) -> void:
+	var binding := {}
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode == KEY_ESCAPE:
+			_stop_rebinding("")
+		elif event.physical_keycode == KEY_DELETE:
+			_finish_key({})
+		else:
+			binding = {key = event.physical_keycode}
+	elif event is InputEventMouseButton and event.pressed:
+		if event.button_index in RESERVED_MOUSE:
+			_key_note.text = "The right mouse button is used to look around - pick another."
+		else:
+			binding = {mouse = event.button_index}
+	if not binding.is_empty():
+		_finish_key(binding)
+	get_viewport().set_input_as_handled()
+
+
+func _finish_key(binding: Dictionary) -> void:
+	var taken := Settings.bind_key(_rebinding, _rebinding_slot, binding)
+	_stop_rebinding("%s was used for %s - that slot is empty now." % [Settings.binding_text(binding), taken] if taken != "" else "")
+
+
+## Waiting for a controller: a button press, or an axis moved well away from
+## where it was resting (so a lever or trigger that sits off-centre isn't
+## picked up by accident). Esc or Start cancels, Delete clears.
+func _capture_pad(event: InputEvent) -> void:
+	var binding := {}
+	if event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_START:
+			_stop_rebinding("")
+		else:
+			binding = {button = event.button_index}
+	elif event is InputEventJoypadMotion:
+		var moved: float = event.axis_value - _axis_rest.get(Vector2i(event.device, event.axis), 0.0)
+		if absf(moved) > AXIS_CAPTURE:
+			binding = {axis = event.axis, dir = int(signf(moved))}
+	elif event is InputEventKey and event.pressed:
+		if event.physical_keycode == KEY_ESCAPE:
+			_stop_rebinding("")
+		elif event.physical_keycode == KEY_DELETE:
+			Settings.bind_pad(_rebinding_pad, {})
+			_stop_rebinding("")
+	if not binding.is_empty():
+		var taken := Settings.bind_pad(_rebinding_pad, binding)
+		_stop_rebinding("%s was used for %s - that control is empty now." % [Controls.binding_name(binding), taken] if taken != "" else "")
+	get_viewport().set_input_as_handled()
+
+
+func _stop_rebinding(message: String) -> void:
+	_rebinding = ""
+	_rebinding_pad = ""
+	_refresh_keys()
+	_refresh_pads()
+	_key_note.text = message
+	_pad_note.text = message
 
 
 ## --- Tabs ---
@@ -70,6 +131,7 @@ func _build_gameplay() -> void:
 		difficulties.append(level.name)
 	_choice(tab, "Difficulty", difficulties, Settings.difficulty, func(index: int) -> void: Settings.difficulty = index)
 	_note(tab, "Easy: enemies aim worse and you take less damage. Ace: the opposite.")
+	_toggle(tab, "Invert pitch (nose up/down swapped)", Settings.invert_pitch, func(on: bool) -> void: Settings.invert_pitch = on)
 	_toggle(tab, "Auto-level wings", Settings.auto_level, func(on: bool) -> void: Settings.auto_level = on)
 	_toggle(tab, "Show aiming circle (lead indicator)", Settings.show_lead_indicator, func(on: bool) -> void: Settings.show_lead_indicator = on)
 	_toggle(tab, "Show bomb sight", Settings.show_bomb_sight, func(on: bool) -> void: Settings.show_bomb_sight = on)
@@ -78,50 +140,87 @@ func _build_gameplay() -> void:
 	_toggle(tab, "Show minimap", Settings.show_minimap, func(on: bool) -> void: Settings.show_minimap = on)
 
 
-func _build_controls() -> void:
-	var tab := _tab("Controls")
-	_toggle(tab, "Invert pitch (W / stick up climbs)", Settings.invert_pitch, func(on: bool) -> void: Settings.invert_pitch = on)
+func _build_keyboard() -> void:
+	var tab := _tab("Keyboard & Mouse")
 	_slider(tab, "Mouse look sensitivity", 0.3, 2.0, Settings.mouse_sensitivity, func(value: float) -> void: Settings.mouse_sensitivity = value)
-	_note(tab, "Click a key, then press the new key (Esc cancels). Gamepad controls stay as they are.")
-	for action: String in Settings.REBINDABLE:
-		var button := Button.new()
-		button.custom_minimum_size = Vector2(160, 0)
-		button.pressed.connect(func() -> void:
-			_rebinding = action
-			button.text = "Press a key...")
-		_key_buttons[action] = button
-		_row(tab, Settings.REBINDABLE[action], button)
+	_note(tab, "Each control can have two keys or mouse buttons. Click one, then press the new key or mouse button. Esc cancels, Delete empties it. Hold the right mouse button to look around.")
+	_key_note = _warning(tab)
+	_header(tab, ["Control", "Primary", "Secondary"])
+	for control: String in Controls.CONTROLS:
+		if control in NOT_ON_KEYBOARD:
+			continue
+		var buttons: Array[Button] = []
+		for slot in Settings.KEY_SLOTS:
+			var button := _binding_button()
+			button.pressed.connect(func() -> void:
+				_stop_rebinding("")
+				_rebinding = control
+				_rebinding_slot = slot
+				button.text = "Press a key...")
+			buttons.append(button)
+		_key_buttons[control] = buttons
+		_row(tab, Controls.CONTROLS[control], buttons)
 	_refresh_keys()
-	_build_controller_settings(tab)
 
 
-func _build_controller_settings(tab: VBoxContainer) -> void:
-	var header := Label.new()
-	header.text = "CONTROLLER / FLIGHT STICK"
-	header.add_theme_color_override("font_color", Color(0.85, 0.7, 0.45))
-	tab.add_child(header)
-	var connected := Input.get_connected_joypads().map(func(device: int) -> String: return Input.get_joy_name(device))
-	_note(tab, "Connected: %s" % (", ".join(connected) if not connected.is_empty() else "none - plug one in to use it"))
+func _build_controller() -> void:
+	var tab := _tab("Controller")
+	_connected_note = _note(tab, "")
+	_refresh_connected()
 	_choice(tab, "Layout", ["Gamepad", "Flight stick (with throttle lever)"], Settings.pad_scheme, func(index: int) -> void:
 		Settings.pad_scheme = index
 		_refresh_pads.call_deferred())
 	_slider(tab, "Stick dead zone", 0.05, 0.5, Settings.pad_deadzone, func(value: float) -> void: Settings.pad_deadzone = value)
 	_toggle(tab, "Rumble when hit", Settings.rumble, func(on: bool) -> void: Settings.rumble = on)
-	_note(tab, "Click a control, then press the button or move the stick, lever or trigger you want (Esc cancels).")
+	_note(tab, "These controls are saved for the chosen layout and work on every controller you connect, in single player and split-screen. Click a control, then press a button or move a stick, trigger or lever. Esc or Start cancels, Delete clears.")
+	_pad_note = _warning(tab)
+	_header(tab, ["Control", "Button or axis"])
 	for control: String in Controls.CONTROLS:
-		var button := Button.new()
-		button.custom_minimum_size = Vector2(200, 0)
+		var button := _binding_button()
 		button.pressed.connect(func() -> void:
+			_stop_rebinding("")
 			_rebinding_pad = control
+			_axis_rest.clear()
+			for device in Input.get_connected_joypads():
+				for axis in JOY_AXIS_MAX:
+					_axis_rest[Vector2i(device, axis)] = Input.get_joy_axis(device, axis)
 			button.text = "Press or move...")
 		_pad_buttons[control] = button
-		_row(tab, Controls.CONTROLS[control], button)
+		_row(tab, Controls.CONTROLS[control], [button])
 	_refresh_pads()
+
+
+func _refresh_connected() -> void:
+	var connected := Input.get_connected_joypads().map(func(device: int) -> String: return Input.get_joy_name(device))
+	_connected_note.text = "Connected: %s" % (", ".join(connected) if not connected.is_empty() else "none - plug one in to use it")
 
 
 func _refresh_pads() -> void:
 	for control: String in _pad_buttons:
 		_pad_buttons[control].text = Controls.binding_name(Controls.pad_binding(control))
+
+
+func _refresh_keys() -> void:
+	for control: String in _key_buttons:
+		var slots := Settings.key_slots(control)
+		for slot in Settings.KEY_SLOTS:
+			_key_buttons[control][slot].text = Settings.binding_text(slots[slot])
+
+
+func _update_reset_button() -> void:
+	var title: String = %Tabs.get_tab_title(%Tabs.current_tab)
+	%ResetButton.visible = RESET_LABELS.has(title)
+	%ResetButton.text = RESET_LABELS.get(title, "")
+
+
+func _reset_current_tab() -> void:
+	_stop_rebinding("")
+	if %Tabs.get_tab_title(%Tabs.current_tab) == "Controller":
+		Settings.reset_controller()
+	else:
+		Settings.reset_keyboard()
+	_refresh_keys()
+	_refresh_pads()
 
 
 func _build_audio() -> void:
@@ -164,11 +263,6 @@ func _closest_window_size() -> int:
 	return best
 
 
-func _refresh_keys() -> void:
-	for action: String in _key_buttons:
-		_key_buttons[action].text = Settings.key_name(action)
-
-
 ## --- Row builders ---
 
 func _tab(title: String) -> VBoxContainer:
@@ -183,24 +277,65 @@ func _tab(title: String) -> VBoxContainer:
 	return box
 
 
-func _row(tab: VBoxContainer, label_text: String, control: Control) -> void:
+## A label on the left and one or more controls on the right.
+func _row(tab: VBoxContainer, label_text: String, controls: Variant) -> void:
 	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
 	var label := Label.new()
 	label.text = label_text
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(label)
-	control.size_flags_horizontal = Control.SIZE_SHRINK_END
-	row.add_child(control)
+	for control: Control in (controls if controls is Array else [controls]):
+		control.size_flags_horizontal = Control.SIZE_SHRINK_END
+		row.add_child(control)
 	tab.add_child(row)
 
 
-func _note(tab: VBoxContainer, text: String) -> void:
+## Column titles above a binding table, lined up with the rows below.
+func _header(tab: VBoxContainer, titles: Array) -> void:
+	var columns: Array[Label] = []
+	for title: String in titles.slice(1):
+		var column := _header_label(title)
+		column.custom_minimum_size = Vector2(BINDING_WIDTH, 0)
+		column.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		columns.append(column)
+	_row(tab, "", columns)
+	var first := tab.get_child(-1).get_child(0) as Label
+	first.text = titles[0].to_upper()
+	first.add_theme_font_size_override("font_size", 14)
+	first.add_theme_color_override("font_color", HEADER_COLOR)
+
+
+func _header_label(title: String) -> Label:
+	var label := Label.new()
+	label.text = title.to_upper()
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", HEADER_COLOR)
+	return label
+
+
+func _binding_button() -> Button:
+	var button := Button.new()
+	button.custom_minimum_size = Vector2(BINDING_WIDTH, 0)
+	button.clip_text = true
+	return button
+
+
+func _note(tab: VBoxContainer, text: String) -> Label:
 	var label := Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_font_size_override("font_size", 14)
 	label.add_theme_color_override("font_color", Color(0.7, 0.66, 0.58))
 	tab.add_child(label)
+	return label
+
+
+## An (initially empty) line for messages like "that key was moved".
+func _warning(tab: VBoxContainer) -> Label:
+	var label := _note(tab, "")
+	label.add_theme_color_override("font_color", Color(1, 0.6, 0.45))
+	return label
 
 
 func _toggle(tab: VBoxContainer, label_text: String, value: bool, on_change: Callable) -> void:

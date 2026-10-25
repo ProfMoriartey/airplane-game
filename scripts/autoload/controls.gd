@@ -117,18 +117,26 @@ func _build(prefix: String, keyboard: bool, pad: int) -> void:
 		# A throttle lever stays where it's put, so it needs no dead zone.
 		InputMap.action_set_deadzone(action, LEVER_DEADZONE if control.begins_with("throttle_lever") else Settings.pad_deadzone)
 		if keyboard:
-			for event: InputEvent in InputSetup.keyboard[control]:
-				if event is InputEventKey and Settings.key_bindings.has(control):
-					continue
-				InputMap.action_add_event(action, event)
-			if Settings.key_bindings.has(control):
-				var key := InputEventKey.new()
-				key.physical_keycode = Settings.key_bindings[control]
-				InputMap.action_add_event(action, key)
+			for binding: Dictionary in Settings.key_slots(control):
+				var event := _key_event(binding)
+				if event:
+					InputMap.action_add_event(action, event)
 		if pad != NO_PAD:
 			var event := _pad_event(pad_binding(control), pad)
 			if event:
 				InputMap.action_add_event(action, event)
+
+
+func _key_event(binding: Dictionary) -> InputEvent:
+	if binding.has("key"):
+		var key := InputEventKey.new()
+		key.physical_keycode = binding.key
+		return key
+	if binding.has("mouse"):
+		var mouse := InputEventMouseButton.new()
+		mouse.button_index = binding.mouse
+		return mouse
+	return null
 
 
 func _pad_event(binding: Dictionary, device: int) -> InputEvent:

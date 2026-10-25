@@ -137,8 +137,7 @@ func _take_over(index: int, plane: Aircraft) -> void:
 	_planes[index] = plane
 	plane.controls = PREFIXES[index]
 	plane.add_to_group("player")
-	var aircraft := Profile.selected_aircraft() if index == 0 else _second_aircraft()
-	plane.set_stats(aircraft, Profile.livery_of(aircraft.id) if index == 0 else 0)
+	plane.set_stats(_chosen_aircraft(index), TwoPlayer.liveries[index])
 	if index == 0:
 		player = plane
 	_cameras[index].set_target(plane)
@@ -149,11 +148,11 @@ func _take_over(index: int, plane: Aircraft) -> void:
 	plane.crashed.connect(_on_player_plane_crashed.bind(index, plane))
 
 
-func _second_aircraft() -> AircraftStats:
+func _chosen_aircraft(index: int) -> AircraftStats:
 	for aircraft in Profile.unlocked_aircraft():
-		if aircraft.id == TwoPlayer.second_aircraft:
+		if aircraft.id == TwoPlayer.aircraft[index]:
 			return aircraft
-	return Profile.PLAYER_AIRCRAFT[0]
+	return Profile.selected_aircraft() if index == 0 else Profile.PLAYER_AIRCRAFT[0]
 
 
 func _on_player_plane_destroyed(attacker: Aircraft, index: int) -> void:

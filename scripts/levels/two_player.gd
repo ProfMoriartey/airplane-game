@@ -10,8 +10,9 @@ const KEYBOARD := -1
 static var mode := Mode.COOP
 static var layout := Layout.SIDE_BY_SIDE
 static var devices: Array[int] = [KEYBOARD, 0]
-## Player 2's aircraft (player 1 flies the one chosen in the hangar).
-static var second_aircraft := "scout"
+## Each player's aircraft id ("" until chosen) and paint scheme.
+static var aircraft: Array[String] = ["", "scout"]
+static var liveries: Array[int] = [0, 3]
 static var theater := 0
 static var time_of_day := Weather.TimeOfDay.NOON
 static var weather := Weather.Kind.CLEAR
