@@ -4,6 +4,7 @@ extends Node3D
 ## pause menu and the edge-of-map warning. Free flight and missions build on this.
 
 const WIND_SOUND := preload("res://assets/audio/sfx/wind_loop.wav")
+const RENDER_DIAGNOSTICS := preload("res://scripts/debug/render_diagnostics.gd")
 ## Enemies closer than this switch the music to the combat theme.
 const COMBAT_MUSIC_RANGE := 1300.0
 
@@ -39,6 +40,9 @@ func _ready() -> void:
 	_wind.volume_db = -30.0
 	add_child(_wind)
 	_wind.play()
+	var diagnostics := RENDER_DIAGNOSTICS.new()
+	add_child(diagnostics)
+	diagnostics.setup(hud)
 
 
 func _physics_process(_delta: float) -> void:

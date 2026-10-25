@@ -207,7 +207,8 @@ func _setup_parts() -> void:
 	var box := BoxMesh.new()
 	var roof := PrismMesh.new()
 	var spire := CylinderMesh.new()
-	spire.top_radius = 0.0
+	# A tiny flat top rather than a point (see Terrain.CONE_TIP).
+	spire.top_radius = Terrain.CONE_TIP
 	spire.bottom_radius = 3.0
 	spire.height = 8.0
 	spire.radial_segments = 4

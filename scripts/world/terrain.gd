@@ -12,6 +12,9 @@ const SNOW_COLOR := Color(0.92, 0.93, 0.95)
 ## Trees are split into square chunks this big, so distant chunks can be skipped.
 const TREE_CHUNK_SIZE := 500.0
 const TREE_DRAW_DISTANCE := 2600.0
+## Tree cones end in a flat top this wide rather than a perfect point: a point
+## makes triangles with no area, which some graphics drivers shade as garbage.
+const CONE_TIP := 0.05
 ## Beyond this distance trees switch to simpler, shadowless shapes.
 const TREE_DETAIL_DISTANCE := 1100.0
 
@@ -366,12 +369,12 @@ func _make_pine() -> Mesh:
 	trunk.height = 4.0
 	trunk.radial_segments = 5
 	var lower := CylinderMesh.new()
-	lower.top_radius = 0.0
+	lower.top_radius = CONE_TIP
 	lower.bottom_radius = 3.2
 	lower.height = 7.0
 	lower.radial_segments = 7
 	var upper := CylinderMesh.new()
-	upper.top_radius = 0.0
+	upper.top_radius = CONE_TIP
 	upper.bottom_radius = 2.3
 	upper.height = 5.5
 	upper.radial_segments = 7
@@ -403,7 +406,7 @@ func _make_broadleaf() -> Mesh:
 ## Distant pines: one cone, no trunk.
 func _make_pine_far() -> Mesh:
 	var cone := CylinderMesh.new()
-	cone.top_radius = 0.0
+	cone.top_radius = CONE_TIP
 	cone.bottom_radius = 3.0
 	cone.height = 12.0
 	cone.radial_segments = 4
