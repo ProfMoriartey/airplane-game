@@ -13,3 +13,6 @@ paint_color = Color(0.55, 0.1, 0.08, 1)
 
 [node name="AI" type="Node" parent="."]
 script = ExtResource("3_ai")
+
+[node name="Guns" parent="."]
+damage = 4.0

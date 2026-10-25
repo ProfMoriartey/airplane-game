@@ -125,6 +125,19 @@ func take_damage(amount: float, hit_position: Vector3, attacker: Aircraft) -> vo
 		_destroy(attacker)
 
 
+## Restores full health, fixes every part and refills the guns.
+func repair() -> void:
+	if is_destroyed:
+		return
+	health = stats.max_health
+	engine_condition = 1.0
+	left_wing_condition = 1.0
+	right_wing_condition = 1.0
+	tail_condition = 1.0
+	_smoke.emitting = false
+	guns.reload()
+
+
 func _damage_part(local_hit: Vector3, part_damage: float) -> void:
 	if local_hit.z < -1.8:
 		engine_condition = maxf(engine_condition - part_damage, 0.0)

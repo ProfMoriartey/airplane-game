@@ -15,4 +15,4 @@ yaw_rate = 0.5
 bank_turn_rate = 0.8
 control_response = 5.0
 stall_nose_drop = 1.2
-max_health = 60.0
+max_health = 45.0

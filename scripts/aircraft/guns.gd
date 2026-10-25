@@ -51,6 +51,13 @@ func _physics_process(delta: float) -> void:
 		_cooldown += 1.0 / fire_rate
 
 
+func reload() -> void:
+	ammo = max_ammo
+	heat = 0.0
+	is_overheated = false
+	is_jammed = false
+
+
 func can_fire() -> bool:
 	return ammo > 0 and not is_overheated and not is_jammed
 

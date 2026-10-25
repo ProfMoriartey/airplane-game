@@ -49,9 +49,9 @@ func _start_next_wave() -> void:
 		return
 	_wave += 1
 	var skill := AircraftAI.Skill.ROOKIE
-	if _wave > 4:
+	if _wave > 6:
 		skill = AircraftAI.Skill.ACE
-	elif _wave > 2:
+	elif _wave > 3:
 		skill = AircraftAI.Skill.VETERAN
 
 	var spawn_angle := randf() * TAU
@@ -83,7 +83,9 @@ func _on_enemy_destroyed(attacker: Aircraft) -> void:
 		_kills += 1
 		_hud.flash_banner("ENEMY DOWN")
 	_hud.set_score(_wave, _kills)
-	if _enemies_alive == 0:
+	if _enemies_alive == 0 and _plane.is_alive():
+		_plane.repair()
+		_hud.flash_banner("WAVE CLEARED - REPAIRED AND REARMED")
 		get_tree().create_timer(WAVE_DELAY).timeout.connect(_start_next_wave)
 
 

@@ -9,10 +9,21 @@ extends Node
 enum State { PATROL, ENGAGE, EVADE }
 enum Skill { ROOKIE, VETERAN, ACE }
 
+## burst_time / burst_pause: seconds of firing, then seconds of holding fire.
+## throttle: how hard the pilot pushes the engine in a fight.
 const SKILL_SETTINGS := {
-	Skill.ROOKIE: {reaction_time = 0.6, aim_error = 10.0, fire_cone = 7.0, evade_chance = 0.15},
-	Skill.VETERAN: {reaction_time = 0.35, aim_error = 5.0, fire_cone = 5.0, evade_chance = 0.4},
-	Skill.ACE: {reaction_time = 0.15, aim_error = 2.0, fire_cone = 3.5, evade_chance = 0.75},
+	Skill.ROOKIE: {
+		reaction_time = 0.8, aim_error = 12.0, fire_cone = 5.0, evade_chance = 0.15,
+		burst_time = 0.8, burst_pause = 2.0, throttle = 0.85,
+	},
+	Skill.VETERAN: {
+		reaction_time = 0.5, aim_error = 9.0, fire_cone = 5.0, evade_chance = 0.4,
+		burst_time = 1.2, burst_pause = 1.2, throttle = 0.95,
+	},
+	Skill.ACE: {
+		reaction_time = 0.25, aim_error = 4.0, fire_cone = 4.0, evade_chance = 0.75,
+		burst_time = 1.5, burst_pause = 0.8, throttle = 1.0,
+	},
 }
 const DETECT_RANGE := 2000.0
 const FIRE_RANGE := 450.0
@@ -21,7 +32,9 @@ const EVADE_DURATION := 3.0
 const MIN_CLEARANCE := 100.0
 const LOOK_AHEAD_TIME := 3.0
 ## Closer than this to the target, and still closing, the pilot swerves to avoid a collision.
-const COLLISION_RANGE := 90.0
+const COLLISION_RANGE := 120.0
+## Swerve when a collision is this many seconds away at the current closing speed.
+const COLLISION_WARNING_TIME := 2.5
 ## Within this angle of the target the pilot stops banking and aims with the rudder.
 const FINE_AIM_ANGLE := deg_to_rad(8.0)
 ## Beyond this angle the pilot pulls into a hard turn.
@@ -42,6 +55,8 @@ var _evade_timer := 0.0
 var _evade_point := Vector3.ZERO
 var _aim_offset := Vector3.ZERO
 var _roll_sign := 1.0
+var _burst_timer := 0.0
+var _burst_cooldown := 0.0
 
 
 func _ready() -> void:
@@ -64,6 +79,7 @@ func _physics_process(delta: float) -> void:
 		_think_timer = _settings.reaction_time
 		_think()
 
+	_burst_cooldown -= delta
 	_evade_timer -= delta
 	if state == State.EVADE and _evade_timer <= 0.0:
 		state = State.ENGAGE if _has_target() else State.PATROL
@@ -79,14 +95,14 @@ func _physics_process(delta: float) -> void:
 			_fly_towards(_patrol_point())
 			_plane.guns.trigger = false
 		State.ENGAGE:
-			_plane.throttle = 1.0
+			_plane.throttle = _settings.throttle
 			if _collision_likely():
 				_fly_towards(_swerve_point())
 				_plane.guns.trigger = false
 				return
 			var aim_point := _lead_point() + _aim_offset
 			_fly_towards(aim_point)
-			_plane.guns.trigger = _should_fire(aim_point)
+			_plane.guns.trigger = _update_burst(_should_fire(aim_point), delta)
 		State.EVADE:
 			_plane.throttle = 1.0
 			_fly_towards(_evade_point)
@@ -136,10 +152,25 @@ func _should_fire(aim_point: Vector3) -> bool:
 	return nose.angle_to(to_aim) < deg_to_rad(_settings.fire_cone)
 
 
+## Turns "want to fire" into short bursts with pauses, like a real pilot saving ammo.
+func _update_burst(wants_to_fire: bool, delta: float) -> bool:
+	if not wants_to_fire or _burst_cooldown > 0.0:
+		return false
+	_burst_timer += delta
+	if _burst_timer >= _settings.burst_time:
+		_burst_timer = 0.0
+		_burst_cooldown = _settings.burst_pause
+	return true
+
+
 func _collision_likely() -> bool:
 	var offset := target.global_position - _plane.global_position
 	var closing_speed := (_plane.velocity - target.velocity).dot(offset.normalized())
-	return offset.length() < COLLISION_RANGE and closing_speed > 0.0
+	if closing_speed <= 0.0:
+		return false
+	# Faster closing needs an earlier swerve.
+	var danger_range := maxf(COLLISION_RANGE, closing_speed * COLLISION_WARNING_TIME)
+	return offset.length() < danger_range
 
 
 ## A point beside and above the target, to pass it safely.
@@ -148,7 +179,7 @@ func _swerve_point() -> Vector3:
 	var side := offset.cross(Vector3.UP).normalized()
 	if side.dot(_plane.global_basis.x) < 0.0:
 		side = -side
-	return target.global_position + side * 80.0 + Vector3.UP * 40.0
+	return target.global_position + side * 120.0 + Vector3.UP * 60.0
 
 
 func _patrol_point() -> Vector3:
