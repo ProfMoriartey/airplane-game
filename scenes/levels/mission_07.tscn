@@ -1,0 +1,158 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="Script" path="res://scripts/targets/path_mover.gd" id="mover"]
+[ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
+[ext_resource type="PackedScene" path="res://scenes/targets/truck.tscn" id="truck"]
+[ext_resource type="PackedScene" path="res://scenes/targets/tank.tscn" id="tank"]
+[ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="shed"]
+[ext_resource type="PackedScene" path="res://scenes/targets/fuel_tanks.tscn" id="fuel"]
+[ext_resource type="Environment" path="res://data/environments/mountains.tres" id="env_mountains"]
+
+[sub_resource type="Curve3D" id="Curve_Road"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 1400, 0, -1500, 0, 0, 0, 0, 0, 0, 900, 0, -1100, 0, 0, 0, 0, 0, 0, 400, 0, -900, 0, 0, 0, 0, 0, 0, -200, 0, -800, 0, 0, 0, 0, 0, 0, -700, 0, -600),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Mission07" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="WorldEnvironment" parent="."]
+environment = ExtResource("env_mountains")
+
+[node name="Terrain" parent="."]
+terrain_seed = 1918
+height_scale = 380.0
+forest_cover = 0.3
+snow_height = 150.0
+field_colors = Array[Color]([Color(0.32, 0.42, 0.22, 1), Color(0.38, 0.46, 0.26, 1), Color(0.3, 0.38, 0.22, 1), Color(0.42, 0.44, 0.3, 1)])
+rock_color = Color(0.48, 0.47, 0.45, 1)
+tree_color = Color(0.12, 0.2, 0.12, 1)
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 650, 1900)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = "m07"
+title = "Mountain Supply Line"
+briefing = "In the mountains the enemy can only supply their troops along one valley road. Destroy the convoy on it and bomb the depot it's driving to. Mind the peaks - they're higher than they look."
+intro_radio = PackedStringArray("Command: Welcome to the mountains. Watch your altitude - the peaks will kill you as surely as any enemy.")
+
+[node name="SilenceGuns" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../AAGuns")
+description = "Silence the anti-aircraft guns"
+optional = true
+score_bonus = 150
+
+[node name="DestroyConvoy" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Convoy")
+description = "Destroy the convoy"
+radio_on_complete = PackedStringArray("Command: Convoy's finished. Now the depot at the end of the road.")
+
+[node name="BombDepot" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Depot")
+description = "Bomb the supply depot"
+radio_on_complete = PackedStringArray("Command: Depot destroyed. Fighters inbound from the north!")
+
+[node name="Fighters" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Fighters")
+description = "Shoot down the enemy fighters"
+radio_on_complete = PackedStringArray("Command: Clear skies. Bring her home.")
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to base"
+radius = 350.0
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 600, 1700)
+
+[node name="Road" type="Path3D" parent="."]
+curve = SubResource("Curve_Road")
+
+[node name="Convoy" type="Node3D" parent="."]
+
+[node name="Truck1" parent="Convoy" instance=ExtResource("truck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Truck1" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 4.5
+start_distance = 100.0
+
+[node name="Tank2" parent="Convoy" instance=ExtResource("tank")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Tank2" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 4.5
+start_distance = 75.0
+
+[node name="Truck3" parent="Convoy" instance=ExtResource("truck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Truck3" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 4.5
+start_distance = 50.0
+
+[node name="Truck4" parent="Convoy" instance=ExtResource("truck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Truck4" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 4.5
+start_distance = 25.0
+
+[node name="Tank5" parent="Convoy" instance=ExtResource("tank")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Tank5" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 4.5
+start_distance = 0.0
+
+[node name="Depot" type="Node3D" parent="."]
+
+[node name="Shed1" parent="Depot" instance=ExtResource("shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -800, 0, -560)
+
+[node name="Shed2" parent="Depot" instance=ExtResource("shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -775, 0, -590)
+
+[node name="Fuel1" parent="Depot" instance=ExtResource("fuel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -820, 0, -600)
+
+[node name="AAGuns" type="Node3D" parent="."]
+
+[node name="AAGun1" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -720, 0, -520)
+
+[node name="AAGun2" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 500, 0, -950)
+
+[node name="Fighters" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 700, -1900)
+script = ExtResource("squadron")
+count = 3
+skill = 1

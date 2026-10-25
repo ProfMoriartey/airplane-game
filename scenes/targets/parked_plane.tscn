@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/targets/ground_target.gd" id="1_target"]
+
+[sub_resource type="BoxShape3D" id="Shape_body"]
+size = Vector3(9, 3, 6.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_body"]
+albedo_color = Color(0.55, 0.1, 0.08, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_canvas"]
+albedo_color = Color(0.7, 0.65, 0.5, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_fuselage"]
+material = SubResource("Mat_body")
+size = Vector3(0.9, 1, 5.5)
+
+[sub_resource type="BoxMesh" id="Mesh_wing"]
+material = SubResource("Mat_canvas")
+size = Vector3(9, 0.12, 1.4)
+
+[sub_resource type="BoxMesh" id="Mesh_tail"]
+material = SubResource("Mat_canvas")
+size = Vector3(3.2, 0.08, 0.9)
+
+[node name="ParkedPlane" type="StaticBody3D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_target")
+display_name = "Parked aircraft"
+max_health = 25.0
+score_value = 80
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("Shape_body")
+
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.98, 0.2, 0, -0.2, 0.98, 0, 1.4, 0)
+
+[node name="Fuselage" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("Mesh_fuselage")
+
+[node name="UpperWing" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.2)
+mesh = SubResource("Mesh_wing")
+
+[node name="LowerWing" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, -1.2)
+mesh = SubResource("Mesh_wing")
+
+[node name="Tail" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 2.7)
+mesh = SubResource("Mesh_tail")

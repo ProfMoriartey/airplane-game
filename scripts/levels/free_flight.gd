@@ -14,6 +14,7 @@ var _enemies_alive := 0
 
 func _ready() -> void:
 	super()
+	player.set_stats(Profile.selected_aircraft())
 	_update_status()
 	hud.flash_banner("ENEMY FIGHTERS INBOUND")
 	get_tree().create_timer(FIRST_WAVE_DELAY, false).timeout.connect(_start_next_wave)

@@ -10,15 +10,22 @@ extends StaticBody3D
 @export var height_scale := 180.0
 @export var terrain_seed := 1914
 @export var tree_count := 9000
+## How much of the land is forest: 0 none, 1 all of it.
+@export_range(0.0, 1.0) var forest_cover := 0.45
 
-const FIELD_COLORS: Array[Color] = [
+@export_group("Colours")
+## Fields are coloured at random from this list.
+@export var field_colors: Array[Color] = [
 	Color(0.36, 0.48, 0.22),
 	Color(0.42, 0.52, 0.25),
 	Color(0.55, 0.53, 0.30),
 	Color(0.30, 0.42, 0.20),
 	Color(0.48, 0.42, 0.26),
 ]
-const ROCK_COLOR := Color(0.45, 0.42, 0.36)
+@export var rock_color := Color(0.45, 0.42, 0.36)
+@export var tree_color := Color(0.16, 0.27, 0.12)
+## Ground above this height is snow-covered. 0 means no snow.
+@export var snow_height := 0.0
 
 var _height_noise := FastNoiseLite.new()
 var _field_noise := FastNoiseLite.new()
@@ -66,9 +73,9 @@ func create_map_image(pixels: int, extent: float) -> Image:
 				get_height(x, z - step) - get_height(x, z + step),
 			).normalized()
 			var shade := lerpf(0.65, 1.15, clampf(normal.dot(light), 0.0, 1.0))
-			var color := _ground_color(x, z, normal) * shade
-			if _forest_noise.get_noise_2d(x, z) > 0.25:
-				color = color.lerp(Color(0.16, 0.27, 0.12), 0.6)
+			var color := _ground_color(x, z, get_height(x, z), normal) * shade
+			if _is_forest(x, z):
+				color = color.lerp(tree_color, 0.6)
 			image.set_pixel(px, py, color)
 	return image
 
@@ -111,7 +118,7 @@ func _build_mesh() -> ArrayMesh:
 			).normalized()
 			vertices.append(Vector3(x, h, z))
 			normals.append(normal)
-			colors.append(_ground_color(x, z, normal))
+			colors.append(_ground_color(x, z, h, normal))
 
 	# Two triangles per cell, wound clockwise when seen from above.
 	for j in resolution:
@@ -140,12 +147,21 @@ func _build_mesh() -> ArrayMesh:
 	return mesh
 
 
-func _ground_color(x: float, z: float, normal: Vector3) -> Color:
+func _ground_color(x: float, z: float, height: float, normal: Vector3) -> Color:
 	var field := _field_noise.get_noise_2d(x, z) * 0.5 + 0.5
-	var color := FIELD_COLORS[int(field * FIELD_COLORS.size()) % FIELD_COLORS.size()]
+	var color := field_colors[int(field * field_colors.size()) % field_colors.size()]
 	# Steep slopes show bare rock and earth instead of fields.
 	var steepness := clampf(inverse_lerp(0.9, 0.75, normal.y), 0.0, 1.0)
-	return color.lerp(ROCK_COLOR, steepness)
+	color = color.lerp(rock_color, steepness)
+	if snow_height > 0.0:
+		var snow := clampf((height - snow_height) / 40.0, 0.0, 1.0) * (1.0 - steepness * 0.6)
+		color = color.lerp(Color(0.92, 0.93, 0.95), snow)
+	return color
+
+
+## Trees grow in clumps where the forest noise is high.
+func _is_forest(x: float, z: float) -> bool:
+	return _forest_noise.get_noise_2d(x, z) > lerpf(0.7, -0.3, forest_cover)
 
 
 func _scatter_trees() -> void:
@@ -156,7 +172,7 @@ func _scatter_trees() -> void:
 	tree_mesh.radial_segments = 6
 	tree_mesh.rings = 1
 	var tree_material := StandardMaterial3D.new()
-	tree_material.albedo_color = Color(0.16, 0.27, 0.12)
+	tree_material.albedo_color = tree_color
 	tree_material.roughness = 1.0
 	tree_mesh.material = tree_material
 
@@ -170,8 +186,7 @@ func _scatter_trees() -> void:
 		attempts -= 1
 		var x := rng.randf_range(-half, half)
 		var z := rng.randf_range(-half, half)
-		# Trees grow in clumps where the forest noise is high.
-		if _forest_noise.get_noise_2d(x, z) < 0.25:
+		if not _is_forest(x, z):
 			continue
 		var tree_scale := rng.randf_range(0.7, 1.4)
 		var origin := Vector3(x, get_height(x, z) + tree_mesh.height * 0.5 * tree_scale, z)

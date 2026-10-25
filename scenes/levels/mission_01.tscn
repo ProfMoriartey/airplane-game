@@ -29,6 +29,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 1900)
 
 [node name="Mission" type="Node" parent="."]
 script = ExtResource("3_mission")
+mission_id = "m01"
 title = "Eyes of the Enemy"
 briefing = "Enemy observation balloons along the front are directing their artillery onto our trenches. Fly to the front and bring them down - expect anti-aircraft fire around them.
 

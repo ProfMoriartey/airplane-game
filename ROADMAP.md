@@ -91,7 +91,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [x] Accuracy / reaction tuned by skill level (rookie, veteran, ace)
 - [ ] Wingman/formation flying
 - [x] Target selection (player vs. allies)
-- [ ] Named enemy aces with unique behavior (boss fights)
+- [x] Named enemy aces with unique behavior (boss fights)
 - [ ] Smarter tactics: climbing/diving attacks, energy fighting (evenly matched AIs currently circle forever)
 
 ### HUD (prototype)
@@ -114,12 +114,12 @@ Check items off as they're completed. Milestones are ordered so that each one pr
   - [x] Destroy ground targets (tanks, AA guns, trucks, trains)
   - [x] Bomb a structure (factory, bridge, depot)
   - [x] Destroy observation balloons
-  - [ ] Escort / protect a friendly (bomber, recon plane)
-  - [ ] Defend a location (airfield, trench line)
+  - [x] Escort / protect a friendly (bomber, recon plane)
+  - [x] Defend a location (airfield, trench line)
   - [x] Reach waypoint
   - [ ] Recon photo
   - [ ] Rescue / cover downed pilot
-  - [ ] Duel a named ace
+  - [x] Duel a named ace
 - [x] Primary vs. optional (bonus) objectives
 - [x] Objective-complete triggers (next objective starts, enemies spawn)
 - [ ] More triggers: area enter, timers
@@ -141,7 +141,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 
 ### Mission flow
 - [x] Briefing screen (map, objectives)
-- [ ] Plane select on briefing
+- [x] Plane select on briefing
 - [x] Loading screen
 - [x] In-mission pause menu (resume, restart, settings, quit)
 - [x] Debriefing screen (score, kills, accuracy, rank progress)
@@ -151,42 +151,47 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 ## 4. Milestone: Campaign & Progression ("Vertical slice")
 
 ### Campaign
-- [ ] Campaign structure: ~3 theaters × ~8 missions (≈25 missions)
-- [ ] Mission unlock order
-- [ ] Story outline (protagonist, rival ace, war arc)
-- [ ] Inter-mission story text / cutscene stills
-- [ ] Theater 1 missions (tutorial-ish, easy)
-- [ ] Theater 2 missions (mid difficulty, new mechanics)
-- [ ] Theater 3 missions (hard, final ace duel)
-- [ ] Final boss mission
+- [x] Campaign structure: 3 theaters, missions unlock in order
+- [ ] Grow the campaign to ~25 missions (9 so far: 3 per theater)
+- [x] Mission unlock order
+- [x] Story outline (protagonist, rival ace, war arc)
+- [x] Inter-mission story text (theater intros, briefings, radio)
+- [ ] Cutscene stills
+- [x] Theater 1 missions (The Quiet Sector)
+- [x] Theater 2 missions (Mud and Wire: defend, escort)
+- [x] Theater 3 missions (The High Passes: airfield raid, final ace duel)
+- [x] Final boss mission
 
 ### Progression
-- [ ] Rank system (e.g. Corporal → Colonel) with thresholds
-- [ ] Medals / awards for achievements
-- [ ] Aircraft unlocks tied to rank/campaign progress
+- [x] Rank system (e.g. Corporal → Colonel) with thresholds
+- [x] Medals / awards for achievements
+- [x] Aircraft unlocks tied to rank/campaign progress
 - [ ] Optional: aircraft upgrades (engine, guns, armor)
 - [ ] Optional: plane paint schemes / liveries
-- [ ] Pilot stats tracking (kills, missions, accuracy)
+- [x] Pilot stats tracking (kills, missions, accuracy)
 
 ### Aircraft roster (fictionalized WWI-inspired)
-- [ ] Starter pusher fighter (DH.2-inspired)
-- [ ] Light agile scout (Bristol Scout-inspired)
-- [ ] Nimble dogfighter (Camel-inspired)
-- [ ] Fast sturdy fighter (SPAD-inspired)
-- [ ] Late-game top fighter
+- [x] Starter pusher fighter (DH.2-inspired)
+- [x] Light agile scout (Bristol Scout-inspired)
+- [x] Nimble dogfighter (Camel-inspired)
+- [x] Fast sturdy fighter (SPAD-inspired)
+- [x] Late-game top fighter
 - [ ] Two-seater with rear gunner (optional)
-- [ ] Enemy fighter types (Fokker / Albatros-inspired)
-- [ ] Enemy bombers (Gotha-inspired) and zeppelins
-- [ ] Distinct handling stats for each
+- [ ] Final 3D models per aircraft (currently recoloured/resized placeholder biplanes)
+- [x] Enemy fighter and the ace's red triplane
+- [ ] More enemy fighter types
+- [x] Allied bomber (escorted)
+- [ ] Enemy bombers and zeppelins
+- [x] Distinct handling stats for each
 
 ---
 
 ## 5. World & Environments
 
 - [ ] Terrain tooling (heightmap import, or Terrain3D plugin)
-- [ ] Theater 1 map (e.g. green farmland)
-- [ ] Theater 2 map (e.g. muddy trench front / no man's land)
-- [ ] Theater 3 map (e.g. mountains, coastline, or snow)
+- [x] Theater 1 map (green farmland)
+- [x] Theater 2 map (e.g. muddy trench front / no man's land)
+- [x] Theater 3 map (e.g. mountains, coastline, or snow)
 - [ ] Terrain texturing (splat maps: grass, mud, rock, roads)
 - [ ] Vegetation (trees, hedges) with LOD / multimesh
 - [ ] Villages, farms, churches, windmills
@@ -251,10 +256,10 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [ ] Title / splash screen
 - [x] Basic main menu (Mission 1, Free flight, Quit)
 - [ ] Full main menu (Campaign, Quick Battle, Settings, Credits, Quit)
-- [ ] Campaign map / mission select screen
+- [x] Campaign / mission select screen
 - [ ] Hangar screen (choose plane, view stats, liveries)
 - [ ] Briefing and debriefing screens (final art)
-- [ ] Pilot profile / service record (rank, medals, stats)
+- [x] Pilot profile / service record (rank, medals, stats)
 - [ ] Settings menu:
   - [ ] Graphics (resolution, fullscreen, quality presets, vsync)
   - [ ] Audio (volume sliders per bus)
@@ -281,7 +286,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 
 ## 10. Systems & Tech
 
-- [ ] Save/load system (campaign progress, unlocks, settings)
+- [x] Save/load system (campaign progress, unlocks, settings)
 - [ ] Multiple save slots
 - [x] Scene loading with progress (threaded loading)
 - [x] Object pooling for bullets, effects, debris

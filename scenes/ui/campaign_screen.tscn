@@ -1,0 +1,236 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/campaign_screen.gd" id="1_campaign"]
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.13, 0.12, 0.09, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.34, 0.24, 1)
+
+[node name="CampaignScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_campaign")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09, 0.08, 0.06, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="Rows" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TopBar" type="HBoxContainer" parent="Margin/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="Margin/Rows/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "CAMPAIGN"
+
+[node name="Pilot" type="VBoxContainer" parent="Margin/Rows/TopBar"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="RankLabel" type="Label" parent="Margin/Rows/TopBar/Pilot"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.5, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+
+[node name="PointsBar" type="ProgressBar" parent="Margin/Rows/TopBar/Pilot"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+show_percentage = false
+
+[node name="PointsLabel" type="Label" parent="Margin/Rows/TopBar/Pilot"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.72, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 2
+
+[node name="Columns" type="HBoxContainer" parent="Margin/Rows"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="ListScroll" type="ScrollContainer" parent="Margin/Rows/Columns"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MissionList" type="VBoxContainer" parent="Margin/Rows/Columns/ListScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Details" type="PanelContainer" parent="Margin/Rows/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="DetailsBox" type="VBoxContainer" parent="Margin/Rows/Columns/Details"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TheaterTitle" type="Label" parent="Margin/Rows/Columns/Details/DetailsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.7, 0.45, 1)
+theme_override_font_sizes/font_size = 16
+
+[node name="TheaterIntro" type="Label" parent="Margin/Rows/Columns/Details/DetailsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.72, 0.65, 1)
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
+[node name="MissionTitle" type="Label" parent="Margin/Rows/Columns/Details/DetailsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+
+[node name="MissionSummary" type="Label" parent="Margin/Rows/Columns/Details/DetailsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+autowrap_mode = 3
+
+[node name="MissionBest" type="Label" parent="Margin/Rows/Columns/Details/DetailsBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+
+[node name="DetailsSpacer" type="Control" parent="Margin/Rows/Columns/Details/DetailsBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FlyButton" type="Button" parent="Margin/Rows/Columns/Details/DetailsBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 20
+text = "Fly mission"
+
+[node name="BottomBar" type="HBoxContainer" parent="Margin/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="Margin/Rows/BottomBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Back"
+
+[node name="RecordButton" type="Button" parent="Margin/Rows/BottomBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Service record"
+
+[node name="BottomSpacer" type="Control" parent="Margin/Rows/BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResetButton" type="Button" parent="Margin/Rows/BottomBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Reset campaign"
+
+[node name="RecordPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -280.0
+offset_right = 380.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="RecordBox" type="VBoxContainer" parent="RecordPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RecordTitle" type="Label" parent="RecordPanel/RecordBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "SERVICE RECORD"
+
+[node name="RecordScroll" type="ScrollContainer" parent="RecordPanel/RecordBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="RecordText" type="RichTextLabel" parent="RecordPanel/RecordBox/RecordScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+fit_content = true
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 16
+
+[node name="CloseRecordButton" type="Button" parent="RecordPanel/RecordBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 17
+text = "Close"
+
+[node name="ResetDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Reset campaign"
+size = Vector2i(420, 140)
+ok_button_text = "Reset"
+dialog_text = "Erase all campaign progress, medals and unlocked aircraft? This can't be undone."
+dialog_autowrap = true

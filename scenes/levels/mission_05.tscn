@@ -1,0 +1,111 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
+[ext_resource type="Script" path="res://scripts/mission/escort_objective.gd" id="escort"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="shed"]
+[ext_resource type="PackedScene" path="res://scenes/targets/fuel_tanks.tscn" id="fuel"]
+[ext_resource type="PackedScene" path="res://scenes/aircraft/allied_bomber.tscn" id="bomber"]
+[ext_resource type="Environment" path="res://data/environments/mud.tres" id="env_mud"]
+
+[node name="Mission05" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="WorldEnvironment" parent="."]
+environment = ExtResource("env_mud")
+
+[node name="Terrain" parent="."]
+terrain_seed = 1916
+height_scale = 90.0
+forest_cover = 0.15
+field_colors = Array[Color]([Color(0.4, 0.35, 0.24, 1), Color(0.36, 0.33, 0.25, 1), Color(0.45, 0.4, 0.28, 1), Color(0.33, 0.36, 0.22, 1), Color(0.42, 0.38, 0.3, 1)])
+rock_color = Color(0.35, 0.3, 0.24, 1)
+tree_color = Color(0.2, 0.22, 0.14, 1)
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 330, 1800)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = "m05"
+title = "Escort Duty"
+briefing = "Two of our bombers are going after an enemy ammunition dump. They're slow and can't fight back. Stay close and shoot down any fighter that goes for them. At least one bomber has to reach the target."
+intro_radio = PackedStringArray("Bomber Lead: Morning, escort. Glad to have you along.", "Command: Stick with the bombers. They are your priority.")
+
+[node name="Interceptors" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Interceptors")
+description = "Shoot down the interceptors"
+optional = true
+score_bonus = 200
+
+[node name="Escort" type="Node" parent="Mission" node_paths=PackedStringArray("escorts", "destination")]
+script = ExtResource("escort")
+escorts = NodePath("../../Bombers")
+destination = NodePath("../../Route/Point4")
+description = "Protect the bombers to the target"
+radius = 300.0
+required = 1
+radio_on_complete = PackedStringArray("Bomber Lead: Bombs away! Thanks for the cover, escort - we're heading home.")
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to base"
+radius = 350.0
+
+[node name="Route" type="Node3D" parent="."]
+
+[node name="Point1" type="Marker3D" parent="Route"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 280, 800)
+
+[node name="Point2" type="Marker3D" parent="Route"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -400, 280, -300)
+
+[node name="Point3" type="Marker3D" parent="Route"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -700, 280, -1100)
+
+[node name="Point4" type="Marker3D" parent="Route"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -200, 280, -1600)
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 1700)
+
+[node name="Dump" type="Node3D" parent="."]
+
+[node name="Shed1" parent="Dump" instance=ExtResource("shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -700, 0, -1180)
+
+[node name="Shed2" parent="Dump" instance=ExtResource("shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -680, 0, -1210)
+
+[node name="Fuel1" parent="Dump" instance=ExtResource("fuel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -725, 0, -1215)
+
+[node name="Bombers" type="Node3D" parent="."]
+
+[node name="Bomber1" parent="Bombers" instance=ExtResource("bomber")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.0, 280, 1650)
+
+[node name="AI" parent="Bombers/Bomber1" node_paths=PackedStringArray("route", "bomb_targets")]
+route = NodePath("../../../Route")
+bomb_targets = NodePath("../../../Dump")
+
+[node name="Bomber2" parent="Bombers" instance=ExtResource("bomber")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0, 280, 1680)
+
+[node name="AI" parent="Bombers/Bomber2" node_paths=PackedStringArray("route", "bomb_targets")]
+route = NodePath("../../../Route")
+bomb_targets = NodePath("../../../Dump")
+
+[node name="Interceptors" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -600, 450, -2000)
+script = ExtResource("squadron")
+count = 4
+skill = 0

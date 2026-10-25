@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/aircraft/biplane.tscn" id="1_base"]
+[ext_resource type="Resource" path="res://data/aircraft/allied_bomber.tres" id="2_stats"]
+[ext_resource type="Script" path="res://scripts/aircraft/aircraft_ai.gd" id="3_ai"]
+
+[node name="AlliedBomber" instance=ExtResource("1_base")]
+collision_layer = 2
+collision_mask = 21
+stats = ExtResource("2_stats")
+
+[node name="AI" type="Node" parent="."]
+script = ExtResource("3_ai")
+passive = true

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AircraftStats" format=3]
+
+[ext_resource type="Script" path="res://scripts/aircraft/aircraft_stats.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+id = "enemy_ace"
+display_name = "Crimson Triplane"
+description = ""
+unlock_rank = 99
+max_speed = 56.0
+thrust = 14.5
+stall_speed = 19.0
+start_speed = 44.0
+pitch_rate = 1.8
+roll_rate = 3.0
+yaw_rate = 0.6
+max_health = 160.0
+gun_fire_rate = 14.0
+gun_damage = 5.0
+bomb_capacity = 0
+paint_color = Color(0.7, 0.05, 0.05, 1)
+wing_color = Color(0.65, 0.08, 0.06, 1)
+triplane = true

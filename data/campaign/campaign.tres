@@ -1,0 +1,90 @@
+[gd_resource type="Resource" script_class="CampaignData" format=3]
+
+[ext_resource type="Script" path="res://scripts/campaign/campaign_data.gd" id="campaign"]
+[ext_resource type="Script" path="res://scripts/campaign/theater_info.gd" id="theater"]
+[ext_resource type="Script" path="res://scripts/campaign/mission_info.gd" id="mission"]
+
+[sub_resource type="Resource" id="m01"]
+script = ExtResource("mission")
+id = "m01"
+title = "Eyes of the Enemy"
+summary = "Shoot down the enemy observation balloons, then bomb their supply depot."
+scene = "res://scenes/levels/mission_01.tscn"
+
+[sub_resource type="Resource" id="m02"]
+script = ExtResource("mission")
+id = "m02"
+title = "Dawn Patrol"
+summary = "Fly the morning patrol route and deal with any enemy scouts you meet."
+scene = "res://scenes/levels/mission_02.tscn"
+
+[sub_resource type="Resource" id="m03"]
+script = ExtResource("mission")
+id = "m03"
+title = "Convoy Hunt"
+summary = "Stop a supply convoy before it reaches the front. Tanks need bombs."
+scene = "res://scenes/levels/mission_03.tscn"
+
+[sub_resource type="Resource" id="m04"]
+script = ExtResource("mission")
+id = "m04"
+title = "Guardian Angels"
+summary = "Protect our observation balloons from two waves of raiders."
+scene = "res://scenes/levels/mission_04.tscn"
+
+[sub_resource type="Resource" id="m05"]
+script = ExtResource("mission")
+id = "m05"
+title = "Escort Duty"
+summary = "Escort two slow bombers to an enemy ammunition dump."
+scene = "res://scenes/levels/mission_05.tscn"
+
+[sub_resource type="Resource" id="m06"]
+script = ExtResource("mission")
+id = "m06"
+title = "Artillery Spotters"
+summary = "Burn four heavily defended enemy balloons. Their veterans will be waiting."
+scene = "res://scenes/levels/mission_06.tscn"
+
+[sub_resource type="Resource" id="m07"]
+script = ExtResource("mission")
+id = "m07"
+title = "Mountain Supply Line"
+summary = "Destroy the convoy on the only valley road, then bomb the depot it feeds."
+scene = "res://scenes/levels/mission_07.tscn"
+
+[sub_resource type="Resource" id="m08"]
+script = ExtResource("mission")
+id = "m08"
+title = "Nest of Vipers"
+summary = "Raid the hidden airfield of the enemy's best squadron."
+scene = "res://scenes/levels/mission_08.tscn"
+
+[sub_resource type="Resource" id="m09"]
+script = ExtResource("mission")
+id = "m09"
+title = "The Crimson Crow"
+summary = "Meet the enemy's greatest ace over the high pass, and bring him down."
+scene = "res://scenes/levels/mission_09.tscn"
+
+[sub_resource type="Resource" id="theater_0"]
+script = ExtResource("theater")
+title = "The Quiet Sector"
+intro = "Spring. You have just joined the squadron on a calm stretch of the front - green fields, small villages, and an enemy who mostly keeps to his side of the lines. A good place to learn your trade. It won't stay quiet for long."
+missions = Array[ExtResource("mission")]([SubResource("m01"), SubResource("m02"), SubResource("m03")])
+
+[sub_resource type="Resource" id="theater_1"]
+script = ExtResource("theater")
+title = "Mud and Wire"
+intro = "Summer. The squadron moves to the main front, where the armies are locked in a swamp of trenches and shell holes. Here the air war decides whether the infantry below live or die."
+missions = Array[ExtResource("mission")]([SubResource("m04"), SubResource("m05"), SubResource("m06")])
+
+[sub_resource type="Resource" id="theater_2"]
+script = ExtResource("theater")
+title = "The High Passes"
+intro = "Autumn. The last campaign of the year, fought over snow-capped mountains. Somewhere in these valleys flies the Crimson Crow - the ace who has never lost a fight."
+missions = Array[ExtResource("mission")]([SubResource("m07"), SubResource("m08"), SubResource("m09")])
+
+[resource]
+script = ExtResource("campaign")
+theaters = Array[ExtResource("theater")]([SubResource("theater_0"), SubResource("theater_1"), SubResource("theater_2")])

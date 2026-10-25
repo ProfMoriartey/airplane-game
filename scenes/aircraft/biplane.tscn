@@ -139,6 +139,11 @@ mesh = SubResource("Mesh_propeller")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.2)
 mesh = SubResource("Mesh_upper_wing")
 
+[node name="MiddleWing" type="MeshInstance3D" parent="Model"]
+visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -1.2)
+mesh = SubResource("Mesh_lower_wing")
+
 [node name="LowerWing" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, -1.2)
 mesh = SubResource("Mesh_lower_wing")

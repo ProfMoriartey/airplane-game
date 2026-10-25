@@ -1,0 +1,112 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="PackedScene" path="res://scenes/targets/balloon.tscn" id="balloon"]
+[ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
+[ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="shed"]
+[ext_resource type="Environment" path="res://data/environments/mud.tres" id="env_mud"]
+
+[node name="Mission06" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="WorldEnvironment" parent="."]
+environment = ExtResource("env_mud")
+
+[node name="Terrain" parent="."]
+terrain_seed = 1916
+height_scale = 90.0
+forest_cover = 0.15
+field_colors = Array[Color]([Color(0.4, 0.35, 0.24, 1), Color(0.36, 0.33, 0.25, 1), Color(0.45, 0.4, 0.28, 1), Color(0.33, 0.36, 0.22, 1), Color(0.42, 0.38, 0.3, 1)])
+rock_color = Color(0.35, 0.3, 0.24, 1)
+tree_color = Color(0.2, 0.22, 0.14, 1)
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 330, 1800)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = "m06"
+title = "Artillery Spotters"
+briefing = "The enemy has put up four observation balloons over their side of the mud, ringed with anti-aircraft guns. Their artillery is murdering our infantry. Burn every balloon - their best pilots will be waiting."
+intro_radio = PackedStringArray("Command: Four balloons this time, and heavy flak. Go in fast, get out fast.")
+
+[node name="SilenceGuns" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../AAGuns")
+description = "Silence the anti-aircraft guns"
+optional = true
+score_bonus = 200
+
+[node name="DestroyBalloons" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Balloons")
+description = "Shoot down the observation balloons"
+radio_on_complete = PackedStringArray("Command: All four down! Their veterans are up - watch yourself.")
+
+[node name="Depot" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Depot")
+description = "Bomb the depot behind the balloons"
+optional = true
+score_bonus = 200
+
+[node name="Fighters" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Fighters")
+description = "Shoot down the enemy fighters"
+radio_on_complete = PackedStringArray("Command: You've earned your pay today. Come home.")
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to base"
+radius = 350.0
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 1700)
+
+[node name="Balloons" type="Node3D" parent="."]
+
+[node name="Balloon1" parent="Balloons" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -700, 0, -400)
+
+[node name="Balloon2" parent="Balloons" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -200, 0, -650)
+
+[node name="Balloon3" parent="Balloons" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300, 0, -500)
+
+[node name="Balloon4" parent="Balloons" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 750, 0, -300)
+
+[node name="AAGuns" type="Node3D" parent="."]
+
+[node name="AAGun1" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -450, 0, -500)
+
+[node name="AAGun2" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, -600)
+
+[node name="AAGun3" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 550, 0, -400)
+
+[node name="Depot" type="Node3D" parent="."]
+
+[node name="Shed1" parent="Depot" instance=ExtResource("shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, -1300)
+
+[node name="Shed2" parent="Depot" instance=ExtResource("shed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 0, -1330)
+
+[node name="Fighters" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 480, -1800)
+script = ExtResource("squadron")
+count = 3
+skill = 1

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="AircraftStats" format=3]
+
+[ext_resource type="Script" path="res://scripts/aircraft/aircraft_stats.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+id = "falcon"
+display_name = "Falcon"
+description = "Fast and tough. Wins by diving in, firing, and climbing away rather than turning."
+unlock_rank = 4
+max_speed = 63.0
+thrust = 17.0
+stall_speed = 25.0
+start_speed = 48.0
+pitch_rate = 1.4
+roll_rate = 2.5
+yaw_rate = 0.5
+max_health = 130.0
+gun_fire_rate = 14.0
+gun_damage = 8.0
+bomb_capacity = 6
+paint_color = Color(0.25, 0.33, 0.25, 1)
+wing_color = Color(0.7, 0.68, 0.55, 1)
+wing_span = 0.95

@@ -66,6 +66,26 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 17
 autowrap_mode = 3
 
+[node name="AircraftHeader" type="Label" parent="Margin/Columns/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.7, 0.45, 1)
+theme_override_font_sizes/font_size = 16
+text = "AIRCRAFT"
+
+[node name="AircraftPicker" type="OptionButton" parent="Margin/Columns/Text"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 36)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 17
+
+[node name="AircraftInfo" type="Label" parent="Margin/Columns/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.78, 0.72, 1)
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
 [node name="Spacer" type="Control" parent="Margin/Columns/Text"]
 layout_mode = 2
 size_flags_vertical = 3

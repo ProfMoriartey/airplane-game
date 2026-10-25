@@ -1,6 +1,7 @@
 extends Level
 ## A level that runs a Mission: briefing first, then objectives, scoring,
-## radio messages, and a debrief when it's over.
+## radio messages, and a debrief when it's over. The result is saved to the
+## player's career.
 
 const BRIEFING_SCENE := preload("res://scenes/ui/briefing.tscn")
 const DEBRIEF_SCENE := preload("res://scenes/ui/debrief.tscn")
@@ -11,6 +12,9 @@ var _elapsed := 0.0
 var _air_kills := 0
 var _ground_kills := 0
 var _score := 0
+var _balloons := 0
+var _damage_taken := 0.0
+var _aces_downed: Array[String] = []
 
 @onready var mission: Mission = $Mission
 
@@ -23,6 +27,7 @@ func _ready() -> void:
 	mission.failed.connect(_on_mission_failed)
 	Events.aircraft_destroyed.connect(_on_aircraft_destroyed)
 	Events.ground_target_destroyed.connect(_on_ground_target_destroyed)
+	player.set_stats(Profile.selected_aircraft())
 	_show_briefing()
 
 
@@ -51,6 +56,7 @@ func _show_briefing() -> void:
 	var briefing := BRIEFING_SCENE.instantiate()
 	add_child(briefing)
 	briefing.setup(mission, terrain, player)
+	briefing.aircraft_selected.connect(_on_aircraft_selected)
 	pause_menu.enabled = false
 	hud.visible = false
 	get_tree().paused = true
@@ -62,6 +68,11 @@ func _show_briefing() -> void:
 	for line in mission.intro_radio:
 		hud.radio(line)
 	mission.start(player)
+
+
+func _on_aircraft_selected(aircraft: AircraftStats) -> void:
+	Profile.select_aircraft(aircraft.id)
+	player.set_stats(aircraft)
 
 
 func _on_objective_started(objective: Objective) -> void:
@@ -80,14 +91,25 @@ func _on_aircraft_destroyed(aircraft: Aircraft, attacker: Aircraft) -> void:
 	if aircraft != player and attacker == player:
 		_air_kills += 1
 		_score += AIRCRAFT_SCORE
-		hud.flash_banner("ENEMY DOWN")
+		if aircraft.pilot_name != "":
+			_aces_downed.append(aircraft.pilot_name)
+			hud.flash_banner("%s SHOT DOWN!" % aircraft.pilot_name.to_upper())
+		else:
+			hud.flash_banner("ENEMY DOWN")
 
 
 func _on_ground_target_destroyed(target: GroundTarget, attacker: Aircraft) -> void:
 	if attacker == player:
 		_ground_kills += 1
 		_score += target.score_value
+		if target is Balloon:
+			_balloons += 1
 		hud.flash_banner("%s DESTROYED" % target.display_name.to_upper())
+
+
+func _on_player_damaged(amount: float, attacker: Aircraft) -> void:
+	super(amount, attacker)
+	_damage_taken += amount
 
 
 func _on_player_destroyed(attacker: Aircraft) -> void:
@@ -113,9 +135,7 @@ func _show_debrief(success: bool, reason: String) -> void:
 
 	var shots := player.guns.shots_fired
 	var accuracy := "-" if shots == 0 else "%d%%" % roundi(100.0 * player_hits / shots)
-	var debrief := DEBRIEF_SCENE.instantiate()
-	add_child(debrief)
-	debrief.setup(success, reason, [
+	var stats := [
 		["Time", _format_time(_elapsed)],
 		["Objectives", "%d / %d" % [mission.count_objectives(false, true), mission.count_objectives(false, false)]],
 		["Bonus objectives", "%d / %d" % [mission.count_objectives(true, true), mission.count_objectives(true, false)]],
@@ -123,7 +143,29 @@ func _show_debrief(success: bool, reason: String) -> void:
 		["Ground targets destroyed", _ground_kills],
 		["Gun accuracy", accuracy],
 		["Score", _score],
-	])
+	]
+
+	var career := {}
+	var next_mission: MissionInfo = null
+	if mission.mission_id != "":
+		career = Profile.record_mission(mission.mission_id, {
+			success = success,
+			score = _score,
+			air_kills = _air_kills,
+			ground_kills = _ground_kills,
+			balloons = _balloons,
+			shots = shots,
+			hits = player_hits,
+			damage_taken = _damage_taken,
+			bonus_done = mission.count_objectives(true, true),
+			bonus_total = mission.count_objectives(true, false),
+			aces_downed = _aces_downed,
+		})
+		next_mission = Profile.CAMPAIGN.next_after(mission.mission_id)
+
+	var debrief := DEBRIEF_SCENE.instantiate()
+	add_child(debrief)
+	debrief.setup(success, reason, stats, career, next_mission if success else null)
 	debrief.retry_pressed.connect(restart)
 
 

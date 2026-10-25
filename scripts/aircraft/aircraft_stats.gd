@@ -1,11 +1,16 @@
 class_name AircraftStats
 extends Resource
-## Tunable numbers that define how one aircraft type flies.
+## Everything that defines one aircraft type: how it flies, how it looks,
+## what it carries and when the player unlocks it.
 ##
 ## Each plane in the game gets its own .tres file in data/aircraft/, so a new
 ## aircraft can be added or rebalanced without touching any code.
 
+@export var id := ""
 @export var display_name := "Aircraft"
+@export_multiline var description := ""
+## The rank (index into Ranks.RANKS) the player needs to fly this plane.
+@export var unlock_rank := 0
 
 @export_group("Speed")
 ## Top speed in level flight at full throttle, in metres per second.
@@ -31,3 +36,18 @@ extends Resource
 
 @export_group("Durability")
 @export var max_health := 100.0
+
+@export_group("Weapons")
+@export var gun_fire_rate := 12.0
+@export var gun_damage := 6.0
+@export var bomb_capacity := 6
+
+@export_group("Look")
+@export var paint_color := Color(0.36, 0.4, 0.24)
+@export var wing_color := Color(0.78, 0.71, 0.54)
+## Wingspan relative to the standard biplane.
+@export var wing_span := 1.0
+## Overall size, e.g. bigger for bombers.
+@export var model_scale := 1.0
+## Adds a third wing.
+@export var triplane := false

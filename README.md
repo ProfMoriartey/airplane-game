@@ -2,7 +2,7 @@
 
 A WWI-inspired arcade dogfighting game made with [Godot 4.7](https://godotengine.org/).
 
-From the main menu you can play **Mission 1: Eyes of the Enemy** (balloons, flak, fighters, a convoy and a supply depot to bomb), or **Free flight** with endless waves of enemy fighters.
+From the main menu you can play the **Campaign** – 9 missions across three theaters, ending in a duel with the Crimson Crow – or **Free flight** with endless waves of enemy fighters. Campaign progress, ranks, medals and unlocked aircraft are saved automatically.
 
 ## Running the game
 
@@ -37,8 +37,12 @@ Missions are scenes that inherit `scenes/levels/base_level.tscn` (see `mission_0
 
 - `ReachAreaObjective` – fly to a marker
 - `DestroyObjective` – destroy everything under a node: ground targets, or an `EnemySquadron` whose fighters take off when the objective starts
+- `DefendObjective` – protect friendly ground targets from an attacking squadron
+- `EscortObjective` – keep friendly aircraft (e.g. `allied_bomber.tscn` with a route) alive until they reach a destination
 
-Tick **optional** for bonus objectives. Radio lines are written as `Speaker: message`.
+Tick **optional** for bonus objectives. Radio lines are written as `Speaker: message`. Give the Mission a `mission_id`, then add the mission to `data/campaign/campaign.tres` to put it in the campaign.
+
+Aircraft are defined in `data/aircraft/*.tres` – flight handling, guns, bombs, colours, size, and the rank that unlocks them.
 - `data/aircraft/` – per-aircraft flight stats (edit these to tune handling)
 - `assets/` – textures and other art
 

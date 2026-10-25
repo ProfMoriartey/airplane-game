@@ -1,0 +1,74 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="Environment" path="res://data/environments/mountains.tres" id="env_mountains"]
+[ext_resource type="Resource" path="res://data/aircraft/enemy_ace.tres" id="ace_stats"]
+
+[node name="Mission09" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="WorldEnvironment" parent="."]
+environment = ExtResource("env_mountains")
+
+[node name="Terrain" parent="."]
+terrain_seed = 1918
+height_scale = 380.0
+forest_cover = 0.3
+snow_height = 150.0
+field_colors = Array[Color]([Color(0.32, 0.42, 0.22, 1), Color(0.38, 0.46, 0.26, 1), Color(0.3, 0.38, 0.22, 1), Color(0.42, 0.44, 0.3, 1)])
+rock_color = Color(0.48, 0.47, 0.45, 1)
+tree_color = Color(0.12, 0.2, 0.12, 1)
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 700, 1900)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = "m09"
+title = "The Crimson Crow"
+briefing = "The enemy's greatest ace - the pilot our men call the Crimson Crow - has challenged our squadron to meet him over the high pass. He flies a red triplane and has never been beaten. Bring him down and the war in the mountains is ours."
+intro_radio = PackedStringArray("Command: This is it. The Crow is waiting over the pass to the north.", "Command: He's fast, he turns like a devil, and he's brought friends. Good luck.")
+
+[node name="ReachPass" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Pass")
+description = "Fly to the high pass"
+radius = 350.0
+score_bonus = 0
+radio_on_complete = PackedStringArray("Crimson Crow: So, they sent you. I shall paint your wings on my hangar wall.")
+
+[node name="Duel" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../CrowFlight")
+description = "Shoot down the Crimson Crow and his wingmen"
+score_bonus = 1000
+radio_on_complete = PackedStringArray("Command: The Crow is down! The Crow is down! You've done it, pilot!")
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to base"
+radius = 350.0
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Pass" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 650, 0)
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 600, 1700)
+
+[node name="CrowFlight" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 750, -1200)
+script = ExtResource("squadron")
+count = 3
+skill = 1
+spacing = 90.0
+leader_name = "Crimson Crow"
+leader_stats = ExtResource("ace_stats")
+leader_skill = 2

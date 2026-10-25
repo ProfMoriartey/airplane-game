@@ -102,6 +102,8 @@ func _draw_objective(camera: Camera3D, marker: Vector3) -> void:
 func _draw_enemy(camera: Camera3D, enemy: Aircraft) -> void:
 	var distance := plane.global_position.distance_to(enemy.global_position)
 	var label := "%d m" % roundi(distance)
+	if enemy.pilot_name != "":
+		label = "%s  %s" % [enemy.pilot_name, label]
 	var screen := get_viewport_rect().size
 	var on_screen_area := Rect2(Vector2.ONE * EDGE_MARGIN, screen - Vector2.ONE * EDGE_MARGIN * 2.0)
 

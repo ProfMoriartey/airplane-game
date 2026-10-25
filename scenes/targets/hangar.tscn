@@ -1,0 +1,52 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/targets/ground_target.gd" id="1_target"]
+
+[sub_resource type="BoxShape3D" id="Shape_body"]
+size = Vector3(20, 14, 16)
+
+[sub_resource type="StandardMaterial3D" id="Mat_canvas"]
+albedo_color = Color(0.5, 0.46, 0.36, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_dark"]
+albedo_color = Color(0.12, 0.11, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_walls"]
+material = SubResource("Mat_canvas")
+size = Vector3(20, 10, 16)
+
+[sub_resource type="PrismMesh" id="Mesh_roof"]
+material = SubResource("Mat_canvas")
+size = Vector3(21, 5, 17)
+
+[sub_resource type="BoxMesh" id="Mesh_door"]
+material = SubResource("Mat_dark")
+size = Vector3(14, 7, 0.2)
+
+[node name="Hangar" type="StaticBody3D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_target")
+display_name = "Hangar"
+max_health = 140.0
+bullet_damage_scale = 0.15
+score_value = 180
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("Shape_body")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Walls" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_walls")
+
+[node name="Roof" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
+mesh = SubResource("Mesh_roof")
+
+[node name="Door" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -8.05)
+mesh = SubResource("Mesh_door")

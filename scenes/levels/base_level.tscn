@@ -6,32 +6,14 @@
 [ext_resource type="Script" path="res://scripts/camera/chase_camera.gd" id="4_camera"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="6_pause"]
+[ext_resource type="Environment" path="res://data/environments/farmland.tres" id="7_env"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
-sky_top_color = Color(0.3, 0.48, 0.74, 1)
-sky_horizon_color = Color(0.7, 0.76, 0.8, 1)
-ground_bottom_color = Color(0.7, 0.76, 0.8, 1)
-ground_horizon_color = Color(0.7, 0.76, 0.8, 1)
-
-[sub_resource type="Sky" id="Sky_main"]
-sky_material = SubResource("ProceduralSkyMaterial_sky")
-
-[sub_resource type="Environment" id="Environment_main"]
-background_mode = 2
-sky = SubResource("Sky_main")
-ambient_light_source = 3
-tonemap_mode = 2
-fog_enabled = true
-fog_light_color = Color(0.7, 0.76, 0.8, 1)
-fog_density = 0.0006
-fog_aerial_perspective = 0.3
-fog_sky_affect = 0.0
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_level")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_main")
+environment = ExtResource("7_env")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)

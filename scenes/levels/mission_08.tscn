@@ -1,0 +1,110 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
+[ext_resource type="PackedScene" path="res://scenes/targets/hangar.tscn" id="hangar"]
+[ext_resource type="PackedScene" path="res://scenes/targets/parked_plane.tscn" id="parked"]
+[ext_resource type="Environment" path="res://data/environments/mountains.tres" id="env_mountains"]
+
+[node name="Mission08" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="WorldEnvironment" parent="."]
+environment = ExtResource("env_mountains")
+
+[node name="Terrain" parent="."]
+terrain_seed = 1918
+height_scale = 380.0
+forest_cover = 0.3
+snow_height = 150.0
+field_colors = Array[Color]([Color(0.32, 0.42, 0.22, 1), Color(0.38, 0.46, 0.26, 1), Color(0.3, 0.38, 0.22, 1), Color(0.42, 0.44, 0.3, 1)])
+rock_color = Color(0.48, 0.47, 0.45, 1)
+tree_color = Color(0.12, 0.2, 0.12, 1)
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 650, 1900)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = "m08"
+title = "Nest of Vipers"
+briefing = "We've found the airfield of the enemy's best squadron, hidden in a mountain valley. Destroy their hangars and the aircraft parked outside before they can take off. Some of them will get airborne - finish them too."
+intro_radio = PackedStringArray("Command: The airfield is in the valley to the north. Hit it hard.", "Command: Planes on the ground can't shoot back. Make the most of it.")
+
+[node name="SilenceGuns" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../AAGuns")
+description = "Silence the anti-aircraft guns"
+optional = true
+score_bonus = 200
+
+[node name="Airfield" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Airfield")
+description = "Destroy the hangars and parked aircraft"
+radio_on_start = PackedStringArray("Scout: They're scrambling some fighters from a field further north!")
+radio_on_complete = PackedStringArray("Command: Their airfield is burning! Now the ones that got away.")
+
+[node name="Scrambled" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Scrambled")
+description = "Shoot down the scrambled fighters"
+optional = true
+score_bonus = 250
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to base"
+radius = 350.0
+radio_on_start = PackedStringArray("Command: Head home when you're ready.")
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 600, 1700)
+
+[node name="Airfield" type="Node3D" parent="."]
+
+[node name="Hangar1" parent="Airfield" instance=ExtResource("hangar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0, -900)
+
+[node name="Hangar2" parent="Airfield" instance=ExtResource("hangar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -110, 0, -900)
+
+[node name="Hangar3" parent="Airfield" instance=ExtResource("hangar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70, 0, -900)
+
+[node name="Parked1" parent="Airfield" instance=ExtResource("parked")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -160, 0, -860)
+
+[node name="Parked2" parent="Airfield" instance=ExtResource("parked")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125, 0, -860)
+
+[node name="Parked3" parent="Airfield" instance=ExtResource("parked")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 0, -860)
+
+[node name="Parked4" parent="Airfield" instance=ExtResource("parked")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, -860)
+
+[node name="AAGuns" type="Node3D" parent="."]
+
+[node name="AAGun1" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -250, 0, -820)
+
+[node name="AAGun2" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -830)
+
+[node name="AAGun3" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, -1000)
+
+[node name="Scrambled" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -100, 650, -1800)
+script = ExtResource("squadron")
+count = 3
+skill = 1

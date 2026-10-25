@@ -1,0 +1,115 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/defend_objective.gd" id="defend"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="PackedScene" path="res://scenes/targets/balloon.tscn" id="balloon"]
+[ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
+[ext_resource type="Environment" path="res://data/environments/mud.tres" id="env_mud"]
+
+[node name="Mission04" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="WorldEnvironment" parent="."]
+environment = ExtResource("env_mud")
+
+[node name="Terrain" parent="."]
+terrain_seed = 1916
+height_scale = 90.0
+forest_cover = 0.15
+field_colors = Array[Color]([Color(0.4, 0.35, 0.24, 1), Color(0.36, 0.33, 0.25, 1), Color(0.45, 0.4, 0.28, 1), Color(0.33, 0.36, 0.22, 1), Color(0.42, 0.38, 0.3, 1)])
+rock_color = Color(0.35, 0.3, 0.24, 1)
+tree_color = Color(0.2, 0.22, 0.14, 1)
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 1500)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = "m04"
+title = "Guardian Angels"
+briefing = "Our own observation balloons are spotting for the big guns, and the enemy wants them burned. Patrol over the balloons and shoot down every attacker. We can afford to lose one balloon - no more."
+intro_radio = PackedStringArray("Command: Welcome to the front, pilot. Our balloons are just ahead.", "Command: Enemy fighters will try to burn them. Don't let them.")
+
+[node name="ReachBalloons" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Balloons")
+description = "Fly to our balloons"
+radius = 350.0
+score_bonus = 0
+
+[node name="FirstWave" type="Node" parent="Mission" node_paths=PackedStringArray("protected", "attackers")]
+script = ExtResource("defend")
+protected = NodePath("../../OurBalloons")
+attackers = NodePath("../../Raiders1")
+description = "Protect the balloons"
+allowed_losses = 1
+radio_on_start = PackedStringArray("Command: Here they come - balloon raiders from the north!")
+radio_on_complete = PackedStringArray("Command: First wave beaten off. Stay sharp - there will be more.")
+
+[node name="SecondWave" type="Node" parent="Mission" node_paths=PackedStringArray("protected", "attackers")]
+script = ExtResource("defend")
+protected = NodePath("../../OurBalloons")
+attackers = NodePath("../../Raiders2")
+description = "Protect the balloons from the second wave"
+allowed_losses = 1
+radio_on_start = PackedStringArray("Command: Second wave, and these ones know their business!")
+radio_on_complete = PackedStringArray("Command: The balloons are safe. Splendid flying. Come home.")
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to base"
+radius = 350.0
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Balloons" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 300)
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 1500)
+
+[node name="OurBalloons" type="Node3D" parent="."]
+
+[node name="Balloon1" parent="OurBalloons" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -400, 0, 300)
+team = 0
+display_name = "Our balloon"
+
+[node name="Balloon2" parent="OurBalloons" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 150)
+team = 0
+display_name = "Our balloon"
+
+[node name="Balloon3" parent="OurBalloons" instance=ExtResource("balloon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 400, 0, 300)
+team = 0
+display_name = "Our balloon"
+
+[node name="OurGuns" type="Node3D" parent="."]
+
+[node name="AAGun1" parent="OurGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -200, 0, 350)
+team = 0
+
+[node name="AAGun2" parent="OurGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 250, 0, 400)
+team = 0
+
+[node name="Raiders1" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 420, -1400)
+script = ExtResource("squadron")
+count = 3
+skill = 0
+attack_ground_targets = true
+
+[node name="Raiders2" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 600, 450, -1500)
+script = ExtResource("squadron")
+count = 3
+skill = 1
+attack_ground_targets = true

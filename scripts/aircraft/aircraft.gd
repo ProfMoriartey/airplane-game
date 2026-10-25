@@ -34,7 +34,8 @@ const EXPLOSION_SCENE := preload("res://scenes/effects/explosion.tscn")
 @export var stats: AircraftStats
 @export var team := Team.ALLIES
 @export var player_controlled := false
-@export var paint_color := Color(0.36, 0.4, 0.24)
+## Shown next to the plane's marker, for named enemy aces.
+@export var pilot_name := ""
 ## Beginner assist: gently rolls the wings level when no roll input is given.
 @export var auto_level := true
 @export var auto_level_strength := 1.2
@@ -71,9 +72,13 @@ var _sink_speed := 0.0
 func _ready() -> void:
 	add_to_group("aircraft")
 	add_to_group("damageable")
-	speed = stats.start_speed
-	health = stats.max_health
-	_apply_paint()
+	_apply_stats()
+
+
+## Swaps this plane for another type, e.g. the one picked in the hangar.
+func set_stats(new_stats: AircraftStats) -> void:
+	stats = new_stats
+	_apply_stats()
 
 
 func _physics_process(delta: float) -> void:
@@ -272,9 +277,33 @@ func _crash() -> void:
 		get_tree().create_timer(WRECK_CLEANUP_TIME, false).timeout.connect(queue_free)
 
 
-func _apply_paint() -> void:
+func _apply_stats() -> void:
+	speed = stats.start_speed
+	health = stats.max_health
+	guns.fire_rate = stats.gun_fire_rate
+	guns.damage = stats.gun_damage
+	bombs.capacity = stats.bomb_capacity
+	bombs.reload()
+	_apply_look()
+
+
+func _apply_look() -> void:
 	var paint := StandardMaterial3D.new()
-	paint.albedo_color = paint_color
+	paint.albedo_color = stats.paint_color
 	paint.roughness = 0.85
 	for part: MeshInstance3D in [$Model/Fuselage, $Model/Fin]:
 		part.material_override = paint
+
+	var canvas := StandardMaterial3D.new()
+	canvas.albedo_color = stats.wing_color
+	canvas.roughness = 0.9
+	for wing: MeshInstance3D in [$Model/UpperWing, $Model/LowerWing, $Model/MiddleWing, $Model/Tailplane]:
+		wing.material_override = canvas
+	for wing: Node3D in [$Model/UpperWing, $Model/LowerWing, $Model/MiddleWing]:
+		wing.scale.x = stats.wing_span
+	$Model/StrutLeft.position.x = -3.0 * stats.wing_span
+	$Model/StrutRight.position.x = 3.0 * stats.wing_span
+	$Model/MiddleWing.visible = stats.triplane
+
+	_model.scale = Vector3.ONE * stats.model_scale
+	$CollisionShape3D.scale = Vector3(stats.wing_span, 1.0, 1.0) * stats.model_scale

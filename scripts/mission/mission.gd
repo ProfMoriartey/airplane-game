@@ -12,6 +12,8 @@ signal objective_completed(objective: Objective)
 signal completed
 signal failed(reason: String)
 
+## Matches the mission's id in the campaign, for saving progress.
+@export var mission_id := ""
 @export var title := "Mission"
 @export_multiline var briefing := ""
 ## Radio lines played as the mission starts. Write each as "Speaker: message".

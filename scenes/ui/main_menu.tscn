@@ -63,6 +63,15 @@ theme_override_font_sizes/font_size = 16
 text = "working title"
 horizontal_alignment = 1
 
+[node name="PilotLabel" type="Label" parent="Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.6, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
 [node name="Spacer" type="Control" parent="Box"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
@@ -72,7 +81,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Mission 1: Eyes of the Enemy"
+text = "Campaign"
 
 [node name="FreeFlightButton" type="Button" parent="Box"]
 unique_name_in_owner = true

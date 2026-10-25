@@ -1,0 +1,135 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/levels/mission_level.gd" id="mission_level"]
+[ext_resource type="Script" path="res://scripts/mission/mission.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
+[ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
+[ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="Script" path="res://scripts/targets/path_mover.gd" id="mover"]
+[ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
+[ext_resource type="PackedScene" path="res://scenes/targets/truck.tscn" id="truck"]
+[ext_resource type="PackedScene" path="res://scenes/targets/tank.tscn" id="tank"]
+
+[sub_resource type="Curve3D" id="Curve_Road"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1500, 0, -1600, 0, 0, 0, 0, 0, 0, -900, 0, -1200, 0, 0, 0, 0, 0, 0, -400, 0, -900, 0, 0, 0, 0, 0, 0, 200, 0, -700, 0, 0, 0, 0, 0, 0, 700, 0, -300, 0, 0, 0, 0, 0, 0, 900, 0, 200),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
+[node name="Mission03" instance=ExtResource("base")]
+script = ExtResource("mission_level")
+
+[node name="PlayerPlane" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 1900)
+
+[node name="Mission" type="Node" parent="."]
+script = ExtResource("mission")
+mission_id = "m03"
+title = "Convoy Hunt"
+briefing = "An enemy supply convoy is moving up to the front along the valley road. Destroy every vehicle before it arrives. Guns will handle the trucks; save your bombs for the tanks. Expect anti-aircraft guns along the road and fighters once they realise what's happening."
+intro_radio = PackedStringArray("Command: The convoy is on the road north of the front. Find it and stop it.", "Command: Remember - tanks need bombs.")
+
+[node name="SilenceGuns" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../AAGuns")
+description = "Silence the anti-aircraft guns"
+optional = true
+score_bonus = 150
+
+[node name="DestroyConvoy" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Convoy")
+description = "Destroy the supply convoy"
+radio_on_complete = PackedStringArray("Command: Convoy destroyed! But their fighters are coming - deal with them.")
+
+[node name="Interceptors" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Interceptors")
+description = "Shoot down the interceptors"
+radio_on_complete = PackedStringArray("Command: Well done. Come home.")
+
+[node name="ReturnToBase" type="Node" parent="Mission" node_paths=PackedStringArray("area")]
+script = ExtResource("reach")
+area = NodePath("../../Waypoints/Home")
+description = "Return to base"
+radius = 350.0
+
+[node name="Waypoints" type="Node3D" parent="."]
+
+[node name="Home" type="Marker3D" parent="Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 1700)
+
+[node name="Road" type="Path3D" parent="."]
+curve = SubResource("Curve_Road")
+
+[node name="Convoy" type="Node3D" parent="."]
+
+[node name="Tank1" parent="Convoy" instance=ExtResource("tank")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Tank1" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 5.0
+start_distance = 125.0
+
+[node name="Truck2" parent="Convoy" instance=ExtResource("truck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Truck2" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 5.0
+start_distance = 100.0
+
+[node name="Truck3" parent="Convoy" instance=ExtResource("truck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Truck3" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 5.0
+start_distance = 75.0
+
+[node name="Truck4" parent="Convoy" instance=ExtResource("truck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Truck4" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 5.0
+start_distance = 50.0
+
+[node name="Tank5" parent="Convoy" instance=ExtResource("tank")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Tank5" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 5.0
+start_distance = 25.0
+
+[node name="Truck6" parent="Convoy" instance=ExtResource("truck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Convoy/Truck6" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../Road")
+speed = 5.0
+start_distance = 0.0
+
+[node name="AAGuns" type="Node3D" parent="."]
+
+[node name="AAGun1" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, 0, -1000)
+
+[node name="AAGun2" parent="AAGuns" instance=ExtResource("aa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300, 0, -600)
+
+[node name="Interceptors" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -200, 450, -1700)
+script = ExtResource("squadron")
+count = 3
+skill = 0
