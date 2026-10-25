@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/one_shot_effect.gd" id="1_effect"]
+[ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="9_puff"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_dust"]
+albedo_texture = ExtResource("9_puff")
+transparency = 1
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+billboard_mode = 3
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="Mesh_dust"]
+material = SubResource("Mat_dust")
+size = Vector2(1.5, 1.5)
+
+[sub_resource type="Gradient" id="Gradient_dust"]
+colors = PackedColorArray(0.45, 0.38, 0.28, 0.8, 0.5, 0.45, 0.38, 0)
+
+[node name="GroundDust" type="Node3D"]
+script = ExtResource("1_effect")
+duration = 1.2
+
+[node name="Dust" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 5
+lifetime = 1.0
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("Mesh_dust")
+direction = Vector3(0, 1, 0)
+spread = 25.0
+gravity = Vector3(0, -4, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 7.0
+scale_amount_min = 0.7
+scale_amount_max = 1.4
+color_ramp = SubResource("Gradient_dust")

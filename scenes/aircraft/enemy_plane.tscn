@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/aircraft/biplane.tscn" id="1_base"]
+[ext_resource type="Resource" path="res://data/aircraft/enemy_fighter.tres" id="2_stats"]
+[ext_resource type="Script" path="res://scripts/aircraft/aircraft_ai.gd" id="3_ai"]
+
+[node name="EnemyPlane" instance=ExtResource("1_base")]
+collision_layer = 4
+collision_mask = 7
+stats = ExtResource("2_stats")
+team = 1
+paint_color = Color(0.55, 0.1, 0.08, 1)
+
+[node name="AI" type="Node" parent="."]
+script = ExtResource("3_ai")

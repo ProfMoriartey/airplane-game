@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/one_shot_effect.gd" id="1_effect"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_spark"]
+shading_mode = 0
+albedo_color = Color(1, 0.8, 0.35, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_spark"]
+material = SubResource("Mat_spark")
+size = Vector3(0.08, 0.08, 0.5)
+
+[node name="HitSparks" type="Node3D"]
+script = ExtResource("1_effect")
+duration = 0.6
+
+[node name="Sparks" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 8
+lifetime = 0.35
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("Mesh_spark")
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, -9.8, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 18.0
+particle_flag_align_y = true

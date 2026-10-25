@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 InputSetup="*res://scripts/autoload/input_setup.gd"
+Projectiles="*res://scripts/combat/projectiles.gd"
 
 [display]
 
@@ -34,8 +35,8 @@ window/stretch/aspect="expand"
 
 [physics]
 
-common/physics_interpolation=true
 3d/physics_engine="Jolt Physics"
+common/physics_interpolation=true
 
 [rendering]
 

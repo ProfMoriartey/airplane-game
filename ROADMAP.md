@@ -65,38 +65,42 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 ## 2. Milestone: Combat Prototype ("Is dogfighting fun?")
 
 ### Weapons
-- [ ] Machine guns (fast projectiles or raycasts) with tracers
-- [ ] Fire rate, spread, and bullet travel time
-- [ ] Gun overheating / jamming mechanic
-- [ ] Ammo count (with resupply rules)
-- [ ] Bombs (drop physics, explosion radius)
+- [x] Machine guns (fast projectiles or raycasts) with tracers
+- [x] Fire rate, spread, and bullet travel time
+- [x] Gun overheating / jamming mechanic
+- [x] Ammo count
+- [ ] Ammo resupply rules (e.g. land at friendly airfield)
+- [ ] Bombs (drop physics, explosion radius) — moved to milestone 3, alongside ground targets
 - [ ] Optional: rockets (Le Prieur style) for balloon busting
-- [ ] Hit detection and hit feedback (sparks, hit marker, sound)
+- [x] Hit detection and hit feedback (sparks, hit marker)
+- [ ] Hit sounds (see Audio)
 
 ### Damage model
-- [ ] Health system per aircraft
-- [ ] Component damage (engine, wings, tail, pilot) affecting handling
-- [ ] Visual damage states (smoke, fire, holes, missing parts)
-- [ ] Death states: explode, spiral down, crash-land
-- [ ] Player bail-out / mission failure on death
+- [x] Health system per aircraft
+- [x] Component damage (engine, wings, tail, pilot) affecting handling
+- [x] Visual damage states: smoke and fire
+- [ ] Visual damage states: bullet holes, missing parts
+- [x] Death states: explode, spiral down, crash-land
+- [x] Player bail-out / mission failure on death
 
 ### Enemy AI (air)
-- [ ] AI state machine: patrol → detect → engage → evade → flee/retreat
-- [ ] Pursuit steering (lead target, get on tail)
-- [ ] Defensive maneuvers (break turns, climbs, dives)
-- [ ] Terrain avoidance
-- [ ] Accuracy / reaction tuned by skill level (rookie, veteran, ace)
+- [x] AI state machine: patrol → detect → engage → evade → flee/retreat
+- [x] Pursuit steering (lead target, get on tail)
+- [x] Defensive maneuvers (break turns, climbs, dives)
+- [x] Terrain avoidance
+- [x] Accuracy / reaction tuned by skill level (rookie, veteran, ace)
 - [ ] Wingman/formation flying
-- [ ] Target selection (player vs. allies)
+- [x] Target selection (player vs. allies)
 - [ ] Named enemy aces with unique behavior (boss fights)
+- [ ] Smarter tactics: climbing/diving attacks, energy fighting (evenly matched AIs currently circle forever)
 
 ### HUD (prototype)
-- [ ] Speed and altitude indicators
-- [ ] Throttle indicator
-- [ ] Gun heat / ammo gauge
-- [ ] Health / damage indicator
-- [ ] Crosshair and lead indicator (optional assist)
-- [ ] Off-screen enemy arrows
+- [x] Speed and altitude indicators
+- [x] Throttle indicator
+- [x] Gun heat / ammo gauge
+- [x] Health / damage indicator
+- [x] Crosshair and lead indicator (optional assist)
+- [x] Off-screen enemy arrows
 - [ ] Simple radar or compass
 
 ---
@@ -275,7 +279,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [ ] Save/load system (campaign progress, unlocks, settings)
 - [ ] Multiple save slots
 - [ ] Scene loading with progress (threaded loading)
-- [ ] Object pooling for bullets, effects, debris
+- [x] Object pooling for bullets, effects, debris
 - [ ] Input handling for keyboard/mouse, gamepad, joystick (with dead zones)
 - [ ] Rumble / haptics for gamepad
 - [ ] Pause handling (process modes)
