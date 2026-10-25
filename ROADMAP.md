@@ -333,8 +333,9 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [ ] Profile CPU (AI, physics, bullets)
 - [ ] Profile GPU (terrain, vegetation, clouds, particles)
 - [ ] Hit target framerate on minimum-spec hardware
-- [ ] Test on all target platforms (Windows and Mac builds: `sh tools/export.sh`; Mac build tested here, Windows needs a Windows PC)
-- [ ] Test all input devices on real hardware (keyboard/mouse, Xbox, PlayStation, flight sticks) — routing tested with simulated input
+- [x] Test on all target platforms (Windows and Mac builds: `sh tools/export.sh`; both played; Linux / Steam Deck still to do)
+  - [x] Windows: flickering dots from MSAA fixed (SMAA by default), guns audible over the engine
+- [ ] Test all input devices on real hardware (keyboard/mouse and a gamepad tested; flight sticks still to do)
 - [ ] Bug tracking list and triage
 - [ ] Full campaign playthrough without blockers
 - [ ] Save compatibility testing
