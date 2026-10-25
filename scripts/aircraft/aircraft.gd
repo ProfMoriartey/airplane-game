@@ -71,6 +71,7 @@ var _sink_speed := 0.0
 @onready var _fire: CPUParticles3D = $Fire
 @onready var _exhaust: CPUParticles3D = $Exhaust
 @onready var _vapor: Array[CPUParticles3D] = [$VaporLeft, $VaporRight]
+@onready var _engine_sound: AudioStreamPlayer3D = $EngineSound
 
 
 func _ready() -> void:
@@ -103,6 +104,25 @@ func _process(delta: float) -> void:
 	var turn_acceleration := absf(_rates.x) * speed
 	for trail in _vapor:
 		trail.emitting = not is_destroyed and turn_acceleration > VAPOR_ACCELERATION
+	_update_engine_sound(delta)
+
+
+## Engine note rises with throttle and airspeed; a damaged engine coughs, and a
+## dead one winds down.
+func _update_engine_sound(delta: float) -> void:
+	if is_crashed:
+		_engine_sound.stop()
+		return
+	var revs := throttle * 0.6 + get_speed_ratio() * 0.4
+	var target_pitch := lerpf(0.65, 1.5, revs)
+	var target_volume := lerpf(-8.0, 0.0, throttle)
+	if is_destroyed:
+		target_pitch = 0.5
+		target_volume = -18.0
+	elif engine_condition < SMOKE_HEALTH and randf() < (1.0 - engine_condition) * 0.08:
+		target_volume -= 14.0
+	_engine_sound.pitch_scale = lerpf(_engine_sound.pitch_scale, target_pitch, 1.0 - exp(-4.0 * delta))
+	_engine_sound.volume_db = lerpf(_engine_sound.volume_db, target_volume, 1.0 - exp(-10.0 * delta))
 
 
 ## How well the control surfaces work: weak when slow, full at normal speed.

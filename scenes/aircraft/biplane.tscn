@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/aircraft/bomb_bay.gd" id="4_bombs"]
 [ext_resource type="Script" path="res://scripts/art/biplane_model.gd" id="5_model"]
 [ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="9_puff"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/engine_loop.wav" id="10_engine"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_body"]
 size = Vector3(9, 2, 6.5)
@@ -122,6 +123,15 @@ local_coords = false
 mesh = SubResource("Mesh_vapor")
 gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("Gradient_vapor")
+
+[node name="EngineSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+stream = ExtResource("10_engine")
+unit_size = 14.0
+max_distance = 1200.0
+autoplay = true
+bus = &"SFX"
+doppler_tracking = 2
 
 [node name="BombBay" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, -0.8)

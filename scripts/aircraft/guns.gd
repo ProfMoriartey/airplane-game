@@ -28,9 +28,11 @@ var _jam_timer := 0.0
 var _next_muzzle := 0
 
 const FLASH_TIME := 0.05
+const SHOT_SOUND := preload("res://assets/audio/sfx/gunshot.wav")
 
 var _flash_timers: Array[float] = []
 var _flashes: Array[Node3D] = []
+var _shot_sound: AudioStreamPlayer3D
 
 @onready var _owner_aircraft := get_parent() as Aircraft
 @onready var _muzzles: Array[Node] = get_children()
@@ -38,6 +40,14 @@ var _flashes: Array[Node3D] = []
 
 func _ready() -> void:
 	ammo = max_ammo
+	_shot_sound = AudioStreamPlayer3D.new()
+	_shot_sound.stream = SHOT_SOUND
+	_shot_sound.bus = &"SFX"
+	_shot_sound.unit_size = 12.0
+	_shot_sound.volume_db = 3.0
+	_shot_sound.max_polyphony = 6
+	_shot_sound.position = Vector3(0, 0.6, -2.0)
+	add_child(_shot_sound)
 	for muzzle: Node3D in _muzzles:
 		var flash := _make_flash()
 		muzzle.add_child(flash)
@@ -91,6 +101,8 @@ func _fire_round() -> void:
 		is_jammed = true
 		_jam_timer = jam_duration
 
+	_shot_sound.pitch_scale = randf_range(0.92, 1.08)
+	_shot_sound.play()
 	var muzzle := _muzzles[_next_muzzle] as Node3D
 	_flash_timers[_next_muzzle] = FLASH_TIME
 	_flashes[_next_muzzle].rotation.z = randf() * TAU

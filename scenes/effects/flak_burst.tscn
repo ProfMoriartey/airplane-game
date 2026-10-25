@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/effects/one_shot_effect.gd" id="1_effect"]
 [ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="2_puff"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/flak.wav" id="20_sound"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_puff"]
 transparency = 1
@@ -49,3 +50,10 @@ color_ramp = SubResource("Gradient_puff")
 light_color = Color(1, 0.7, 0.35, 1)
 light_energy = 4.0
 omni_range = 25.0
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("20_sound")
+volume_db = -2.0
+unit_size = 45.0
+max_distance = 4000.0
+bus = &"SFX"

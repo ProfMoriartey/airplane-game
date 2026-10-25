@@ -36,6 +36,10 @@ func setup(success: bool, reason: String, stats: Array, career: Dictionary, next
 	%Career.visible = not career.is_empty()
 	if not career.is_empty():
 		%CareerText.text = _describe_career(success, career)
+		if career.rank_after > career.rank_before:
+			_play_sting_later("promotion")
+		elif not career.new_medals.is_empty():
+			_play_sting_later("medal")
 
 	%NextButton.visible = next_mission != null
 	if next_mission:
@@ -44,6 +48,12 @@ func setup(success: bool, reason: String, stats: Array, career: Dictionary, next
 	else:
 		%RetryButton.grab_focus()
 	%RetryButton.text = "Fly again" if success else "Retry"
+
+
+## Fanfares wait a moment so they don't trip over the victory music.
+func _play_sting_later(sting: String) -> void:
+	await get_tree().create_timer(1.5).timeout
+	Sound.play_sting(sting)
 
 
 func _describe_career(success: bool, career: Dictionary) -> String:

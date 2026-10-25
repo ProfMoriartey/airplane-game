@@ -130,6 +130,7 @@ func _update_radio(delta: float) -> void:
 	var parts := line.split(": ", true, 1)
 	_radio_text.text = "%s\n%s" % [parts[0].to_upper(), parts[1]] if parts.size() == 2 else line
 	_radio.visible = true
+	Sound.play_ui("radio", -6.0)
 	_radio_timer = RADIO_BASE_TIME + line.length() * RADIO_TIME_PER_CHARACTER
 	if _radio_queue.size() >= RADIO_BACKLOG:
 		_radio_timer *= 0.5

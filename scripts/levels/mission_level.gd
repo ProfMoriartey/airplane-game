@@ -28,6 +28,7 @@ func _ready() -> void:
 	Events.aircraft_destroyed.connect(_on_aircraft_destroyed)
 	Events.ground_target_destroyed.connect(_on_ground_target_destroyed)
 	player.set_stats(Profile.selected_aircraft())
+	Sound.play_music("menu_theme")
 	_show_briefing()
 
 
@@ -67,6 +68,7 @@ func _show_briefing() -> void:
 	hud.visible = true
 	for line in mission.intro_radio:
 		hud.radio(line)
+	Sound.start_flight_music()
 	mission.start(player)
 
 
@@ -128,6 +130,8 @@ func _on_mission_failed(reason: String) -> void:
 
 func _show_debrief(success: bool, reason: String) -> void:
 	await get_tree().create_timer(DEBRIEF_DELAY).timeout
+	Sound.stop_flight_music()
+	Sound.play_music("victory" if success else "defeat")
 	pause_menu.close()
 	pause_menu.enabled = false
 	hud.visible = false

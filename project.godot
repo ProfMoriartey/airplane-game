@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Events="*res://scripts/autoload/events.gd"
 SceneLoader="*res://scripts/autoload/scene_loader.gd"
 Profile="*res://scripts/autoload/profile.gd"
+Sound="*res://scripts/autoload/sound.gd"
 InputSetup="*res://scripts/autoload/input_setup.gd"
 Projectiles="*res://scripts/combat/projectiles.gd"
 

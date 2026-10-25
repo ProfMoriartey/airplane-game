@@ -14,6 +14,8 @@ func _ready() -> void:
 	%ResetDialog.confirmed.connect(_reset)
 	%FlyButton.pressed.connect(func() -> void: SceneLoader.change_scene(_selected.scene))
 	_refresh()
+	Sound.stop_flight_music()
+	Sound.play_music("menu_theme")
 
 
 func _refresh() -> void:

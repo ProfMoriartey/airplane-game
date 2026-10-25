@@ -1,5 +1,6 @@
 extends Node3D
-## Plays every particle emitter in the effect once, fades its lights, then removes it.
+## Plays every particle emitter and sound in the effect once, fades its lights,
+## then removes it.
 
 @export var duration := 3.0
 @export var light_fade_time := 0.4
@@ -14,6 +15,9 @@ func _play() -> void:
 	for child in get_children():
 		if child is CPUParticles3D:
 			child.restart()
+		elif child is AudioStreamPlayer3D:
+			child.pitch_scale *= randf_range(0.88, 1.12)
+			child.play()
 		elif child is Light3D:
 			create_tween().tween_property(child, "light_energy", 0.0, light_fade_time)
 	get_tree().create_timer(duration).timeout.connect(queue_free)

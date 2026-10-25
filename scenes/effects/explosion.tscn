@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/effects/one_shot_effect.gd" id="1_effect"]
 [ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="9_puff"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/explosion.wav" id="20_sound"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_fire"]
 disable_fog = true
@@ -113,3 +114,10 @@ particle_flag_rotate_y = true
 light_color = Color(1, 0.7, 0.35, 1)
 light_energy = 10.0
 omni_range = 60.0
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("20_sound")
+volume_db = 0.0
+unit_size = 60.0
+max_distance = 4000.0
+bus = &"SFX"

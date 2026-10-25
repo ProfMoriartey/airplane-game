@@ -8,6 +8,8 @@ extends Node3D
 signal hit_landed(shooter: Aircraft, target: Node3D, position: Vector3)
 
 const MAX_BULLETS := 1024
+## Enemy bullets passing this close to the camera make a whizz.
+const WHIZZ_DISTANCE := 12.0
 const LIFETIME := 1.3
 const BULLET_DROP := 4.0 ## A little gravity, in m/s².
 const TRACER_LENGTH := 6.0
@@ -23,6 +25,7 @@ class Bullet:
 	var life: float
 	var damage: float
 	var shooter: Aircraft
+	var whizzed := false
 
 
 var _bullets: Array[Bullet] = []
@@ -93,6 +96,7 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 
 	bullet.velocity.y -= BULLET_DROP * delta
 	var next_position := bullet.position + bullet.velocity * delta
+	_check_whizz(bullet, next_position)
 	_ray.from = bullet.position
 	_ray.to = next_position
 	_ray.exclude = [bullet.shooter.get_rid()] if is_instance_valid(bullet.shooter) else []
@@ -111,10 +115,24 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 		if shooter == null or target.team != shooter.team:
 			target.take_damage(bullet.damage, hit.position, shooter, Damage.Kind.BULLET)
 			hit_landed.emit(shooter, target, hit.position)
+			Sound.play_at("bullet_hit", hit.position, 0.0, 6.0)
 		_spawn_effect(SPARKS_SCENE, hit.position)
 	else:
 		_spawn_effect(DUST_SCENE, hit.position)
 	return false
+
+
+## The crack of a bullet passing close by - only for bullets aimed at the player's side.
+func _check_whizz(bullet: Bullet, next_position: Vector3) -> void:
+	if bullet.whizzed or not is_instance_valid(bullet.shooter) or bullet.shooter.team == Aircraft.Team.ALLIES:
+		return
+	var camera := get_viewport().get_camera_3d()
+	if camera == null:
+		return
+	var closest := Geometry3D.get_closest_point_to_segment(camera.global_position, bullet.position, next_position)
+	if closest.distance_to(camera.global_position) < WHIZZ_DISTANCE:
+		bullet.whizzed = true
+		Sound.play_at("whizz", closest, -4.0, 4.0)
 
 
 ## Whether a bullet travelling between these points goes into a river or lake first.

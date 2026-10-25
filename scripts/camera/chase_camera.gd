@@ -34,6 +34,8 @@ var _shake := 0.0
 
 func _ready() -> void:
 	top_level = true
+	# Lets passing planes' engines rise and fall in pitch.
+	doppler_tracking = Camera3D.DOPPLER_TRACKING_PHYSICS_STEP
 	_target = get_node(target_path)
 	fov = base_fov
 	global_transform = _desired_transform()

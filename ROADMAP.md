@@ -73,7 +73,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [x] Bombs (drop physics, explosion radius) with a bomb sight
 - [ ] Optional: rockets (Le Prieur style) for balloon busting
 - [x] Hit detection and hit feedback (sparks, hit marker)
-- [ ] Hit sounds (see Audio)
+- [x] Hit sounds (see Audio)
 
 ### Damage model
 - [x] Health system per aircraft
@@ -240,20 +240,24 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 
 ## 7. Audio
 
-- [ ] Engine sound loop with pitch/volume tied to throttle and speed
-- [ ] Unique engine sounds per aircraft type
-- [ ] Machine gun sounds (player and enemy, distance falloff)
-- [ ] Bullet hits / ricochets / whizz-by sounds
-- [ ] Explosions, flak, bombs
-- [ ] Wind noise based on speed
-- [ ] Stall / damage warnings, engine sputter
-- [ ] 3D positional audio for enemies
-- [ ] UI sounds (menu clicks, rank up, medal)
-- [ ] Music: main menu theme
-- [ ] Music: in-mission (calm/combat dynamic switching)
-- [ ] Music: victory / defeat stingers
-- [ ] Radio voice lines (optional, or text-only)
-- [ ] Audio bus setup and mixing (Master, Music, SFX, Voice)
+All sounds and music are synthesised by `tools/generate_audio.py` – no samples or third-party audio, so there are no licensing issues.
+
+
+- [x] Engine sound loop with pitch/volume tied to throttle and speed
+- [ ] Unique engine sounds per aircraft type (all share one synthesised engine, pitched by revs)
+- [x] Machine gun sounds (player and enemy, distance falloff)
+- [x] Bullet hits / ricochets / whizz-by sounds
+- [x] Explosions, flak, bombs
+- [x] Wind noise based on speed
+- [x] Stall / damage warnings, engine sputter
+- [x] 3D positional audio for enemies
+- [x] UI sounds (menu clicks, rank up, medal)
+- [x] Music: main menu theme
+- [x] Music: in-mission (calm/combat dynamic switching)
+- [x] Music: victory / defeat stingers
+- [x] Radio messages: text with a radio blip
+- [ ] Radio voice lines (optional)
+- [x] Audio bus setup and mixing (Master, Music, SFX, Voice)
 
 ---
 

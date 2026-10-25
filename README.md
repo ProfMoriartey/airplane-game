@@ -31,6 +31,16 @@ From the main menu you can play the **Campaign** – 9 missions across three the
 - `scenes/` – levels, aircraft, ground targets, effects and UI scenes
 - `scripts/` – game code, organised the same way
 
+## Audio
+
+Every sound effect and music track is generated from scratch by `tools/generate_audio.py` (plain Python, no extra packages). Edit the script and run it from the project folder to rebuild `assets/audio`:
+
+```
+python3 tools/generate_audio.py
+```
+
+Volume is split into `Music`, `SFX` and `UI` buses (`default_bus_layout.tres`).
+
 ## Making a mission
 
 Missions are scenes that inherit `scenes/levels/base_level.tscn` (see `mission_01.tscn`). Add a `Mission` node, then give it objective children in the order they should happen:

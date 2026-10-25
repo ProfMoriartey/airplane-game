@@ -11,3 +11,5 @@ func _ready() -> void:
 	%QuitButton.pressed.connect(get_tree().quit)
 	%PilotLabel.text = "%s  -  %d career points" % [Ranks.name_of(Profile.rank()), Profile.career_points()]
 	%MissionButton.grab_focus()
+	Sound.stop_flight_music()
+	Sound.play_music("menu_theme")
