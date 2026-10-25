@@ -76,6 +76,15 @@ func _ready() -> void:
 	environment.fog_density = BASE_FOG_DENSITY * weather.fog
 	environment.fog_aerial_perspective = 0.3
 	environment.fog_sky_affect = 0.0
+	# A soft glow around bright light (sun on the clouds, fire, muzzle flashes)...
+	environment.glow_enabled = true
+	environment.glow_intensity = 0.5
+	environment.glow_bloom = 0.04
+	environment.glow_hdr_threshold = 1.1
+	# ...and a little extra contrast, with colours slightly muted in bad weather.
+	environment.adjustment_enabled = true
+	environment.adjustment_contrast = 1.06
+	environment.adjustment_saturation = lerpf(1.08, 0.85, weather.grey)
 	world_environment.environment = environment
 
 	var clouds := Clouds.new()

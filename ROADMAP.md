@@ -177,7 +177,8 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [x] Fast sturdy fighter (SPAD-inspired)
 - [x] Late-game top fighter
 - [ ] Two-seater with rear gunner (optional)
-- [ ] Final 3D models per aircraft (currently recoloured/resized placeholder biplanes)
+- [x] Code-built aircraft models with per-type colours, size and triplane option
+- [ ] Optional: hand-made models (Blender) for each aircraft type
 - [x] Enemy fighter and the ace's red triplane
 - [ ] More enemy fighter types
 - [x] Allied bomber (escorted)
@@ -209,30 +210,31 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 ## 6. Art & Visual Effects
 
 ### Models
-- [ ] Final player aircraft models (low-poly, consistent style)
-- [ ] Enemy aircraft models
-- [ ] Animated parts: propeller, control surfaces, pilot head
-- [ ] Ground vehicles, guns, balloons, zeppelins
-- [ ] Buildings and props (destroyed variants)
-- [ ] Cockpit interiors with gauges
+- [x] Final player aircraft models (low-poly, consistent style)
+- [x] Enemy aircraft models
+- [x] Animated parts: propeller, control surfaces, pilot head
+- [x] Ground vehicles (rhomboid tank, lorry), AA guns with shields, balloons, zeppelin
+- [x] Buildings and props (collapse into rubble when destroyed)
+- [x] Cockpit interiors with gauges
 
 ### VFX
-- [ ] Muzzle flash and tracers
+- [x] Muzzle flash and tracers
 - [x] Bullet impacts: sparks, dirt, water splashes
 - [ ] Bullet impacts: wood splinters
-- [ ] Explosions (air and ground)
-- [ ] Flak bursts
-- [ ] Smoke and fire trails from damaged planes
-- [ ] Engine exhaust
-- [ ] Wingtip vapor / speed lines (optional)
-- [ ] Debris and falling parts
-- [ ] Crash dust/fire on ground
+- [x] Explosions (air and ground)
+- [x] Flak bursts
+- [x] Smoke and fire trails from damaged planes
+- [x] Engine exhaust
+- [x] Wingtip vapour trails in hard turns
+- [x] Debris and falling parts
+- [x] Crash dust/fire on ground
 
 ### Rendering
-- [ ] Lighting and shadow setup per map
-- [ ] Post-processing (bloom, color grading, slight film grain for period feel)
+- [x] Lighting and shadow setup per map
+- [x] Post-processing (bloom, color grading, slight film grain for period feel)
+- [x] Tree detail levels (simple distant trees, no distant shadows)
 - [ ] LOD for aircraft and terrain
-- [ ] Performance budget (draw calls, poly counts)
+- [ ] Performance budget (draw calls, poly counts) — currently ~1.25M triangles and ~250 draw calls in free flight, 60 FPS on an M1
 
 ---
 

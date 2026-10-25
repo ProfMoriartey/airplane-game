@@ -7,6 +7,8 @@ extends Node
 @export var speed := 7.0
 ## How far along the path this vehicle starts, so a convoy can be spaced out.
 @export var start_distance := 0.0
+## Off for airships: they keep the path's own height instead of hugging the ground.
+@export var follow_ground := true
 
 var _distance := 0.0
 var _vehicle: GroundTarget
@@ -34,7 +36,8 @@ func _place() -> void:
 	var curve := path.curve
 	var here := path.to_global(curve.sample_baked(_distance))
 	var ahead := path.to_global(curve.sample_baked(minf(_distance + 3.0, curve.get_baked_length())))
-	here.y = _terrain.get_surface_height(here.x, here.z) + _vehicle.ground_offset
+	if follow_ground:
+		here.y = _terrain.get_surface_height(here.x, here.z) + _vehicle.ground_offset
 	_vehicle.global_position = here
 	var direction := ahead - here
 	if Vector2(direction.x, direction.z).length_squared() > 0.01:

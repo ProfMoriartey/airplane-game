@@ -4,71 +4,11 @@
 [ext_resource type="Resource" path="res://data/aircraft/scout.tres" id="2_stats"]
 [ext_resource type="Script" path="res://scripts/aircraft/guns.gd" id="3_guns"]
 [ext_resource type="Script" path="res://scripts/aircraft/bomb_bay.gd" id="4_bombs"]
+[ext_resource type="Script" path="res://scripts/art/biplane_model.gd" id="5_model"]
 [ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="9_puff"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_body"]
 size = Vector3(9, 2, 6.5)
-
-[sub_resource type="StandardMaterial3D" id="Mat_body"]
-albedo_color = Color(0.36, 0.4, 0.24, 1)
-roughness = 0.85
-
-[sub_resource type="StandardMaterial3D" id="Mat_canvas"]
-albedo_color = Color(0.78, 0.71, 0.54, 1)
-roughness = 0.9
-
-[sub_resource type="StandardMaterial3D" id="Mat_wood"]
-albedo_color = Color(0.42, 0.27, 0.14, 1)
-roughness = 0.7
-
-[sub_resource type="StandardMaterial3D" id="Mat_metal"]
-albedo_color = Color(0.22, 0.22, 0.22, 1)
-metallic = 0.6
-roughness = 0.4
-
-[sub_resource type="BoxMesh" id="Mesh_fuselage"]
-material = SubResource("Mat_body")
-size = Vector3(0.9, 1, 5.5)
-
-[sub_resource type="CylinderMesh" id="Mesh_cowling"]
-material = SubResource("Mat_metal")
-top_radius = 0.55
-bottom_radius = 0.55
-height = 0.6
-radial_segments = 12
-rings = 1
-
-[sub_resource type="BoxMesh" id="Mesh_propeller"]
-material = SubResource("Mat_wood")
-size = Vector3(0.18, 2.4, 0.06)
-
-[sub_resource type="BoxMesh" id="Mesh_upper_wing"]
-material = SubResource("Mat_canvas")
-size = Vector3(9, 0.12, 1.4)
-
-[sub_resource type="BoxMesh" id="Mesh_lower_wing"]
-material = SubResource("Mat_canvas")
-size = Vector3(8, 0.12, 1.3)
-
-[sub_resource type="BoxMesh" id="Mesh_strut"]
-material = SubResource("Mat_wood")
-size = Vector3(0.08, 1.45, 0.08)
-
-[sub_resource type="BoxMesh" id="Mesh_tailplane"]
-material = SubResource("Mat_canvas")
-size = Vector3(3.2, 0.08, 0.9)
-
-[sub_resource type="BoxMesh" id="Mesh_fin"]
-material = SubResource("Mat_body")
-size = Vector3(0.08, 1.1, 0.9)
-
-[sub_resource type="CylinderMesh" id="Mesh_wheel"]
-material = SubResource("Mat_metal")
-top_radius = 0.35
-bottom_radius = 0.35
-height = 0.15
-radial_segments = 12
-rings = 1
 
 [sub_resource type="StandardMaterial3D" id="Mat_smoke"]
 albedo_texture = ExtResource("9_puff")
@@ -108,6 +48,20 @@ size = Vector2(1.5, 1.5)
 offsets = PackedFloat32Array(0, 0.4, 1)
 colors = PackedColorArray(1, 0.9, 0.5, 1, 1, 0.45, 0.1, 0.9, 0.3, 0.1, 0.05, 0)
 
+[sub_resource type="QuadMesh" id="Mesh_exhaust"]
+material = SubResource("Mat_smoke")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_exhaust"]
+colors = PackedColorArray(0.25, 0.24, 0.22, 0.35, 0.5, 0.5, 0.5, 0)
+
+[sub_resource type="QuadMesh" id="Mesh_vapor"]
+material = SubResource("Mat_smoke")
+size = Vector2(0.35, 0.35)
+
+[sub_resource type="Gradient" id="Gradient_vapor"]
+colors = PackedColorArray(1, 1, 1, 0.5, 1, 1, 1, 0)
+
 [node name="Biplane" type="CharacterBody3D"]
 motion_mode = 1
 script = ExtResource("1_plane")
@@ -121,65 +75,53 @@ shape = SubResource("BoxShape3D_body")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0.1)
 
 [node name="Model" type="Node3D" parent="."]
-
-[node name="Fuselage" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
-mesh = SubResource("Mesh_fuselage")
-
-[node name="Cowling" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, -2.8)
-mesh = SubResource("Mesh_cowling")
-
-[node name="Propeller" type="MeshInstance3D" parent="Model"]
-physics_interpolation_mode = 2
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.15)
-mesh = SubResource("Mesh_propeller")
-
-[node name="UpperWing" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.2)
-mesh = SubResource("Mesh_upper_wing")
-
-[node name="MiddleWing" type="MeshInstance3D" parent="Model"]
-visible = false
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -1.2)
-mesh = SubResource("Mesh_lower_wing")
-
-[node name="LowerWing" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, -1.2)
-mesh = SubResource("Mesh_lower_wing")
-
-[node name="StrutLeft" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.42, -1.2)
-mesh = SubResource("Mesh_strut")
-
-[node name="StrutRight" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.42, -1.2)
-mesh = SubResource("Mesh_strut")
-
-[node name="Tailplane" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 2.7)
-mesh = SubResource("Mesh_tailplane")
-
-[node name="Fin" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 2.8)
-mesh = SubResource("Mesh_fin")
-
-[node name="WheelLeft" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, -0.7, -1.1, -1.4)
-mesh = SubResource("Mesh_wheel")
-
-[node name="WheelRight" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, 0.7, -1.1, -1.4)
-mesh = SubResource("Mesh_wheel")
+script = ExtResource("5_model")
 
 [node name="Guns" type="Node3D" parent="."]
 script = ExtResource("3_guns")
 
 [node name="MuzzleLeft" type="Marker3D" parent="Guns"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.6, -2.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.6, -2.7)
 
 [node name="MuzzleRight" type="Marker3D" parent="Guns"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.6, -2.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.6, -2.7)
+
+[node name="Exhaust" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.15, -1.8)
+physics_interpolation_mode = 2
+amount = 24
+lifetime = 0.8
+local_coords = false
+mesh = SubResource("Mesh_exhaust")
+direction = Vector3(0.3, 0, 1)
+spread = 10.0
+gravity = Vector3(0, 0.5, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+scale_amount_curve = SubResource("Curve_grow")
+color_ramp = SubResource("Gradient_exhaust")
+
+[node name="VaporLeft" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.35, -0.6)
+physics_interpolation_mode = 2
+emitting = false
+amount = 40
+lifetime = 0.7
+local_coords = false
+mesh = SubResource("Mesh_vapor")
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("Gradient_vapor")
+
+[node name="VaporRight" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.35, -0.6)
+physics_interpolation_mode = 2
+emitting = false
+amount = 40
+lifetime = 0.7
+local_coords = false
+mesh = SubResource("Mesh_vapor")
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("Gradient_vapor")
 
 [node name="BombBay" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, -0.8)

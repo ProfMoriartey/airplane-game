@@ -22,6 +22,8 @@ const WRECK_COLOR := Color(0.1, 0.09, 0.08)
 @export var ground_offset := 0.0
 @export var snap_to_ground := true
 @export var smoke_when_destroyed := true
+## Buildings slump into a pile of rubble when destroyed.
+@export var collapse_on_destroy := false
 
 var health := 0.0
 var is_destroyed := false
@@ -76,6 +78,9 @@ func _destroy(attacker: Aircraft) -> void:
 
 	if smoke_when_destroyed:
 		add_child(WRECK_SMOKE_SCENE.instantiate())
+	if collapse_on_destroy and has_node("Model"):
+		var tween := create_tween()
+		tween.tween_property($Model, "scale", Vector3(1.08, 0.3, 1.08), 0.8).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 
 	destroyed.emit(attacker)
 	Events.ground_target_destroyed.emit(self, attacker)

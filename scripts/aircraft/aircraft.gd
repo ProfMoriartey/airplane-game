@@ -22,7 +22,8 @@ const THROTTLE_CHANGE_RATE := 0.6
 const MAX_STALL_SINK := 25.0
 ## Extra sink at a 90° bank, so steep turns need back-pressure on the stick.
 const BANK_SINK := 8.0
-const PROPELLER_MAX_SPIN := 60.0
+## Wingtip vapour trails appear above this sideways acceleration (m/s²).
+const VAPOR_ACCELERATION := 32.0
 ## Below this fraction of health the plane trails smoke.
 const SMOKE_HEALTH := 0.5
 ## How hard an uneven wing pulls the plane into a roll.
@@ -30,6 +31,8 @@ const WING_DAMAGE_ROLL := 0.5
 ## Enemy wrecks are removed this long after hitting the ground, once their smoke has cleared.
 const WRECK_CLEANUP_TIME := 6.0
 const EXPLOSION_SCENE := preload("res://scenes/effects/explosion.tscn")
+const CRASH_SITE_SCENE := preload("res://scenes/effects/crash_site.tscn")
+const DEBRIS_SCENE := preload("res://scenes/effects/debris.tscn")
 
 @export var stats: AircraftStats
 @export var team := Team.ALLIES
@@ -62,11 +65,12 @@ var _sink_speed := 0.0
 
 @onready var guns: Guns = $Guns
 @onready var bombs: BombBay = $BombBay
-@onready var _model: Node3D = $Model
-@onready var _propeller: Node3D = $Model/Propeller
+@onready var model: BiplaneModel = $Model
 @onready var _cockpit: Marker3D = $CockpitPoint
 @onready var _smoke: CPUParticles3D = $Smoke
 @onready var _fire: CPUParticles3D = $Fire
+@onready var _exhaust: CPUParticles3D = $Exhaust
+@onready var _vapor: Array[CPUParticles3D] = [$VaporLeft, $VaporRight]
 
 
 func _ready() -> void:
@@ -93,8 +97,12 @@ func _physics_process(delta: float) -> void:
 
 
 func _process(delta: float) -> void:
-	if not is_crashed:
-		_propeller.rotate_object_local(Vector3.BACK, (0.2 + throttle) * PROPELLER_MAX_SPIN * delta)
+	model.animate(self, delta)
+	_exhaust.emitting = not is_destroyed and throttle > 0.3
+	# Hard turns at speed pull vapour trails off the wingtips.
+	var turn_acceleration := absf(_rates.x) * speed
+	for trail in _vapor:
+		trail.emitting = not is_destroyed and turn_acceleration > VAPOR_ACCELERATION
 
 
 ## How well the control surfaces work: weak when slow, full at normal speed.
@@ -176,6 +184,7 @@ func _destroy(attacker: Aircraft) -> void:
 	roll_input = 0.6 if randf() < 0.5 else -0.6
 	yaw_input = 0.0
 	auto_level = false
+	_throw_debris()
 	destroyed.emit(attacker)
 	Events.aircraft_destroyed.emit(self, attacker)
 
@@ -264,14 +273,22 @@ func _crash() -> void:
 	is_crashed = true
 	velocity = Vector3.ZERO
 	speed = 0.0
-	_model.visible = false
+	model.visible = false
 	_fire.emitting = false
+	_smoke.emitting = false
+	_exhaust.emitting = false
 	collision_layer = 0
 	collision_mask = 0
 
 	var explosion := EXPLOSION_SCENE.instantiate() as Node3D
 	get_tree().current_scene.add_child(explosion)
 	explosion.global_position = global_position
+	var terrain := get_tree().get_first_node_in_group("terrain") as Terrain
+	if terrain and global_position.y - terrain.get_height(global_position.x, global_position.z) < 15.0:
+		# Crashed on the ground (not into another plane): leave a burning wreck.
+		var site := CRASH_SITE_SCENE.instantiate() as Node3D
+		get_tree().current_scene.add_child(site)
+		site.global_position = Vector3(global_position.x, terrain.get_surface_height(global_position.x, global_position.z), global_position.z)
 	crashed.emit()
 	if not player_controlled:
 		get_tree().create_timer(WRECK_CLEANUP_TIME, false).timeout.connect(queue_free)
@@ -288,22 +305,19 @@ func _apply_stats() -> void:
 
 
 func _apply_look() -> void:
-	var paint := StandardMaterial3D.new()
-	paint.albedo_color = stats.paint_color
-	paint.roughness = 0.85
-	for part: MeshInstance3D in [$Model/Fuselage, $Model/Fin]:
-		part.material_override = paint
-
-	var canvas := StandardMaterial3D.new()
-	canvas.albedo_color = stats.wing_color
-	canvas.roughness = 0.9
-	for wing: MeshInstance3D in [$Model/UpperWing, $Model/LowerWing, $Model/MiddleWing, $Model/Tailplane]:
-		wing.material_override = canvas
-	for wing: Node3D in [$Model/UpperWing, $Model/LowerWing, $Model/MiddleWing]:
-		wing.scale.x = stats.wing_span
-	$Model/StrutLeft.position.x = -3.0 * stats.wing_span
-	$Model/StrutRight.position.x = 3.0 * stats.wing_span
-	$Model/MiddleWing.visible = stats.triplane
-
-	_model.scale = Vector3.ONE * stats.model_scale
+	model.build(stats, team)
 	$CollisionShape3D.scale = Vector3(stats.wing_span, 1.0, 1.0) * stats.model_scale
+	var tip := 4.4 * stats.wing_span * stats.model_scale
+	_vapor[0].position.x = -tip
+	_vapor[1].position.x = tip
+
+
+## Pieces of wing tear off when the plane is shot down.
+func _throw_debris() -> void:
+	for index in 3:
+		var piece := DEBRIS_SCENE.instantiate() as RigidBody3D
+		var side := global_basis.x * randf_range(-4.0, 4.0)
+		piece.transform = Transform3D(global_basis, global_position + side + global_basis.y)
+		get_tree().current_scene.add_child(piece)
+		piece.linear_velocity = velocity + Vector3(randf_range(-6, 6), randf_range(2, 8), randf_range(-6, 6))
+		piece.angular_velocity = Vector3(randf_range(-6, 6), randf_range(-6, 6), randf_range(-6, 6))

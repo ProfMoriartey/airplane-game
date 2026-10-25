@@ -6,9 +6,18 @@
 [ext_resource type="Script" path="res://scripts/mission/reach_area_objective.gd" id="reach"]
 [ext_resource type="Script" path="res://scripts/mission/destroy_objective.gd" id="destroy"]
 [ext_resource type="Script" path="res://scripts/mission/enemy_squadron.gd" id="squadron"]
+[ext_resource type="Script" path="res://scripts/targets/path_mover.gd" id="mover"]
 [ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
 [ext_resource type="PackedScene" path="res://scenes/targets/hangar.tscn" id="hangar"]
 [ext_resource type="PackedScene" path="res://scenes/targets/parked_plane.tscn" id="parked"]
+[ext_resource type="PackedScene" path="res://scenes/targets/zeppelin.tscn" id="zeppelin"]
+
+[sub_resource type="Curve3D" id="Curve_AirshipRoute"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 1600, 720, -1500, 0, 0, 0, 0, 0, 0, 900, 720, -600, 0, 0, 0, 0, 0, 0, 300, 720, 400, 0, 0, 0, 0, 0, 0, -600, 720, 1200),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
 
 [node name="Mission08" instance=ExtResource("base")]
 script = ExtResource("mission_level")
@@ -47,6 +56,14 @@ targets = NodePath("../../AAGuns")
 description = "Silence the anti-aircraft guns"
 optional = true
 score_bonus = 200
+
+[node name="Zeppelin" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
+script = ExtResource("destroy")
+targets = NodePath("../../Airship")
+description = "Shoot down the zeppelin"
+optional = true
+score_bonus = 400
+radio_on_start = PackedStringArray("Scout: There's a zeppelin crossing the valley to the east. Big target, slow, and full of hydrogen.")
 
 [node name="Airfield" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
 script = ExtResource("destroy")
@@ -113,3 +130,17 @@ transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -100, 650, -1800)
 script = ExtResource("squadron")
 count = 3
 skill = 1
+
+[node name="AirshipRoute" type="Path3D" parent="."]
+curve = SubResource("Curve_AirshipRoute")
+
+[node name="Airship" type="Node3D" parent="."]
+
+[node name="Zeppelin" parent="Airship" instance=ExtResource("zeppelin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="PathMover" type="Node" parent="Airship/Zeppelin" node_paths=PackedStringArray("path")]
+script = ExtResource("mover")
+path = NodePath("../../../AirshipRoute")
+speed = 9.0
+follow_ground = false

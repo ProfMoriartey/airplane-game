@@ -9,6 +9,7 @@
 [ext_resource type="Environment" path="res://data/environments/farmland.tres" id="7_env"]
 [ext_resource type="Script" path="res://scripts/world/weather.gd" id="8_weather"]
 [ext_resource type="Script" path="res://scripts/world/scenery.gd" id="9_scenery"]
+[ext_resource type="PackedScene" path="res://scenes/effects/film_overlay.tscn" id="10_film"]
 
 
 [node name="Level" type="Node3D"]
@@ -41,6 +42,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 800)
 far = 6000.0
 script = ExtResource("4_camera")
 target_path = NodePath("../PlayerPlane")
+
+[node name="FilmOverlay" parent="." instance=ExtResource("10_film")]
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
 

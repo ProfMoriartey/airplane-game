@@ -10,8 +10,10 @@ const TERRAIN_SHADER := preload("res://shaders/terrain.gdshader")
 const WATER_SHADER := preload("res://shaders/water.gdshader")
 const SNOW_COLOR := Color(0.92, 0.93, 0.95)
 ## Trees are split into square chunks this big, so distant chunks can be skipped.
-const TREE_CHUNK_SIZE := 1000.0
+const TREE_CHUNK_SIZE := 500.0
 const TREE_DRAW_DISTANCE := 2600.0
+## Beyond this distance trees switch to simpler, shadowless shapes.
+const TREE_DETAIL_DISTANCE := 1100.0
 
 @export var size := 6000.0
 @export var resolution := 300 ## Grid cells per side.
@@ -286,6 +288,7 @@ func _is_forest(x: float, z: float) -> bool:
 
 func _scatter_trees() -> void:
 	var meshes: Array[Mesh] = [_make_pine(), _make_broadleaf()]
+	var far_meshes: Array[Mesh] = [_make_pine_far(), _make_broadleaf_far()]
 	var rng := RandomNumberGenerator.new()
 	rng.seed = terrain_seed
 	var half := size * 0.5
@@ -320,18 +323,29 @@ func _scatter_trees() -> void:
 		for transforms: Array in chunks[kind]:
 			if transforms.is_empty():
 				continue
-			var multimesh := MultiMesh.new()
-			multimesh.transform_format = MultiMesh.TRANSFORM_3D
-			multimesh.mesh = meshes[kind]
-			multimesh.instance_count = transforms.size()
-			for index in transforms.size():
-				multimesh.set_instance_transform(index, transforms[index])
-			var trees := MultiMeshInstance3D.new()
-			trees.multimesh = multimesh
-			trees.visibility_range_end = TREE_DRAW_DISTANCE
-			trees.visibility_range_end_margin = 300.0
-			trees.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
-			add_child(trees)
+			var near := _tree_instance(meshes[kind], transforms)
+			near.visibility_range_end = TREE_DETAIL_DISTANCE
+			near.visibility_range_end_margin = 150.0
+			var far := _tree_instance(far_meshes[kind], transforms)
+			far.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			far.visibility_range_begin = TREE_DETAIL_DISTANCE
+			far.visibility_range_begin_margin = 150.0
+			far.visibility_range_end = TREE_DRAW_DISTANCE
+			far.visibility_range_end_margin = 300.0
+
+
+func _tree_instance(mesh: Mesh, transforms: Array) -> MultiMeshInstance3D:
+	var multimesh := MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = mesh
+	multimesh.instance_count = transforms.size()
+	for index in transforms.size():
+		multimesh.set_instance_transform(index, transforms[index])
+	var trees := MultiMeshInstance3D.new()
+	trees.multimesh = multimesh
+	trees.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
+	add_child(trees)
+	return trees
 
 
 ## A conifer: a trunk with two stacked cones. Origin at the foot of the trunk.
@@ -374,6 +388,27 @@ func _make_broadleaf() -> Mesh:
 		[trunk, Transform3D(Basis.IDENTITY, Vector3(0, 2.5, 0)), trunk_color],
 		[crown, Transform3D(Basis.IDENTITY, Vector3(0, 7.0, 0)), tree_color.lightened(0.15)],
 	])
+
+
+## Distant pines: one cone, no trunk.
+func _make_pine_far() -> Mesh:
+	var cone := CylinderMesh.new()
+	cone.top_radius = 0.0
+	cone.bottom_radius = 3.0
+	cone.height = 12.0
+	cone.radial_segments = 4
+	cone.rings = 1
+	return _combine([[cone, Transform3D(Basis.IDENTITY, Vector3(0, 7.0, 0)), tree_color]])
+
+
+## Distant leafy trees: a rough ball.
+func _make_broadleaf_far() -> Mesh:
+	var crown := SphereMesh.new()
+	crown.radius = 3.6
+	crown.height = 7.0
+	crown.radial_segments = 5
+	crown.rings = 2
+	return _combine([[crown, Transform3D(Basis.IDENTITY, Vector3(0, 6.5, 0)), tree_color.lightened(0.15)]])
 
 
 ## Merges primitive meshes into one mesh with a surface (and colour) per part.

@@ -47,6 +47,7 @@ func add_shake(amount: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("camera_toggle"):
 		view = View.COCKPIT if view == View.CHASE else View.CHASE
+		_target.model.set_cockpit_view(view == View.COCKPIT)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
 		_mouse_looking = event.pressed
 	elif event is InputEventMouseMotion and _mouse_looking:
@@ -58,6 +59,7 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(_target):
 		return
 	_update_look(delta)
+	_target.model.set_head_turn(_look.x)
 
 	var desired := _desired_transform()
 	if view == View.COCKPIT:

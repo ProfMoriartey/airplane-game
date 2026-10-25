@@ -27,12 +27,28 @@ var _cooldown := 0.0
 var _jam_timer := 0.0
 var _next_muzzle := 0
 
+const FLASH_TIME := 0.05
+
+var _flash_timers: Array[float] = []
+var _flashes: Array[Node3D] = []
+
 @onready var _owner_aircraft := get_parent() as Aircraft
 @onready var _muzzles: Array[Node] = get_children()
 
 
 func _ready() -> void:
 	ammo = max_ammo
+	for muzzle: Node3D in _muzzles:
+		var flash := _make_flash()
+		muzzle.add_child(flash)
+		_flashes.append(flash)
+		_flash_timers.append(0.0)
+
+
+func _process(delta: float) -> void:
+	for index in _flashes.size():
+		_flash_timers[index] -= delta
+		_flashes[index].visible = _flash_timers[index] > 0.0
 
 
 func _physics_process(delta: float) -> void:
@@ -76,6 +92,8 @@ func _fire_round() -> void:
 		_jam_timer = jam_duration
 
 	var muzzle := _muzzles[_next_muzzle] as Node3D
+	_flash_timers[_next_muzzle] = FLASH_TIME
+	_flashes[_next_muzzle].rotation.z = randf() * TAU
 	_next_muzzle = (_next_muzzle + 1) % _muzzles.size()
 
 	var spread := deg_to_rad(spread_degrees)
@@ -89,3 +107,33 @@ func _fire_round() -> void:
 		damage,
 		_owner_aircraft,
 	)
+
+
+## A star-shaped burst of flame and a flicker of light at a gun's muzzle.
+func _make_flash() -> Node3D:
+	var flash := Node3D.new()
+	flash.visible = false
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.albedo_color = Color(1.0, 0.75, 0.3, 0.9)
+	material.albedo_texture = preload("res://assets/textures/soft_puff.tres")
+	for angle: float in [0.0, PI * 0.5]:
+		var quad := MeshInstance3D.new()
+		var mesh := QuadMesh.new()
+		mesh.size = Vector2(0.35, 0.9)
+		mesh.material = material
+		quad.mesh = mesh
+		quad.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		# Long axis pointing forward out of the barrel.
+		quad.rotation = Vector3(-PI * 0.5, 0.0, angle)
+		quad.position = Vector3(0, 0, -0.4)
+		flash.add_child(quad)
+	var light := OmniLight3D.new()
+	light.light_color = Color(1.0, 0.7, 0.35)
+	light.light_energy = 2.0
+	light.omni_range = 6.0
+	flash.add_child(light)
+	return flash
