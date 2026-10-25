@@ -96,7 +96,7 @@ func _build_screens() -> void:
 		split.add_child(container)
 		var view := SubViewport.new()
 		view.world_3d = get_viewport().find_world_3d()
-		view.msaa_3d = get_viewport().msaa_3d
+		Settings.apply_anti_aliasing(view)
 		# Only one listener, or every sound would play twice.
 		view.audio_listener_enable_3d = index == 0
 		container.add_child(view)

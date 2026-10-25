@@ -1024,72 +1024,92 @@ msgstr ""
 msgid "--- %s (version %s)\n"
 msgstr ""
 
-#: scripts/autoload/settings.gd:23
+#: scripts/autoload/settings.gd:24
 msgid "Easy"
 msgstr ""
 
-#: scripts/autoload/settings.gd:24 scripts/ui/settings_menu.gd:245
+#: scripts/autoload/settings.gd:25 scripts/ui/settings_menu.gd:245
 msgid "Normal"
 msgstr ""
 
-#: scripts/autoload/settings.gd:25
+#: scripts/autoload/settings.gd:26
 msgid "Hard"
 msgstr ""
 
-#: scripts/autoload/settings.gd:26
+#: scripts/autoload/settings.gd:27
 msgid "Ace"
 msgstr ""
 
-#: scripts/autoload/settings.gd:274 scripts/autoload/settings.gd:274
+#: scripts/autoload/settings.gd:292 scripts/autoload/settings.gd:292
 #, c-format
 msgid "Mouse %d"
 msgstr ""
 
-#: scripts/autoload/settings.gd:279
+#: scripts/autoload/settings.gd:297
 msgid "Left mouse"
 msgstr ""
 
-#: scripts/autoload/settings.gd:279
+#: scripts/autoload/settings.gd:297
 msgid "Right mouse"
 msgstr ""
 
-#: scripts/autoload/settings.gd:279
+#: scripts/autoload/settings.gd:297
 msgid "Middle mouse"
 msgstr ""
 
-#: scripts/autoload/settings.gd:280
+#: scripts/autoload/settings.gd:298
 msgid "Wheel up"
 msgstr ""
 
-#: scripts/autoload/settings.gd:280
+#: scripts/autoload/settings.gd:298
 msgid "Wheel down"
 msgstr ""
 
-#: scripts/autoload/settings.gd:281
+#: scripts/autoload/settings.gd:299
 msgid "Mouse back"
 msgstr ""
 
-#: scripts/autoload/settings.gd:281
+#: scripts/autoload/settings.gd:299
 msgid "Mouse forward"
 msgstr ""
 
-#: scripts/autoload/settings.gd:30
+#: scripts/autoload/settings.gd:31
 msgid "Low"
 msgstr ""
 
-#: scripts/autoload/settings.gd:31
+#: scripts/autoload/settings.gd:32
 msgid "Medium"
 msgstr ""
 
-#: scripts/autoload/settings.gd:32
+#: scripts/autoload/settings.gd:33
 msgid "High"
 msgstr ""
 
+#: scripts/autoload/settings.gd:39 scripts/ui/settings_menu.gd:210
+msgid "Off"
+msgstr ""
+
 #: scripts/autoload/settings.gd:40
+msgid "FXAA (fastest)"
+msgstr ""
+
+#: scripts/autoload/settings.gd:41
+msgid "SMAA (recommended)"
+msgstr ""
+
+#: scripts/autoload/settings.gd:42
+msgid "MSAA 2x"
+msgstr ""
+
+#: scripts/autoload/settings.gd:43
+msgid "MSAA 4x"
+msgstr ""
+
+#: scripts/autoload/settings.gd:51
 msgid "Standard"
 msgstr ""
 
-#: scripts/autoload/settings.gd:44
+#: scripts/autoload/settings.gd:55
 msgid "Colour-blind friendly (orange / blue)"
 msgstr ""
 
@@ -1279,6 +1299,27 @@ msgstr ""
 
 #: scripts/campaign/ranks.gd:9
 msgid "Captain"
+msgstr ""
+
+#: scripts/debug/render_diagnostics.gd:20
+msgid "CLOUDS"
+msgstr ""
+
+#: scripts/debug/render_diagnostics.gd:24
+msgid "WATER"
+msgstr ""
+
+#: scripts/debug/render_diagnostics.gd:30
+msgid "GLOW"
+msgstr ""
+
+#: scripts/debug/render_diagnostics.gd:39
+msgid "ANTI-ALIASING"
+msgstr ""
+
+#: scripts/debug/render_diagnostics.gd:51
+#, c-format
+msgid "TEST: %s %s"
 msgstr ""
 
 #: scripts/levels/duel_level.gd:103
@@ -1473,18 +1514,26 @@ msgstr ""
 msgid "Target"
 msgstr ""
 
-#: scripts/ui/briefing.gd:29 scripts/ui/briefing.gd:29
-#, c-format
-msgid "Bonus: %s"
-msgstr ""
-
-#: scripts/ui/briefing.gd:64
+#: scripts/ui/briefing.gd:126
 #, c-format
 msgid "%s\nTop speed %d km/h   Armour %d   Guns %d   Bombs %d"
 msgstr ""
 
-#: scripts/ui/briefing.gd:72 scripts/ui/briefing.gd:72
+#: scripts/ui/briefing.gd:134 scripts/ui/briefing.gd:134
 msgid "More aircraft unlock as you are promoted."
+msgstr ""
+
+#: scripts/ui/briefing.gd:48
+msgid "Spacer"
+msgstr ""
+
+#: scripts/ui/briefing.gd:62 scripts/ui/pilots_screen.gd:37 scenes/ui/campaign_screen.tscn:161 scenes/ui/credits.tscn:64
+msgid "Back"
+msgstr ""
+
+#: scripts/ui/briefing.gd:91 scripts/ui/briefing.gd:91
+#, c-format
+msgid "Bonus: %s"
 msgstr ""
 
 #: scripts/ui/campaign_screen.gd:100 scripts/ui/campaign_screen.gd:100
@@ -1715,41 +1764,40 @@ msgstr ""
 msgid "Thanks! Saved to the playtest folder (Settings > Gameplay)."
 msgstr ""
 
-#: scripts/ui/hangar.gd:10 scripts/ui/hangar.gd:69
+#: scripts/ui/hangar.gd:10 scripts/ui/hangar.gd:74
 msgid "Firepower"
 msgstr ""
 
-#: scripts/ui/hangar.gd:11 scripts/ui/hangar.gd:70
+#: scripts/ui/hangar.gd:11 scripts/ui/hangar.gd:75
 msgid "Bombs"
 msgstr ""
 
-#: scripts/ui/hangar.gd:27
+#: scripts/ui/hangar.gd:30
 #, c-format
 msgid "%s   (unlocks at %s)"
 msgstr ""
 
-#: scripts/ui/hangar.gd:54 scripts/ui/hangar.gd:54
-#, c-format
-msgid "Unlocks at %s"
+#: scripts/ui/hangar.gd:59
+msgid "Locked"
 msgstr ""
 
-#: scripts/ui/hangar.gd:56
+#: scripts/ui/hangar.gd:61
 msgid "Selected"
 msgstr ""
 
-#: scripts/ui/hangar.gd:58 scenes/ui/hangar.tscn:179
+#: scripts/ui/hangar.gd:63 scenes/ui/hangar.tscn:179
 msgid "Fly this aircraft"
 msgstr ""
 
-#: scripts/ui/hangar.gd:7 scripts/ui/hangar.gd:66
+#: scripts/ui/hangar.gd:7 scripts/ui/hangar.gd:71
 msgid "Top speed"
 msgstr ""
 
-#: scripts/ui/hangar.gd:8 scripts/ui/hangar.gd:67
+#: scripts/ui/hangar.gd:8 scripts/ui/hangar.gd:72
 msgid "Agility"
 msgstr ""
 
-#: scripts/ui/hangar.gd:9 scripts/ui/hangar.gd:68
+#: scripts/ui/hangar.gd:9 scripts/ui/hangar.gd:73
 msgid "Armour"
 msgstr ""
 
@@ -1959,10 +2007,6 @@ msgstr ""
 
 #: scripts/ui/pilots_screen.gd:31
 msgid "Each pilot has their own campaign progress, medals, aircraft and duels. Settings are shared."
-msgstr ""
-
-#: scripts/ui/pilots_screen.gd:37 scenes/ui/campaign_screen.tscn:161 scenes/ui/credits.tscn:64 scenes/ui/duels_screen.tscn:105
-msgid "Back"
 msgstr ""
 
 #: scripts/ui/pilots_screen.gd:71 scripts/ui/pilots_screen.gd:71
@@ -2177,10 +2221,6 @@ msgid "Aim assist"
 msgstr ""
 
 #: scripts/ui/settings_menu.gd:210
-msgid "Off"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:210
 msgid "Light"
 msgstr ""
 
@@ -2383,26 +2423,34 @@ msgid "Quality"
 msgstr ""
 
 #: scripts/ui/settings_menu.gd:357
-msgid "Quality changes shadows, smoothing and how many trees there are (trees change on the next mission)."
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:358
-msgid "Render resolution"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:359
-msgid "V-Sync"
+msgid "Quality changes shadows and how many trees there are (trees change on the next mission)."
 msgstr ""
 
 #: scripts/ui/settings_menu.gd:361
-msgid "Frame rate limit"
+msgid "Anti-aliasing (smooth edges)"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:361
-msgid "Unlimited"
+#: scripts/ui/settings_menu.gd:362
+msgid "If you see flickering dots or white blobs in the distance, use SMAA or FXAA."
 msgstr ""
 
 #: scripts/ui/settings_menu.gd:363
+msgid "Render resolution"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:364
+msgid "V-Sync"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:366
+msgid "Frame rate limit"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:366
+msgid "Unlimited"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:368
 msgid "Old-film grain and vignette"
 msgstr ""
 

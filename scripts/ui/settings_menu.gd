@@ -354,7 +354,12 @@ func _build_graphics() -> void:
 	for level in Settings.QUALITY_SETTINGS.values():
 		qualities.append(level.name)
 	_choice(tab, "Quality", qualities, Settings.quality, func(index: int) -> void: Settings.quality = index)
-	_note(tab, "Quality changes shadows, smoothing and how many trees there are (trees change on the next mission).")
+	_note(tab, "Quality changes shadows and how many trees there are (trees change on the next mission).")
+	var smoothing: Array[String] = []
+	for mode in Settings.ANTI_ALIASING.values():
+		smoothing.append(mode.name)
+	_choice(tab, "Anti-aliasing (smooth edges)", smoothing, Settings.anti_aliasing, func(index: int) -> void: Settings.anti_aliasing = index)
+	_note(tab, "If you see flickering dots or white blobs in the distance, use SMAA or FXAA.")
 	_slider(tab, "Render resolution", 0.5, 1.0, Settings.render_scale, func(value: float) -> void: Settings.render_scale = value)
 	_toggle(tab, "V-Sync", Settings.vsync, func(on: bool) -> void: Settings.vsync = on)
 	var limits := [0, 30, 60, 120, 144]

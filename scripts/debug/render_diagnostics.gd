@@ -30,8 +30,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			_report("GLOW", environment.glow_enabled)
 		KEY_F9:
 			var viewport := get_viewport()
-			viewport.msaa_3d = Viewport.MSAA_DISABLED if viewport.msaa_3d != Viewport.MSAA_DISABLED else Settings.quality_value("msaa")
-			_report("ANTI-ALIASING", viewport.msaa_3d != Viewport.MSAA_DISABLED)
+			var on := viewport.msaa_3d == Viewport.MSAA_DISABLED and viewport.screen_space_aa == Viewport.SCREEN_SPACE_AA_DISABLED
+			if on:
+				Settings.apply_anti_aliasing(viewport)
+			else:
+				viewport.msaa_3d = Viewport.MSAA_DISABLED
+				viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
+			_report("ANTI-ALIASING", on)
 
 
 func _toggle(what: String, nodes: Array) -> void:

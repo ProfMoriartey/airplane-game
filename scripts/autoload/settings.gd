@@ -16,6 +16,7 @@ enum WindowMode { WINDOWED, FULLSCREEN }
 enum Palette { STANDARD, COLORBLIND }
 enum TextSize { NORMAL, LARGE, EXTRA_LARGE }
 enum AimAssist { OFF, LIGHT, STRONG }
+enum AntiAliasing { OFF, FXAA, SMAA, MSAA_2X, MSAA_4X }
 
 ## How each difficulty changes the enemy: aim error, pause between bursts, and
 ## how much damage the player takes.
@@ -27,9 +28,19 @@ const DIFFICULTY_SETTINGS := {
 }
 ## Per quality level: shadows, anti-aliasing, how many trees, and how far they're drawn.
 const QUALITY_SETTINGS := {
-	Quality.LOW: {name = "Low", shadows = false, msaa = Viewport.MSAA_DISABLED, trees = 0.4, tree_distance = 1500.0},
-	Quality.MEDIUM: {name = "Medium", shadows = true, msaa = Viewport.MSAA_2X, trees = 0.7, tree_distance = 2100.0},
-	Quality.HIGH: {name = "High", shadows = true, msaa = Viewport.MSAA_4X, trees = 1.0, tree_distance = 2600.0},
+	Quality.LOW: {name = "Low", shadows = false, trees = 0.4, tree_distance = 1500.0},
+	Quality.MEDIUM: {name = "Medium", shadows = true, trees = 0.7, tree_distance = 2100.0},
+	Quality.HIGH: {name = "High", shadows = true, trees = 1.0, tree_distance = 2600.0},
+}
+## Ways to smooth jagged edges. SMAA and FXAA smooth the finished picture; MSAA
+## draws edges several times over, which is sharper but on some Windows drivers
+## turns far-away trees and hills into flickering dots.
+const ANTI_ALIASING := {
+	AntiAliasing.OFF: {name = "Off", msaa = Viewport.MSAA_DISABLED, screen = Viewport.SCREEN_SPACE_AA_DISABLED},
+	AntiAliasing.FXAA: {name = "FXAA (fastest)", msaa = Viewport.MSAA_DISABLED, screen = Viewport.SCREEN_SPACE_AA_FXAA},
+	AntiAliasing.SMAA: {name = "SMAA (recommended)", msaa = Viewport.MSAA_DISABLED, screen = Viewport.SCREEN_SPACE_AA_SMAA},
+	AntiAliasing.MSAA_2X: {name = "MSAA 2x", msaa = Viewport.MSAA_2X, screen = Viewport.SCREEN_SPACE_AA_DISABLED},
+	AntiAliasing.MSAA_4X: {name = "MSAA 4x", msaa = Viewport.MSAA_4X, screen = Viewport.SCREEN_SPACE_AA_DISABLED},
 }
 ## How many keys or mouse buttons each control can have.
 const KEY_SLOTS := 2
@@ -55,7 +66,7 @@ const SAVED := [
 	"palette", "text_size", "radio_duration", "screen_shake", "language",
 	"invert_pitch", "mouse_sensitivity", "key_bindings", "volumes",
 	"pad_scheme", "pad_bindings", "pad_deadzone", "rumble",
-	"window_mode", "vsync", "max_fps", "render_scale", "quality", "film_grain",
+	"window_mode", "vsync", "max_fps", "render_scale", "quality", "anti_aliasing", "film_grain",
 ]
 
 # Gameplay
@@ -97,6 +108,7 @@ var vsync := true
 var max_fps := 0 ## 0 means unlimited.
 var render_scale := 1.0
 var quality := Quality.HIGH
+var anti_aliasing := AntiAliasing.SMAA
 var film_grain := true
 
 func _ready() -> void:
@@ -151,10 +163,16 @@ func apply() -> void:
 	Engine.max_fps = max_fps
 	var viewport := get_viewport()
 	viewport.scaling_3d_scale = render_scale
-	viewport.msaa_3d = quality_value("msaa")
+	apply_anti_aliasing(viewport)
 	TranslationServer.set_locale(language if language != "" else OS.get_locale())
 	Controls.rebuild()
 	changed.emit()
+
+
+## Gives a 3D view (the game window, or a split-screen half) the chosen edge smoothing.
+func apply_anti_aliasing(viewport: Viewport) -> void:
+	viewport.msaa_3d = ANTI_ALIASING[anti_aliasing].msaa
+	viewport.screen_space_aa = ANTI_ALIASING[anti_aliasing].screen
 
 
 ## Writes the current settings to disk.
