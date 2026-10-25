@@ -23,11 +23,15 @@ func _ready() -> void:
 	for aircraft in Profile.PLAYER_AIRCRAFT:
 		var button := Button.new()
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		# Long names are trimmed so they never push the plane view aside.
+		button.clip_text = true
+		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		var unlocked := aircraft.unlock_rank <= Profile.rank()
 		button.text = aircraft.display_name if unlocked else tr("%s   (unlocks at %s)") % [tr(aircraft.display_name), Ranks.name_of(aircraft.unlock_rank)]
 		button.pressed.connect(_show.bind(aircraft))
 		%PlaneList.add_child(button)
 	_show(Profile.selected_aircraft())
+	%SelectButton.clip_text = true
 	%SelectButton.grab_focus()
 
 
@@ -51,7 +55,8 @@ func _show(aircraft: AircraftStats) -> void:
 	%SelectButton.disabled = not unlocked
 	%LiveryPicker.disabled = not unlocked
 	if not unlocked:
-		%SelectButton.text = tr("Unlocks at %s") % Ranks.name_of(aircraft.unlock_rank)
+		# The rank it unlocks at is shown in the list above.
+		%SelectButton.text = "Locked"
 	elif aircraft == Profile.selected_aircraft():
 		%SelectButton.text = "Selected"
 	else:

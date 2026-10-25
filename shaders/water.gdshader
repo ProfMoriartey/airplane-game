@@ -19,10 +19,13 @@ void fragment() {
 	vec2 uv = world_position.xz * ripple_scale;
 	vec3 a = texture(ripples, uv + TIME * ripple_speed * vec2(1.0, 0.6)).rgb;
 	vec3 b = texture(ripples, uv * 1.7 - TIME * ripple_speed * vec2(0.5, 1.0)).rgb;
-	NORMAL_MAP = normalize(mix(a, b, 0.5));
+	// Normal maps are stored as colours (0.5, 0.5, 1 = flat), so blend them as they are:
+	// normalising the colour itself would tilt every ripple the same way.
+	NORMAL_MAP = mix(a, b, 0.5);
 	NORMAL_MAP_DEPTH = 0.6;
 	float fresnel = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 4.0);
 	ALBEDO = mix(deep_color, sky_color, fresnel * 0.8);
-	ROUGHNESS = 0.08;
+	// Not quite mirror-smooth, so sun glints on the ripples don't sparkle.
+	ROUGHNESS = 0.12;
 	SPECULAR = 0.7;
 }

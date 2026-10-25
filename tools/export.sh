@@ -12,6 +12,14 @@ cd "$(dirname "$0")/.."
 VERSION=$(sed -n 's/^config\/version="\(.*\)"/\1/p' project.godot)
 VERSION=${VERSION:-0.1.0}
 
+# Every build carries the project's version (Windows wants four numbers).
+sed -i '' \
+	-e "s/^application\/file_version=.*/application\/file_version=\"$VERSION.0\"/" \
+	-e "s/^application\/product_version=.*/application\/product_version=\"$VERSION.0\"/" \
+	-e "s/^application\/short_version=.*/application\/short_version=\"$VERSION\"/" \
+	-e "s/^application\/version=.*/application\/version=\"$VERSION\"/" \
+	export_presets.cfg
+
 rm -rf builds/windows builds/mac
 mkdir -p builds/windows builds/mac
 

@@ -7,18 +7,80 @@ signal aircraft_selected(aircraft: AircraftStats)
 const MAP_PIXELS := 256
 ## The map shows this many metres in every direction from the centre.
 const MAP_EXTENT := 2400.0
+## On wide screens the briefing stays this wide, centred, instead of stretching.
+const MAX_WIDTH := 1280.0
+const SIDE_MARGIN := 40
+const CAMPAIGN_SCREEN := "res://scenes/ui/campaign_screen.tscn"
 
 var _aircraft: Array[AircraftStats] = []
+## Where Back goes: the campaign screen, or the main menu for training and other missions.
+var _back_scene := SceneLoader.MAIN_MENU
 
 
 func _ready() -> void:
+	_add_scrolling_and_buttons()
 	%StartButton.pressed.connect(func() -> void: start_pressed.emit())
 	%StartButton.grab_focus()
 	%AircraftPicker.item_selected.connect(_on_aircraft_picked)
+	get_viewport().size_changed.connect(_fit_width)
+	_fit_width()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_go_back()
+
+
+## Long briefings scroll, while Back and Take off always stay in view below.
+func _add_scrolling_and_buttons() -> void:
+	var column := $Margin/Columns/Text as VBoxContainer
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var content := VBoxContainer.new()
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation", column.get_theme_constant("separation"))
+	scroll.add_child(content)
+	for child in column.get_children():
+		if child == %StartButton:
+			continue
+		if child.name == "Spacer":
+			child.queue_free()
+			continue
+		child.reparent(content)
+	column.add_child(scroll)
+	column.move_child(scroll, 0)
+	# Moving nodes drops their owner, which %Name lookups rely on.
+	for child in content.get_children():
+		child.owner = self
+
+	var buttons := HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 12)
+	column.add_child(buttons)
+	var back := Button.new()
+	back.text = "Back"
+	back.custom_minimum_size = Vector2(140, %StartButton.custom_minimum_size.y)
+	back.pressed.connect(_go_back)
+	buttons.add_child(back)
+	%StartButton.reparent(buttons)
+	%StartButton.owner = self
+
+
+func _go_back() -> void:
+	SceneLoader.change_scene(_back_scene)
+
+
+func _fit_width() -> void:
+	var extra := maxf(get_viewport().get_visible_rect().size.x - MAX_WIDTH, 0.0) / 2.0
+	for side in ["margin_left", "margin_right"]:
+		$Margin.add_theme_constant_override(side, SIDE_MARGIN + int(extra))
 
 
 func setup(mission: Mission, terrain: Terrain, player: Aircraft) -> void:
 	%Title.text = tr(mission.title).to_upper()
+	if Profile.CAMPAIGN.all_missions().any(func(info: MissionInfo) -> bool: return info.id == mission.mission_id):
+		_back_scene = CAMPAIGN_SCREEN
 	%Story.text = mission.briefing
 
 	var lines: PackedStringArray = []
