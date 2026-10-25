@@ -95,7 +95,11 @@ func _ready() -> void:
 	_plane.player_controlled = false
 	_plane.auto_level = false
 	_plane.damaged.connect(_on_damaged)
-	_settings = SKILL_SETTINGS[skill]
+	_settings = SKILL_SETTINGS[skill].duplicate()
+	# The difficulty setting makes enemy pilots sloppier or sharper.
+	if _plane.team != Aircraft.Team.ALLIES:
+		_settings.aim_error *= Settings.difficulty_value("enemy_aim")
+		_settings.burst_pause *= Settings.difficulty_value("enemy_bursts")
 	_terrain = get_tree().get_first_node_in_group("terrain") as Terrain
 	# Stagger thinking so a group of pilots doesn't all decide on the same frame.
 	_think_timer = randf() * _settings.reaction_time

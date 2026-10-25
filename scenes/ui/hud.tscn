@@ -12,7 +12,23 @@ bg_color = Color(0.05, 0.05, 0.04, 0.65)
 border_width_left = 3
 border_color = Color(0.85, 0.7, 0.45, 1)
 
-[node name="HUD" type="CanvasLayer"]
+[sub_resource type="StyleBoxFlat" id="Style_instruments"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.06, 0.05, 0.04, 0.55)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.38, 0.24, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="HUD" type="CanvasLayer" groups=["hud"]]
 script = ExtResource("1_hud")
 
 [node name="CombatOverlay" type="Control" parent="."]
@@ -25,17 +41,19 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("2_overlay")
 
-[node name="FlightInfo" type="Label" parent="."]
-offset_left = 24.0
-offset_top = 20.0
-offset_right = 324.0
-offset_bottom = 260.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 20
-text = "SPEED
-ALT
-THR"
+[node name="Instruments" type="PanelContainer" parent="."]
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 280.0
+offset_bottom = 230.0
+theme_override_styles/panel = SubResource("Style_instruments")
+
+[node name="Rows" type="GridContainer" parent="Instruments"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 4
+columns = 2
 
 [node name="Status" type="Label" parent="."]
 anchors_preset = 5

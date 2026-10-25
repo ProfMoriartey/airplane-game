@@ -53,7 +53,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
 		_mouse_looking = event.pressed
 	elif event is InputEventMouseMotion and _mouse_looking:
-		_look -= event.relative * mouse_look_sensitivity
+		_look -= event.relative * mouse_look_sensitivity * Settings.mouse_sensitivity
 		_look = _look.clamp(Vector2(-MAX_LOOK_YAW, -MAX_LOOK_PITCH), Vector2(MAX_LOOK_YAW, MAX_LOOK_PITCH))
 
 

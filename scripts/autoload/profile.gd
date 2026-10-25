@@ -96,6 +96,16 @@ func select_aircraft(id: String) -> void:
 	_save()
 
 
+## The paint scheme chosen for an aircraft type.
+func livery_of(aircraft_id: String) -> int:
+	return int(_data.liveries.get(aircraft_id, 0))
+
+
+func set_livery(aircraft_id: String, livery: int) -> void:
+	_data.liveries[aircraft_id] = livery
+	_save()
+
+
 ## --- Recording results ---
 
 ## Records a finished mission and returns what changed:
@@ -168,6 +178,7 @@ func _new_profile() -> Dictionary:
 		totals = {missions_flown = 0, missions_won = 0, air_kills = 0, ground_kills = 0, balloons = 0, shots = 0, hits = 0},
 		medals = [],
 		selected_aircraft = "scout",
+		liveries = {},
 	}
 
 
@@ -183,6 +194,7 @@ func _load() -> void:
 	_data.missions = parsed.get("missions", {})
 	_data.medals = parsed.get("medals", [])
 	_data.selected_aircraft = parsed.get("selected_aircraft", "scout")
+	_data.liveries = parsed.get("liveries", {})
 	var saved_totals: Dictionary = parsed.get("totals", {})
 	for key: String in _data.totals:
 		# JSON stores every number as a float.

@@ -299,9 +299,10 @@ func _scatter_trees() -> void:
 		for index in chunks_per_side * chunks_per_side:
 			chunks[kind].append([])
 
+	var wanted := roundi(tree_count * Settings.quality_value("trees"))
 	var placed := 0
-	var attempts := tree_count * 8
-	while placed < tree_count and attempts > 0:
+	var attempts := wanted * 8
+	while placed < wanted and attempts > 0:
 		attempts -= 1
 		var x := rng.randf_range(-half, half)
 		var z := rng.randf_range(-half, half)
@@ -330,7 +331,7 @@ func _scatter_trees() -> void:
 			far.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			far.visibility_range_begin = TREE_DETAIL_DISTANCE
 			far.visibility_range_begin_margin = 150.0
-			far.visibility_range_end = TREE_DRAW_DISTANCE
+			far.visibility_range_end = Settings.quality_value("tree_distance")
 			far.visibility_range_end_margin = 300.0
 
 

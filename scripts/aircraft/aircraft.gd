@@ -39,6 +39,8 @@ const DEBRIS_SCENE := preload("res://scenes/effects/debris.tscn")
 @export var player_controlled := false
 ## Shown next to the plane's marker, for named enemy aces.
 @export var pilot_name := ""
+## Paint scheme (see Liveries).
+@export var livery := 0
 ## Beginner assist: gently rolls the wings level when no roll input is given.
 @export var auto_level := true
 @export var auto_level_strength := 1.2
@@ -81,8 +83,9 @@ func _ready() -> void:
 
 
 ## Swaps this plane for another type, e.g. the one picked in the hangar.
-func set_stats(new_stats: AircraftStats) -> void:
+func set_stats(new_stats: AircraftStats, new_livery := 0) -> void:
 	stats = new_stats
+	livery = new_livery
 	_apply_stats()
 
 
@@ -159,6 +162,8 @@ func take_damage(
 ) -> void:
 	if is_destroyed:
 		return
+	if player_controlled:
+		amount *= Settings.difficulty_value("damage_taken")
 	health = maxf(health - amount, 0.0)
 	_damage_part(to_local(hit_position), amount / stats.max_health * 2.0)
 	_smoke.emitting = get_health_ratio() < SMOKE_HEALTH or engine_condition < SMOKE_HEALTH
@@ -210,7 +215,8 @@ func _destroy(attacker: Aircraft) -> void:
 
 
 func _read_player_input(delta: float) -> void:
-	pitch_input = Input.get_axis("pitch_down", "pitch_up")
+	pitch_input = Input.get_axis("pitch_down", "pitch_up") * (-1.0 if Settings.invert_pitch else 1.0)
+	auto_level = Settings.auto_level
 	roll_input = Input.get_axis("roll_left", "roll_right")
 	yaw_input = Input.get_axis("yaw_left", "yaw_right")
 	var throttle_change := Input.get_axis("throttle_down", "throttle_up")
@@ -325,7 +331,7 @@ func _apply_stats() -> void:
 
 
 func _apply_look() -> void:
-	model.build(stats, team)
+	model.build(stats, team, livery)
 	$CollisionShape3D.scale = Vector3(stats.wing_span, 1.0, 1.0) * stats.model_scale
 	var tip := 4.4 * stats.wing_span * stats.model_scale
 	_vapor[0].position.x = -tip

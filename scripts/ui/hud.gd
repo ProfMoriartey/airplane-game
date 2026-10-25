@@ -3,7 +3,8 @@ extends CanvasLayer
 ## Flight instruments, weapon and damage status, objectives, radio messages and warnings.
 
 const MS_TO_KMH := 3.6
-const HEAT_BAR_LENGTH := 10
+const BAR_OK := Color(0.75, 0.62, 0.32)
+const BAR_DANGER := Color(0.9, 0.25, 0.15)
 const BANNER_TIME := 2.0
 const DAMAGED_PART := 0.6
 ## How long each radio message stays up: a base time plus reading time per character.
@@ -17,9 +18,11 @@ var _boundary_warning := false
 var _banner_timer := 0.0
 var _radio_queue: Array[String] = []
 var _radio_timer := 0.0
+var _values := {}
+var _bars := {}
 
 @onready var _overlay: Control = $CombatOverlay
-@onready var _flight_info: Label = $FlightInfo
+@onready var _rows: GridContainer = %Rows
 @onready var _status: Label = $Status
 @onready var _warning: Label = $Warning
 @onready var _banner: Label = $Banner
@@ -31,9 +34,42 @@ var _radio_timer := 0.0
 @onready var _radio_text: Label = $Radio/Text
 
 
+func _ready() -> void:
+	for row: String in ["SPEED", "ALTITUDE"]:
+		_values[row] = _add_row(row, Label.new())
+	for row: String in ["THROTTLE", "HULL", "GUN HEAT"]:
+		var bar := ProgressBar.new()
+		bar.show_percentage = false
+		bar.custom_minimum_size = Vector2(130, 12)
+		bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		bar.add_theme_stylebox_override("fill", _bar_style(BAR_OK))
+		_bars[row] = _add_row(row, bar)
+	for row: String in ["AMMO", "BOMBS"]:
+		_values[row] = _add_row(row, Label.new())
+
+
 func setup(plane: Aircraft) -> void:
 	_plane = plane
 	_overlay.plane = plane
+	refresh_settings()
+
+
+## Shows or hides parts of the HUD to match the settings, and lists the
+## player's current keys in the controls help.
+func refresh_settings() -> void:
+	_help.visible = Settings.show_help
+	var key := Settings.key_name
+	_help.text = "\n".join([
+		"%s  -  fire guns" % key.call("fire"),
+		"%s  -  drop bomb" % key.call("bomb"),
+		"%s / %s  -  nose down / up" % [key.call("pitch_down"), key.call("pitch_up")],
+		"%s / %s  -  roll left / right" % [key.call("roll_left"), key.call("roll_right")],
+		"%s / %s  -  rudder left / right" % [key.call("yaw_left"), key.call("yaw_right")],
+		"%s / %s  -  throttle up / down" % [key.call("throttle_up"), key.call("throttle_down")],
+		"%s  -  chase / cockpit view" % key.call("camera_toggle"),
+		"Hold right mouse  -  look around",
+		"%s  -  pause      F1  -  hide help" % key.call("pause"),
+	])
 
 
 ## A message that stays until replaced, e.g. "CRASHED".
@@ -91,17 +127,13 @@ func _process(delta: float) -> void:
 		return
 
 	var guns := _plane.guns
-	var heat_bars := roundi(guns.heat * HEAT_BAR_LENGTH)
-	_flight_info.text = "SPEED  %d km/h\nALT    %d m\nTHR    %d%%\n\nHULL   %d%%\nAMMO   %d\nHEAT   [%s%s]\nBOMBS  %d" % [
-		roundi(_plane.speed * MS_TO_KMH),
-		roundi(_plane.global_position.y),
-		roundi(_plane.throttle * 100.0),
-		roundi(_plane.get_health_ratio() * 100.0),
-		guns.ammo,
-		"#".repeat(heat_bars),
-		"-".repeat(HEAT_BAR_LENGTH - heat_bars),
-		_plane.bombs.count,
-	]
+	_values.SPEED.text = "%d km/h" % roundi(_plane.speed * MS_TO_KMH)
+	_values.ALTITUDE.text = "%d m" % roundi(_plane.global_position.y)
+	_values.AMMO.text = str(guns.ammo)
+	_values.BOMBS.text = str(_plane.bombs.count)
+	_set_bar("THROTTLE", _plane.throttle, false)
+	_set_bar("HULL", _plane.get_health_ratio(), _plane.get_health_ratio() < 0.35)
+	_set_bar("GUN HEAT", guns.heat, guns.heat > 0.8 or guns.is_overheated)
 
 	_warning.text = "\n".join(_collect_warnings())
 
@@ -117,6 +149,33 @@ func _process(delta: float) -> void:
 			_plane.right_wing_condition,
 			_plane.tail_condition,
 		]
+
+
+func _add_row(title: String, value: Control) -> Control:
+	var label := Label.new()
+	label.text = title
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", Color(0.75, 0.7, 0.6))
+	_rows.add_child(label)
+	if value is Label:
+		value.add_theme_font_size_override("font_size", 18)
+		value.add_theme_color_override("font_outline_color", Color.BLACK)
+		value.add_theme_constant_override("outline_size", 4)
+	_rows.add_child(value)
+	return value
+
+
+func _set_bar(title: String, ratio: float, danger: bool) -> void:
+	var bar: ProgressBar = _bars[title]
+	bar.value = ratio * 100.0
+	(bar.get_theme_stylebox("fill") as StyleBoxFlat).bg_color = BAR_DANGER if danger else BAR_OK
+
+
+func _bar_style(color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.set_corner_radius_all(3)
+	return style
 
 
 func _update_radio(delta: float) -> void:

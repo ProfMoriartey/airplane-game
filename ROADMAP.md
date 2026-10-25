@@ -167,7 +167,7 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 - [x] Medals / awards for achievements
 - [x] Aircraft unlocks tied to rank/campaign progress
 - [ ] Optional: aircraft upgrades (engine, guns, armor)
-- [ ] Optional: plane paint schemes / liveries
+- [x] Plane paint schemes / liveries
 - [x] Pilot stats tracking (kills, missions, accuracy)
 
 ### Aircraft roster (fictionalized WWI-inspired)
@@ -263,29 +263,30 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 
 ## 8. UI & Menus
 
-- [ ] Title / splash screen
+- [x] Title / splash screen
 - [x] Basic main menu (Mission 1, Free flight, Quit)
-- [ ] Full main menu (Campaign, Quick Battle, Settings, Credits, Quit)
+- [x] Full main menu (Campaign, Quick Battle, Hangar, Settings, Credits, Quit) over a live 3D flyby
 - [x] Campaign / mission select screen
-- [ ] Hangar screen (choose plane, view stats, liveries)
+- [x] Hangar screen (choose plane, view stats, liveries)
 - [ ] Briefing and debriefing screens (final art)
 - [x] Pilot profile / service record (rank, medals, stats)
-- [ ] Settings menu:
-  - [ ] Graphics (resolution, fullscreen, quality presets, vsync)
-  - [ ] Audio (volume sliders per bus)
-  - [ ] Controls (rebinding, sensitivity, invert Y)
-  - [ ] Gameplay (difficulty, assists, HUD options)
-- [ ] Final HUD art and layout
-- [ ] Controller-navigable menus
-- [ ] Credits screen
-- [ ] Consistent UI theme (period-style fonts, paper/leather textures)
+- [x] Settings menu:
+  - [x] Graphics (resolution, fullscreen, quality presets, vsync)
+  - [x] Audio (volume sliders per bus)
+  - [x] Controls (rebinding, sensitivity, invert Y)
+  - [x] Gameplay (difficulty, assists, HUD options)
+- [x] Final HUD art and layout
+- [x] Controller-navigable menus
+- [x] Credits screen
+- [x] Consistent UI theme (khaki panels, brass trim)
+- [ ] Period-style font (an OFL-licensed typeface would suit)
 
 ---
 
 ## 9. Extra Game Modes (post-campaign)
 
-- [ ] Quick Battle / Instant Action (pick plane, enemies, map)
-- [ ] Survival / endless waves mode
+- [x] Quick Battle / Instant Action (pick plane, enemies, map)
+- [x] Survival / endless waves mode
 - [ ] Ace duel mode (1v1 against named aces)
 - [ ] Training / tutorial missions
 - [ ] Optional: play the enemy side (like *Red Ace Squadron*)
@@ -315,7 +316,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [ ] Tune AI difficulty curve across campaign
 - [ ] Tune weapon damage, heat, and ammo
 - [ ] Tune scoring and rank progression pace
-- [ ] Difficulty levels (Easy / Normal / Hard / Ace)
+- [x] Difficulty levels (Easy / Normal / Hard / Ace)
 - [ ] Internal playtest passes per milestone
 - [ ] External playtests with feedback form
 - [ ] Fix pacing issues in missions (too long, too empty, too hard)
@@ -341,7 +342,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [ ] Final game name — check it doesn't conflict with existing trademarks or Steam titles ("Red Ace" is taken by the original series)
 - [ ] Use fictional names for aircraft/factions, or verify real manufacturer names are safe to use
 - [ ] Every third-party asset (models, textures, sounds, music, fonts) has a license allowing commercial use — keep a license log
-- [ ] Godot engine MIT license notice included in credits/about
+- [x] Godot engine MIT license notice included in credits/about
 - [ ] Decide release as individual or registered business
 - [ ] Privacy policy (needed if any data/analytics is collected)
 - [ ] EULA (Steam's default is fine unless you need more)

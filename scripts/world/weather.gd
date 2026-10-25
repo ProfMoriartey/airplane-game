@@ -53,7 +53,7 @@ func _ready() -> void:
 	sun.rotation_degrees = Vector3(-time.elevation, time.azimuth, 0.0)
 	sun.light_color = time.sun
 	sun.light_energy = time.energy * weather.sun
-	sun.shadow_enabled = weather.sun > 0.4
+	sun.shadow_enabled = weather.sun > 0.4 and Settings.quality_value("shadows")
 
 	var sky_material := ProceduralSkyMaterial.new()
 	sky_material.sky_top_color = sky_top

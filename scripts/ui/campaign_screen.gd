@@ -18,6 +18,15 @@ func _ready() -> void:
 	Sound.play_music("menu_theme")
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("ui_cancel"):
+		return
+	if %RecordPanel.visible:
+		%RecordPanel.visible = false
+	else:
+		SceneLoader.go_to_main_menu()
+
+
 func _refresh() -> void:
 	_show_pilot()
 	_build_mission_list()

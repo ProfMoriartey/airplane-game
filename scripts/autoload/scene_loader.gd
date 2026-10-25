@@ -2,7 +2,7 @@ extends CanvasLayer
 ## Switches between scenes (menu, levels) behind a loading screen.
 ## The next scene loads in the background so the game doesn't freeze.
 
-const MAIN_MENU := "res://scenes/ui/main_menu.tscn"
+const MAIN_MENU := "res://scenes/ui/menu.tscn"
 
 var _loading_path := ""
 var _progress: ProgressBar

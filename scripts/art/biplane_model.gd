@@ -12,6 +12,7 @@ const TEAM_ALLIES := 0
 ## For standalone use (e.g. a parked plane); aircraft call build() themselves.
 @export var stats: AircraftStats
 @export var team := 0
+@export var livery := 0
 @export var build_on_ready := false
 
 var propeller: Node3D
@@ -31,16 +32,16 @@ static var _cache := {}
 
 func _ready() -> void:
 	if build_on_ready and stats:
-		build(stats, team)
+		build(stats, team, livery)
 
 
-func build(aircraft: AircraftStats, side: int) -> void:
+func build(aircraft: AircraftStats, side: int, paint_scheme := 0) -> void:
 	for child in get_children():
 		child.queue_free()
 	_needles.clear()
-	var key := "%s/%d" % [aircraft.id, side]
+	var key := "%s/%d/%d" % [aircraft.id, side, paint_scheme]
 	if not _cache.has(key):
-		_cache[key] = _make_meshes(aircraft, side)
+		_cache[key] = _make_meshes(aircraft, side, paint_scheme)
 	var meshes: Dictionary = _cache[key]
 	var span := aircraft.wing_span
 	scale = Vector3.ONE * aircraft.model_scale
@@ -130,24 +131,25 @@ func _add_mesh(parent: Node3D, mesh: Mesh, at: Transform3D) -> MeshInstance3D:
 
 ## --- Building the meshes ---
 
-static func _make_meshes(aircraft: AircraftStats, side: int) -> Dictionary:
+static func _make_meshes(aircraft: AircraftStats, side: int, paint_scheme: int) -> Dictionary:
+	var kit := func() -> MeshKit: return _kit(aircraft, paint_scheme)
 	return {
-		body = _make_body(aircraft, side),
+		body = _make_body(kit.call(), aircraft, side),
 		blades = _make_blades(),
 		blur = _make_blur(),
-		aileron = _make_flap(aircraft, 2.4, 0.38),
-		elevator = _make_elevator(aircraft),
-		rudder = _make_rudder(aircraft, side),
+		aileron = _make_flap(kit.call(), 2.4, 0.38),
+		elevator = _make_elevator(kit.call()),
+		rudder = _make_rudder(kit.call(), side),
 		head = _make_head(),
 		panel = _make_panel(),
 		needle = _make_needle(),
 	}
 
 
-static func _kit(aircraft: AircraftStats) -> MeshKit:
+static func _kit(aircraft: AircraftStats, paint_scheme: int) -> MeshKit:
 	var kit := MeshKit.new()
-	kit.add_material("paint", aircraft.paint_color, 0.8)
-	kit.add_material("canvas", aircraft.wing_color, 0.9)
+	kit.add_material("paint", Liveries.paint(aircraft, paint_scheme), 0.8)
+	kit.add_material("canvas", Liveries.wings(aircraft, paint_scheme), 0.9)
 	kit.add_material("metal", Color(0.3, 0.3, 0.3), 0.45, 0.6)
 	kit.add_material("dark", Color(0.08, 0.08, 0.08), 0.7)
 	kit.add_material("wood", Color(0.42, 0.28, 0.16), 0.7)
@@ -158,8 +160,7 @@ static func _kit(aircraft: AircraftStats) -> MeshKit:
 	return kit
 
 
-static func _make_body(aircraft: AircraftStats, side: int) -> ArrayMesh:
-	var kit := _kit(aircraft)
+static func _make_body(kit: MeshKit, aircraft: AircraftStats, side: int) -> ArrayMesh:
 	var span := aircraft.wing_span
 
 	_fuselage(kit)
@@ -336,21 +337,18 @@ static func _make_blur() -> ArrayMesh:
 
 
 ## A control surface hanging behind its hinge (the pivot), spanning X.
-static func _make_flap(aircraft: AircraftStats, span: float, chord: float) -> ArrayMesh:
-	var kit := _kit(aircraft)
+static func _make_flap(kit: MeshKit, span: float, chord: float) -> ArrayMesh:
 	kit.box("canvas", Transform3D(Basis.IDENTITY, Vector3(0, 0, chord * 0.5)), Vector3(span, 0.05, chord))
 	return kit.commit()
 
 
-static func _make_elevator(aircraft: AircraftStats) -> ArrayMesh:
-	var kit := _kit(aircraft)
+static func _make_elevator(kit: MeshKit) -> ArrayMesh:
 	kit.box("canvas", Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.2)), Vector3(3.0, 0.04, 0.4))
 	return kit.commit()
 
 
 ## The rudder: tricolour stripes for our side, a white panel with a cross for the enemy.
-static func _make_rudder(aircraft: AircraftStats, side: int) -> ArrayMesh:
-	var kit := _kit(aircraft)
+static func _make_rudder(kit: MeshKit, side: int) -> ArrayMesh:
 	if side == TEAM_ALLIES:
 		var stripes := ["blue", "white", "red"]
 		for index in 3:

@@ -27,7 +27,8 @@ func _ready() -> void:
 	mission.failed.connect(_on_mission_failed)
 	Events.aircraft_destroyed.connect(_on_aircraft_destroyed)
 	Events.ground_target_destroyed.connect(_on_ground_target_destroyed)
-	player.set_stats(Profile.selected_aircraft())
+	var aircraft := Profile.selected_aircraft()
+	player.set_stats(aircraft, Profile.livery_of(aircraft.id))
 	Sound.play_music("menu_theme")
 	_show_briefing()
 
@@ -74,7 +75,7 @@ func _show_briefing() -> void:
 
 func _on_aircraft_selected(aircraft: AircraftStats) -> void:
 	Profile.select_aircraft(aircraft.id)
-	player.set_stats(aircraft)
+	player.set_stats(aircraft, Profile.livery_of(aircraft.id))
 
 
 func _on_objective_started(objective: Objective) -> void:

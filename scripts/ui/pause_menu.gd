@@ -4,6 +4,8 @@ extends CanvasLayer
 
 signal restart_requested
 
+const SETTINGS_SCENE := preload("res://scenes/ui/settings_menu.tscn")
+
 ## Turned off while other screens (briefing, debrief) are showing.
 var enabled := true
 
@@ -15,6 +17,7 @@ func _ready() -> void:
 	%ResumeButton.pressed.connect(close)
 	%RestartButton.pressed.connect(func() -> void: restart_requested.emit())
 	%MainMenuButton.pressed.connect(SceneLoader.go_to_main_menu)
+	%SettingsButton.pressed.connect(_open_settings)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -25,6 +28,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif enabled:
 		open()
 	get_viewport().set_input_as_handled()
+
+
+func _open_settings() -> void:
+	var settings := SETTINGS_SCENE.instantiate()
+	add_child(settings)
+	settings.closed.connect(func() -> void:
+		%SettingsButton.grab_focus()
+		# The HUD's help box follows the setting.
+		get_tree().call_group("hud", "refresh_settings"))
 
 
 func open() -> void:

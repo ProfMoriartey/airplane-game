@@ -1,0 +1,179 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hangar.gd" id="1_hangar"]
+[ext_resource type="Script" path="res://scripts/art/biplane_model.gd" id="2_model"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_material"]
+sky_top_color = Color(0.16, 0.14, 0.11, 1)
+sky_horizon_color = Color(0.32, 0.28, 0.21, 1)
+ground_bottom_color = Color(0.1, 0.09, 0.07, 1)
+ground_horizon_color = Color(0.32, 0.28, 0.21, 1)
+
+[sub_resource type="Sky" id="Sky_hangar"]
+sky_material = SubResource("Sky_material")
+
+[sub_resource type="Environment" id="Environment_hangar"]
+background_mode = 2
+sky = SubResource("Sky_hangar")
+ambient_light_source = 3
+ambient_light_energy = 0.8
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.22, 0.2, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="Mesh_floor"]
+material = SubResource("Mat_floor")
+top_radius = 9.0
+bottom_radius = 9.0
+height = 0.2
+radial_segments = 48
+rings = 1
+
+[node name="Hangar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hangar")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09, 0.08, 0.06, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 20
+
+[node name="Columns" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Left" type="VBoxContainer" parent="Margin/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Margin/Columns/Left"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "HANGAR"
+
+[node name="View" type="SubViewportContainer" parent="Margin/Columns/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="Margin/Columns/Left/View"]
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(640, 460)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Margin/Columns/Left/View/Viewport"]
+environment = SubResource("Environment_hangar")
+
+[node name="Light" type="DirectionalLight3D" parent="Margin/Columns/Left/View/Viewport"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_color = Color(1, 0.92, 0.8, 1)
+shadow_enabled = true
+
+[node name="Lamp" type="OmniLight3D" parent="Margin/Columns/Left/View/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6, 6)
+light_color = Color(1, 0.8, 0.55, 1)
+light_energy = 2.0
+omni_range = 25.0
+
+[node name="Floor" type="MeshInstance3D" parent="Margin/Columns/Left/View/Viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6, 0)
+mesh = SubResource("Mesh_floor")
+
+[node name="Turntable" type="Node3D" parent="Margin/Columns/Left/View/Viewport"]
+unique_name_in_owner = true
+
+[node name="Model" type="Node3D" parent="Margin/Columns/Left/View/Viewport/Turntable"]
+unique_name_in_owner = true
+script = ExtResource("2_model")
+
+[node name="Camera" type="Camera3D" parent="Margin/Columns/Left/View/Viewport"]
+transform = Transform3D(0.707107, -0.183013, 0.683013, 0, 0.965926, 0.258819, -0.707107, -0.183013, 0.683013, 9, 3.2, 9)
+fov = 50.0
+
+[node name="Right" type="VBoxContainer" parent="Margin/Columns"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlaneList" type="VBoxContainer" parent="Margin/Columns/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Name" type="Label" parent="Margin/Columns/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.5, 1)
+theme_override_font_sizes/font_size = 24
+
+[node name="Description" type="Label" parent="Margin/Columns/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
+[node name="Stats" type="GridContainer" parent="Margin/Columns/Right"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 12
+columns = 2
+
+[node name="LiveryRow" type="HBoxContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+
+[node name="LiveryLabel" type="Label" parent="Margin/Columns/Right/LiveryRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Paint"
+
+[node name="LiveryPicker" type="OptionButton" parent="Margin/Columns/Right/LiveryRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Margin/Columns/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Margin/Columns/Right"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BackButton" type="Button" parent="Margin/Columns/Right/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 44)
+layout_mode = 2
+text = "Back"
+
+[node name="SelectButton" type="Button" parent="Margin/Columns/Right/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fly this aircraft"

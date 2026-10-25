@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="red-ace"
-run/main_scene="res://scenes/ui/main_menu.tscn"
+run/main_scene="res://scenes/ui/splash.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,12 +22,17 @@ SceneLoader="*res://scripts/autoload/scene_loader.gd"
 Profile="*res://scripts/autoload/profile.gd"
 Sound="*res://scripts/autoload/sound.gd"
 InputSetup="*res://scripts/autoload/input_setup.gd"
+Settings="*res://scripts/autoload/settings.gd"
 Projectiles="*res://scripts/combat/projectiles.gd"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/custom="res://assets/ui/theme.tres"
 
 [layer_names]
 

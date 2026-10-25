@@ -39,7 +39,10 @@ func _draw() -> void:
 	if plane == null or not plane.is_alive() or camera == null:
 		return
 	_draw_sight(camera)
-	_draw_bomb_sight(camera)
+	if Settings.show_bomb_sight:
+		_draw_bomb_sight(camera)
+	if not Settings.show_markers:
+		return
 	for marker in objective_markers:
 		_draw_objective(camera, marker)
 	for node in get_tree().get_nodes_in_group("aircraft"):
@@ -123,7 +126,7 @@ func _draw_enemy(camera: Camera3D, enemy: Aircraft) -> void:
 	draw_string(_font, projected + Vector2(-20.0, half + 18.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, ENEMY_COLOR)
 
 	# Lead indicator: put the gun sight on this to hit a moving target.
-	if distance < LEAD_RANGE:
+	if distance < LEAD_RANGE and Settings.show_lead_indicator:
 		var flight_time := distance / plane.guns.muzzle_speed
 		var lead := enemy.global_position + (enemy.velocity - plane.velocity) * flight_time
 		if not camera.is_position_behind(lead):

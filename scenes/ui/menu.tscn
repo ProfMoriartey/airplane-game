@@ -1,0 +1,142 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/menu_world.gd" id="1_world"]
+[ext_resource type="Script" path="res://scripts/ui/menu.gd" id="2_menu"]
+[ext_resource type="Script" path="res://scripts/world/terrain.gd" id="3_terrain"]
+[ext_resource type="Script" path="res://scripts/world/weather.gd" id="4_weather"]
+[ext_resource type="Script" path="res://scripts/world/scenery.gd" id="5_scenery"]
+[ext_resource type="PackedScene" path="res://scenes/effects/film_overlay.tscn" id="6_film"]
+
+[sub_resource type="Environment" id="Environment_placeholder"]
+background_mode = 1
+
+[node name="Menu" type="Node3D"]
+script = ExtResource("1_world")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_placeholder")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+shadow_enabled = true
+directional_shadow_max_distance = 400.0
+
+[node name="Terrain" type="StaticBody3D" parent="." groups=["terrain"]]
+collision_mask = 0
+script = ExtResource("3_terrain")
+
+[node name="Scenery" type="Node3D" parent="."]
+script = ExtResource("5_scenery")
+
+[node name="Weather" type="Node" parent="." node_paths=PackedStringArray("world_environment", "sun")]
+script = ExtResource("4_weather")
+time_of_day = 0
+world_environment = NodePath("../WorldEnvironment")
+sun = NodePath("../Sun")
+
+[node name="Camera" type="Camera3D" parent="."]
+far = 6000.0
+
+[node name="FilmOverlay" parent="." instance=ExtResource("6_film")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_menu")
+
+[node name="Shade" type="ColorRect" parent="UI/MainMenu"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 460.0
+grow_vertical = 2
+color = Color(0.06, 0.05, 0.04, 0.72)
+
+[node name="Box" type="VBoxContainer" parent="UI/MainMenu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -250.0
+offset_right = 410.0
+offset_bottom = 250.0
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="UI/MainMenu/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.14, 0.09, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.04, 0.02, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 64
+text = "RED ACE"
+
+[node name="Subtitle" type="Label" parent="UI/MainMenu/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.72, 0.65, 1)
+theme_override_font_sizes/font_size = 15
+text = "working title"
+
+[node name="PilotLabel" type="Label" parent="UI/MainMenu/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 17
+
+[node name="Spacer" type="Control" parent="UI/MainMenu/Box"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="CampaignButton" type="Button" parent="UI/MainMenu/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Campaign"
+alignment = 0
+
+[node name="QuickBattleButton" type="Button" parent="UI/MainMenu/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Quick battle"
+alignment = 0
+
+[node name="HangarButton" type="Button" parent="UI/MainMenu/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Hangar"
+alignment = 0
+
+[node name="SettingsButton" type="Button" parent="UI/MainMenu/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Settings"
+alignment = 0
+
+[node name="CreditsButton" type="Button" parent="UI/MainMenu/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Credits"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="UI/MainMenu/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Quit"
+alignment = 0

@@ -1,5 +1,6 @@
 extends Level
-## Free flight: endless, growing waves of enemy fighters.
+## Quick Battle: endless, growing waves of enemy fighters, over the landscape,
+## weather and time of day chosen on the Quick Battle screen.
 
 const ENEMY_SCENE := preload("res://scenes/aircraft/enemy_plane.tscn")
 const FIRST_WAVE_DELAY := 3.0
@@ -12,9 +13,20 @@ var _kills := 0
 var _enemies_alive := 0
 
 
+func _enter_tree() -> void:
+	# Before the terrain and weather build themselves.
+	TheaterPresets.apply(QuickBattle.theater, $Terrain)
+	var weather := $Weather as Weather
+	weather.time_of_day = QuickBattle.time_of_day
+	weather.kind = QuickBattle.weather
+	weather.cloud_altitude = TheaterPresets.THEATERS[QuickBattle.theater].cloud_altitude
+	$PlayerPlane.position.y = TheaterPresets.THEATERS[QuickBattle.theater].start_height
+
+
 func _ready() -> void:
 	super()
-	player.set_stats(Profile.selected_aircraft())
+	var aircraft := Profile.selected_aircraft()
+	player.set_stats(aircraft, Profile.livery_of(aircraft.id))
 	Sound.start_flight_music()
 	_update_status()
 	hud.flash_banner("ENEMY FIGHTERS INBOUND")
@@ -31,7 +43,9 @@ func _start_next_wave() -> void:
 		return
 	_wave += 1
 	var skill := AircraftAI.Skill.ROOKIE
-	if _wave > 6:
+	if QuickBattle.enemy_skill >= 0:
+		skill = QuickBattle.enemy_skill
+	elif _wave > 6:
 		skill = AircraftAI.Skill.ACE
 	elif _wave > 3:
 		skill = AircraftAI.Skill.VETERAN
