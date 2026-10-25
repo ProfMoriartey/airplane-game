@@ -22,6 +22,7 @@ SceneLoader="*res://scripts/autoload/scene_loader.gd"
 Profile="*res://scripts/autoload/profile.gd"
 Sound="*res://scripts/autoload/sound.gd"
 InputSetup="*res://scripts/autoload/input_setup.gd"
+Controls="*res://scripts/autoload/controls.gd"
 Settings="*res://scripts/autoload/settings.gd"
 Projectiles="*res://scripts/combat/projectiles.gd"
 

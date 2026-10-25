@@ -15,9 +15,14 @@ const FRIEND_COLOR := Color(0.45, 0.95, 0.5)
 const OBJECTIVE_COLOR := Color(1.0, 0.85, 0.3)
 const RIM_COLOR := Color(0.75, 0.62, 0.35, 0.9)
 
-var plane: Aircraft
+var plane: Aircraft:
+	set(value):
+		plane = value
+		controls = value.controls if value else ""
 var objective_markers: Array[Vector3] = []
 
+## Prefix of the player's input actions, for the zoom control.
+var controls := ""
 var _range_index := 1
 var _map: ColorRect
 var _icons: Control
@@ -45,7 +50,7 @@ func set_terrain(terrain: Terrain) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("map_zoom"):
+	if event.is_action_pressed(controls + "map_zoom"):
 		_range_index = (_range_index + 1) % RANGES.size()
 
 

@@ -28,13 +28,14 @@ const QUALITY_SETTINGS := {
 const REBINDABLE := {
 	pitch_up = "Nose up", pitch_down = "Nose down", roll_left = "Roll left", roll_right = "Roll right",
 	yaw_left = "Rudder left", yaw_right = "Rudder right", throttle_up = "Throttle up", throttle_down = "Throttle down",
-	fire = "Fire guns", bomb = "Drop bomb", camera_toggle = "Change view", map_zoom = "Minimap zoom", pause = "Pause",
+	fire = "Fire guns", bomb = "Drop bomb", camera_toggle = "Change view", map_zoom = "Minimap zoom",
 }
 const BUSES := ["Master", "Music", "SFX", "UI"]
 ## Settings written to the save file.
 const SAVED := [
 	"difficulty", "auto_level", "show_lead_indicator", "show_bomb_sight", "show_markers", "show_help", "show_minimap",
 	"invert_pitch", "mouse_sensitivity", "key_bindings", "volumes",
+	"pad_scheme", "pad_bindings", "pad_deadzone", "rumble",
 	"window_mode", "vsync", "max_fps", "render_scale", "quality", "film_grain",
 ]
 
@@ -51,6 +52,12 @@ var invert_pitch := false
 var mouse_sensitivity := 1.0
 ## action -> physical keycode, only for actions the player has changed.
 var key_bindings := {}
+## Which controller layout to use (see InputSetup.PadScheme).
+var pad_scheme := 0
+## Controller rebinds: scheme number (as text) -> control -> {axis, dir} or {button}.
+var pad_bindings := {}
+var pad_deadzone := 0.2
+var rumble := true
 # Audio: bus name -> volume from 0 to 1.
 var volumes := {Master = 0.8, Music = 0.6, SFX = 0.9, UI = 0.8}
 # Graphics
@@ -61,13 +68,7 @@ var render_scale := 1.0
 var quality := Quality.HIGH
 var film_grain := true
 
-var _default_keys := {}
-
-
 func _ready() -> void:
-	# Remember the default keys (InputSetup runs first) so they can be restored.
-	for action: String in REBINDABLE:
-		_default_keys[action] = InputMap.action_get_events(action)
 	_load()
 	apply()
 
@@ -92,7 +93,7 @@ func apply() -> void:
 	var viewport := get_viewport()
 	viewport.scaling_3d_scale = render_scale
 	viewport.msaa_3d = quality_value("msaa")
-	_apply_key_bindings()
+	Controls.rebuild()
 	_save()
 	changed.emit()
 
@@ -103,10 +104,21 @@ func bind_key(action: String, keycode: Key) -> void:
 	apply()
 
 
+## Rebinds a controller control (in the current scheme) to a button or axis.
+func bind_pad(control: String, binding: Dictionary) -> void:
+	var scheme := str(pad_scheme)
+	if not pad_bindings.has(scheme):
+		pad_bindings[scheme] = {}
+	pad_bindings[scheme][control] = binding
+	apply()
+
+
 func reset_controls() -> void:
 	key_bindings.clear()
+	pad_bindings.clear()
 	invert_pitch = false
 	mouse_sensitivity = 1.0
+	pad_deadzone = 0.2
 	apply()
 
 
@@ -123,19 +135,6 @@ func key_name(action: String) -> String:
 		if event is InputEventKey:
 			return OS.get_keycode_string(event.physical_keycode)
 	return "-"
-
-
-func _apply_key_bindings() -> void:
-	for action: String in REBINDABLE:
-		InputMap.action_erase_events(action)
-		for event: InputEvent in _default_keys[action]:
-			if event is InputEventKey and key_bindings.has(action):
-				continue
-			InputMap.action_add_event(action, event)
-		if key_bindings.has(action):
-			var key := InputEventKey.new()
-			key.physical_keycode = key_bindings[action]
-			InputMap.action_add_event(action, key)
 
 
 func _save() -> void:

@@ -115,6 +115,17 @@ func radio(line: String) -> void:
 	_radio_queue.append(Settings.fill_keys(line))
 
 
+## For split-screen: moves the centre lines (status, warnings, banner) below the
+## instrument panel and minimap, which fill the top of a narrow view.
+func set_compact() -> void:
+	for label: Label in [_status, _warning, _banner]:
+		label.offset_top += 200.0
+		label.offset_bottom += 200.0
+	_status.add_theme_font_size_override("font_size", 17)
+	_banner.add_theme_font_size_override("font_size", 26)
+	_help.visible = false
+
+
 func set_boundary_warning(active: bool) -> void:
 	_boundary_warning = active
 

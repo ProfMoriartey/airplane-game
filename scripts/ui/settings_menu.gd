@@ -9,13 +9,17 @@ const WINDOW_SIZES := [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1920, 
 ## The action waiting for a new key, while rebinding.
 var _rebinding := ""
 var _key_buttons := {}
+## The control waiting for a controller button or axis, while rebinding.
+var _rebinding_pad := ""
+var _pad_buttons := {}
 
 
 func _ready() -> void:
 	%BackButton.pressed.connect(close)
 	%ResetButton.pressed.connect(func() -> void:
 		Settings.reset_controls()
-		_refresh_keys())
+		_refresh_keys()
+		_refresh_pads())
 	_build_gameplay()
 	_build_controls()
 	_build_audio()
@@ -36,6 +40,21 @@ func _input(event: InputEvent) -> void:
 			_rebinding = ""
 			_refresh_keys()
 			get_viewport().set_input_as_handled()
+		return
+	if _rebinding_pad != "":
+		var binding := {}
+		if event is InputEventJoypadButton and event.pressed:
+			binding = {button = event.button_index}
+		elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.6:
+			binding = {axis = event.axis, dir = int(signf(event.axis_value))}
+		elif event is InputEventKey and event.pressed and event.physical_keycode == KEY_ESCAPE:
+			_rebinding_pad = ""
+			_refresh_pads()
+		if not binding.is_empty():
+			Settings.bind_pad(_rebinding_pad, binding)
+			_rebinding_pad = ""
+			_refresh_pads()
+		get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause"):
 		get_viewport().set_input_as_handled()
@@ -73,6 +92,36 @@ func _build_controls() -> void:
 		_key_buttons[action] = button
 		_row(tab, Settings.REBINDABLE[action], button)
 	_refresh_keys()
+	_build_controller_settings(tab)
+
+
+func _build_controller_settings(tab: VBoxContainer) -> void:
+	var header := Label.new()
+	header.text = "CONTROLLER / FLIGHT STICK"
+	header.add_theme_color_override("font_color", Color(0.85, 0.7, 0.45))
+	tab.add_child(header)
+	var connected := Input.get_connected_joypads().map(func(device: int) -> String: return Input.get_joy_name(device))
+	_note(tab, "Connected: %s" % (", ".join(connected) if not connected.is_empty() else "none - plug one in to use it"))
+	_choice(tab, "Layout", ["Gamepad", "Flight stick (with throttle lever)"], Settings.pad_scheme, func(index: int) -> void:
+		Settings.pad_scheme = index
+		_refresh_pads.call_deferred())
+	_slider(tab, "Stick dead zone", 0.05, 0.5, Settings.pad_deadzone, func(value: float) -> void: Settings.pad_deadzone = value)
+	_toggle(tab, "Rumble when hit", Settings.rumble, func(on: bool) -> void: Settings.rumble = on)
+	_note(tab, "Click a control, then press the button or move the stick, lever or trigger you want (Esc cancels).")
+	for control: String in Controls.CONTROLS:
+		var button := Button.new()
+		button.custom_minimum_size = Vector2(200, 0)
+		button.pressed.connect(func() -> void:
+			_rebinding_pad = control
+			button.text = "Press or move...")
+		_pad_buttons[control] = button
+		_row(tab, Controls.CONTROLS[control], button)
+	_refresh_pads()
+
+
+func _refresh_pads() -> void:
+	for control: String in _pad_buttons:
+		_pad_buttons[control].text = Controls.binding_name(Controls.pad_binding(control))
 
 
 func _build_audio() -> void:

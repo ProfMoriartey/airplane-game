@@ -37,6 +37,8 @@ const DEBRIS_SCENE := preload("res://scenes/effects/debris.tscn")
 @export var stats: AircraftStats
 @export var team := Team.ALLIES
 @export var player_controlled := false
+## Prefix of the input actions this plane's player uses ("" alone, "p1_"/"p2_" in split-screen).
+@export var controls := ""
 ## Shown next to the plane's marker, for named enemy aces.
 @export var pilot_name := ""
 ## Paint scheme (see Liveries).
@@ -164,6 +166,8 @@ func take_damage(
 		return
 	if player_controlled:
 		amount *= Settings.difficulty_value("damage_taken")
+		if Settings.rumble:
+			Controls.vibrate(controls, 0.4, minf(amount / 25.0, 1.0), 0.25)
 	health = maxf(health - amount, 0.0)
 	_damage_part(to_local(hit_position), amount / stats.max_health * 2.0)
 	_smoke.emitting = get_health_ratio() < SMOKE_HEALTH or engine_condition < SMOKE_HEALTH
@@ -215,14 +219,20 @@ func _destroy(attacker: Aircraft) -> void:
 
 
 func _read_player_input(delta: float) -> void:
-	pitch_input = Input.get_axis("pitch_down", "pitch_up") * (-1.0 if Settings.invert_pitch else 1.0)
+	var c := controls
+	pitch_input = Input.get_axis(c + "pitch_down", c + "pitch_up") * (-1.0 if Settings.invert_pitch else 1.0)
 	auto_level = Settings.auto_level
-	roll_input = Input.get_axis("roll_left", "roll_right")
-	yaw_input = Input.get_axis("yaw_left", "yaw_right")
-	var throttle_change := Input.get_axis("throttle_down", "throttle_up")
-	throttle = clampf(throttle + throttle_change * THROTTLE_CHANGE_RATE * delta, 0.0, 1.0)
-	guns.trigger = Input.is_action_pressed("fire")
-	if Input.is_action_just_pressed("bomb"):
+	roll_input = Input.get_axis(c + "roll_left", c + "roll_right")
+	yaw_input = Input.get_axis(c + "yaw_left", c + "yaw_right")
+	var lever := Controls.throttle_lever(c)
+	if lever >= 0.0:
+		# A flight stick's throttle lever sets the throttle directly.
+		throttle = lever
+	else:
+		var throttle_change := Input.get_axis(c + "throttle_down", c + "throttle_up")
+		throttle = clampf(throttle + throttle_change * THROTTLE_CHANGE_RATE * delta, 0.0, 1.0)
+	guns.trigger = Input.is_action_pressed(c + "fire")
+	if Input.is_action_just_pressed(c + "bomb"):
 		bombs.drop()
 
 

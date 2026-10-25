@@ -7,6 +7,7 @@ const HANGAR := "res://scenes/ui/hangar.tscn"
 const CREDITS := "res://scenes/ui/credits.tscn"
 const TRAINING := "res://scenes/levels/training.tscn"
 const DUELS := "res://scenes/ui/duels_screen.tscn"
+const TWO_PLAYERS := "res://scenes/ui/two_player_screen.tscn"
 const SETTINGS_SCENE := preload("res://scenes/ui/settings_menu.tscn")
 
 
@@ -16,6 +17,7 @@ func _ready() -> void:
 	%DuelsButton.pressed.connect(SceneLoader.change_scene.bind(DUELS))
 	%QuickBattleButton.pressed.connect(SceneLoader.change_scene.bind(QUICK_BATTLE))
 	%HangarButton.pressed.connect(SceneLoader.change_scene.bind(HANGAR))
+	%TwoPlayerButton.pressed.connect(SceneLoader.change_scene.bind(TWO_PLAYERS))
 	%SettingsButton.pressed.connect(_open_settings)
 	%CreditsButton.pressed.connect(SceneLoader.change_scene.bind(CREDITS))
 	%QuitButton.pressed.connect(get_tree().quit)

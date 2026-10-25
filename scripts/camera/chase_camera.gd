@@ -25,6 +25,10 @@ const SHAKE_DECAY := 1.5
 const SHAKE_STRENGTH := 0.4
 
 var view := View.CHASE
+## Prefix of this camera's player's input actions (see Aircraft.controls).
+var controls := ""
+## Off for split-screen players using a controller, so the mouse is the keyboard player's.
+var mouse_look := true
 
 var _target: Aircraft
 var _look := Vector2.ZERO ## x is yaw (+ left), y is pitch (+ up), in radians.
@@ -36,8 +40,16 @@ func _ready() -> void:
 	top_level = true
 	# Lets passing planes' engines rise and fall in pitch.
 	doppler_tracking = Camera3D.DOPPLER_TRACKING_PHYSICS_STEP
-	_target = get_node(target_path)
 	fov = base_fov
+	if not target_path.is_empty():
+		set_target(get_node(target_path))
+
+
+## Follows a different plane, e.g. a respawned one in split-screen.
+func set_target(plane: Aircraft) -> void:
+	_target = plane
+	view = View.CHASE
+	_look = Vector2.ZERO
 	global_transform = _desired_transform()
 
 
@@ -52,9 +64,11 @@ func add_shake(amount: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("camera_toggle"):
+	if event.is_action_pressed(controls + "camera_toggle"):
 		view = View.COCKPIT if view == View.CHASE else View.CHASE
 		_target.model.set_cockpit_view(view == View.COCKPIT)
+	elif not mouse_look:
+		return
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
 		_mouse_looking = event.pressed
 	elif event is InputEventMouseMotion and _mouse_looking:
@@ -80,7 +94,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _update_look(delta: float) -> void:
-	var stick := Input.get_vector("look_left", "look_right", "look_down", "look_up")
+	var stick := Input.get_vector(controls + "look_left", controls + "look_right", controls + "look_down", controls + "look_up")
 	if stick != Vector2.ZERO:
 		_look = Vector2(-stick.x * MAX_LOOK_YAW, stick.y * MAX_LOOK_PITCH)
 	elif not _mouse_looking:

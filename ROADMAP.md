@@ -290,7 +290,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [x] Ace duel mode (1v1 against named aces)
 - [x] Training / tutorial missions
 - [x] Optional: play the enemy side (like *Red Ace Squadron*)
-- [ ] Optional: local split-screen
+- [x] Local split-screen: co-op waves and versus, side by side or stacked, one device per player
 - [ ] Optional: online multiplayer (dogfight, co-op)
 
 ---
@@ -301,8 +301,8 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [ ] Multiple save slots
 - [x] Scene loading with progress (threaded loading)
 - [x] Object pooling for bullets, effects, debris
-- [ ] Input handling for keyboard/mouse, gamepad, joystick (with dead zones)
-- [ ] Rumble / haptics for gamepad
+- [x] Input handling for keyboard/mouse, gamepad, joystick (with dead zones)
+- [x] Rumble / haptics for gamepad
 - [ ] Pause handling (process modes)
 - [ ] Localization support (string tables) — even if English only at first
 - [ ] Accessibility: subtitles, colorblind-safe HUD, remappable controls
@@ -329,7 +329,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [ ] Profile GPU (terrain, vegetation, clouds, particles)
 - [ ] Hit target framerate on minimum-spec hardware
 - [ ] Test on all target platforms
-- [ ] Test all input devices
+- [ ] Test all input devices on real hardware (keyboard/mouse, Xbox, PlayStation, flight sticks) — routing tested with simulated input
 - [ ] Bug tracking list and triage
 - [ ] Full campaign playthrough without blockers
 - [ ] Save compatibility testing
