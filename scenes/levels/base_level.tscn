@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="6_pause"]
 [ext_resource type="Environment" path="res://data/environments/farmland.tres" id="7_env"]
+[ext_resource type="Script" path="res://scripts/world/weather.gd" id="8_weather"]
+[ext_resource type="Script" path="res://scripts/world/scenery.gd" id="9_scenery"]
 
 
 [node name="Level" type="Node3D"]
@@ -23,6 +25,14 @@ directional_shadow_max_distance = 600.0
 [node name="Terrain" type="StaticBody3D" parent="." groups=["terrain"]]
 collision_mask = 0
 script = ExtResource("2_terrain")
+
+[node name="Scenery" type="Node3D" parent="."]
+script = ExtResource("9_scenery")
+
+[node name="Weather" type="Node" parent="." node_paths=PackedStringArray("world_environment", "sun")]
+script = ExtResource("8_weather")
+world_environment = NodePath("../WorldEnvironment")
+sun = NodePath("../Sun")
 
 [node name="PlayerPlane" parent="." instance=ExtResource("3_plane")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 800)

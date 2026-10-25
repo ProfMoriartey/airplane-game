@@ -42,6 +42,8 @@ Missions are scenes that inherit `scenes/levels/base_level.tscn` (see `mission_0
 
 Tick **optional** for bonus objectives. Radio lines are written as `Speaker: message`. Give the Mission a `mission_id`, then add the mission to `data/campaign/campaign.tres` to put it in the campaign.
 
+Each level has a `Weather` node (time of day: dawn/noon/dusk; weather: clear/overcast/rain/fog) and a `Terrain` node whose settings control hills, water, forests, colours and snow. A `Scenery` node adds villages and roads automatically, keeping clear of mission targets. Convoy routes use the `Road` script so they show as dirt roads.
+
 Aircraft are defined in `data/aircraft/*.tres` – flight handling, guns, bombs, colours, size, and the rank that unlocks them.
 - `data/aircraft/` – per-aircraft flight stats (edit these to tune handling)
 - `assets/` – textures and other art

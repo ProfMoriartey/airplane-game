@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
 [ext_resource type="PackedScene" path="res://scenes/targets/truck.tscn" id="truck"]
 [ext_resource type="PackedScene" path="res://scenes/targets/tank.tscn" id="tank"]
+[ext_resource type="Script" path="res://scripts/world/road.gd" id="road"]
 
 [sub_resource type="Curve3D" id="Curve_Road"]
 _data = {
@@ -20,6 +21,11 @@ point_count = 6
 
 [node name="Mission03" instance=ExtResource("base")]
 script = ExtResource("mission_level")
+
+[node name="Weather" parent="."]
+time_of_day = 1
+kind = 0
+cloud_amount = 0.6
 
 [node name="PlayerPlane" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 1900)
@@ -63,6 +69,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 1700)
 
 [node name="Road" type="Path3D" parent="."]
 curve = SubResource("Curve_Road")
+script = ExtResource("road")
 
 [node name="Convoy" type="Node3D" parent="."]
 

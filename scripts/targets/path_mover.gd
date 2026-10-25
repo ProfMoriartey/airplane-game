@@ -34,7 +34,7 @@ func _place() -> void:
 	var curve := path.curve
 	var here := path.to_global(curve.sample_baked(_distance))
 	var ahead := path.to_global(curve.sample_baked(minf(_distance + 3.0, curve.get_baked_length())))
-	here.y = _terrain.get_height(here.x, here.z) + _vehicle.ground_offset
+	here.y = _terrain.get_surface_height(here.x, here.z) + _vehicle.ground_offset
 	_vehicle.global_position = here
 	var direction := ahead - here
 	if Vector2(direction.x, direction.z).length_squared() > 0.01:

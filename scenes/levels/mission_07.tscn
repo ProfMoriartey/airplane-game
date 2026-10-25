@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/targets/tank.tscn" id="tank"]
 [ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="shed"]
 [ext_resource type="PackedScene" path="res://scenes/targets/fuel_tanks.tscn" id="fuel"]
-[ext_resource type="Environment" path="res://data/environments/mountains.tres" id="env_mountains"]
+[ext_resource type="Script" path="res://scripts/world/road.gd" id="road"]
 
 [sub_resource type="Curve3D" id="Curve_Road"]
 _data = {
@@ -24,8 +24,10 @@ point_count = 5
 [node name="Mission07" instance=ExtResource("base")]
 script = ExtResource("mission_level")
 
-[node name="WorldEnvironment" parent="."]
-environment = ExtResource("env_mountains")
+[node name="Weather" parent="."]
+time_of_day = 1
+kind = 0
+cloud_altitude = 950.0
 
 [node name="Terrain" parent="."]
 terrain_seed = 1918
@@ -35,6 +37,10 @@ snow_height = 150.0
 field_colors = Array[Color]([Color(0.32, 0.42, 0.22, 1), Color(0.38, 0.46, 0.26, 1), Color(0.3, 0.38, 0.22, 1), Color(0.42, 0.44, 0.3, 1)])
 rock_color = Color(0.48, 0.47, 0.45, 1)
 tree_color = Color(0.12, 0.2, 0.12, 1)
+water_level = 10.0
+rivers = false
+pine_share = 0.85
+edge_height = 500.0
 
 [node name="PlayerPlane" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 650, 1900)
@@ -84,6 +90,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 600, 1700)
 
 [node name="Road" type="Path3D" parent="."]
 curve = SubResource("Curve_Road")
+script = ExtResource("road")
 
 [node name="Convoy" type="Node3D" parent="."]
 

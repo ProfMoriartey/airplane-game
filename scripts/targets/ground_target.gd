@@ -42,7 +42,7 @@ func is_alive() -> bool:
 func place_on_ground() -> void:
 	var terrain := get_tree().get_first_node_in_group("terrain") as Terrain
 	if terrain:
-		global_position.y = terrain.get_height(global_position.x, global_position.z) + ground_offset
+		global_position.y = terrain.get_surface_height(global_position.x, global_position.z) + ground_offset
 
 
 func take_damage(

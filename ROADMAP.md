@@ -188,18 +188,21 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 
 ## 5. World & Environments
 
-- [ ] Terrain tooling (heightmap import, or Terrain3D plugin)
+- [x] Terrain generator: hills, rivers, lakes, forests, snow, edge hills — tuned per theater
+- [ ] Optional: hand-painted heightmaps for special maps
 - [x] Theater 1 map (green farmland)
 - [x] Theater 2 map (e.g. muddy trench front / no man's land)
 - [x] Theater 3 map (e.g. mountains, coastline, or snow)
-- [ ] Terrain texturing (splat maps: grass, mud, rock, roads)
-- [ ] Vegetation (trees, hedges) with LOD / multimesh
-- [ ] Villages, farms, churches, windmills
-- [ ] Rivers and lakes (water shader)
-- [ ] Volumetric or billboard clouds (fly through them)
-- [ ] Time of day variants (dawn, noon, dusk)
-- [ ] Weather variants (clear, overcast, rain, fog)
-- [ ] Map boundaries that look natural
+- [x] Terrain texturing: field patchwork, rock on slopes, sandy shores, snow, detail noise shader
+- [x] Dirt roads (between villages, and convoy routes)
+- [x] Trees (pines and broadleaf) in multimesh chunks with distance culling
+- [ ] Hedgerows between fields
+- [x] Villages, farms, churches, windmills
+- [x] Rivers and lakes (water shader)
+- [x] Billboard clouds you can fly through (screen mists over)
+- [x] Time of day variants (dawn, noon, dusk)
+- [x] Weather variants (clear, overcast, rain, fog)
+- [x] Map boundaries that look natural
 
 ---
 
@@ -215,7 +218,8 @@ Check items off as they're completed. Milestones are ordered so that each one pr
 
 ### VFX
 - [ ] Muzzle flash and tracers
-- [ ] Bullet impacts (dirt, wood, metal, water)
+- [x] Bullet impacts: sparks, dirt, water splashes
+- [ ] Bullet impacts: wood splinters
 - [ ] Explosions (air and ground)
 - [ ] Flak bursts
 - [ ] Smoke and fire trails from damaged planes

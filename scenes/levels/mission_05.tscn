@@ -10,13 +10,13 @@
 [ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="shed"]
 [ext_resource type="PackedScene" path="res://scenes/targets/fuel_tanks.tscn" id="fuel"]
 [ext_resource type="PackedScene" path="res://scenes/aircraft/allied_bomber.tscn" id="bomber"]
-[ext_resource type="Environment" path="res://data/environments/mud.tres" id="env_mud"]
 
 [node name="Mission05" instance=ExtResource("base")]
 script = ExtResource("mission_level")
 
-[node name="WorldEnvironment" parent="."]
-environment = ExtResource("env_mud")
+[node name="Weather" parent="."]
+time_of_day = 1
+kind = 1
 
 [node name="Terrain" parent="."]
 terrain_seed = 1916
@@ -25,6 +25,10 @@ forest_cover = 0.15
 field_colors = Array[Color]([Color(0.4, 0.35, 0.24, 1), Color(0.36, 0.33, 0.25, 1), Color(0.45, 0.4, 0.28, 1), Color(0.33, 0.36, 0.22, 1), Color(0.42, 0.38, 0.3, 1)])
 rock_color = Color(0.35, 0.3, 0.24, 1)
 tree_color = Color(0.2, 0.22, 0.14, 1)
+water_level = 4.0
+river_width = 0.03
+river_max_height = 50.0
+pine_share = 0.2
 
 [node name="PlayerPlane" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 330, 1800)

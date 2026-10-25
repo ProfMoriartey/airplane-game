@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="11_shed"]
 [ext_resource type="PackedScene" path="res://scenes/targets/fuel_tanks.tscn" id="12_fuel"]
 [ext_resource type="Script" path="res://scripts/targets/path_mover.gd" id="13_mover"]
+[ext_resource type="Script" path="res://scripts/world/road.gd" id="14_road"]
 
 [sub_resource type="Curve3D" id="Curve_road"]
 _data = {
@@ -119,6 +120,7 @@ script = ExtResource("6_squadron")
 
 [node name="ConvoyRoad" type="Path3D" parent="."]
 curve = SubResource("Curve_road")
+script = ExtResource("14_road")
 
 [node name="Convoy" type="Node3D" parent="."]
 

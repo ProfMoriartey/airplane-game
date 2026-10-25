@@ -11,6 +11,10 @@
 [node name="Mission02" instance=ExtResource("base")]
 script = ExtResource("mission_level")
 
+[node name="Weather" parent="."]
+time_of_day = 0
+kind = 0
+
 [node name="PlayerPlane" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 350, 1900)
 

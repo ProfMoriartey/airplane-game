@@ -14,6 +14,7 @@ const TRACER_LENGTH := 6.0
 const HIT_MASK := 1 | 2 | 4 | 16 ## World, player, enemy and ground target layers.
 const SPARKS_SCENE := preload("res://scenes/effects/hit_sparks.tscn")
 const DUST_SCENE := preload("res://scenes/effects/ground_dust.tscn")
+const SPLASH_SCENE := preload("res://scenes/effects/water_splash.tscn")
 
 
 class Bullet:
@@ -27,6 +28,7 @@ class Bullet:
 var _bullets: Array[Bullet] = []
 var _ray := PhysicsRayQueryParameters3D.new()
 var _tracers := MultiMesh.new()
+var _terrain: Terrain
 
 
 func _ready() -> void:
@@ -65,6 +67,7 @@ func spawn(from: Vector3, initial_velocity: Vector3, damage: float, shooter: Air
 ## Removes every bullet, e.g. when a level restarts.
 func clear() -> void:
 	_bullets.clear()
+	_terrain = null
 	_tracers.visible_instance_count = 0
 
 
@@ -99,6 +102,9 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 		return true
 
 	var target := hit.collider as Node3D
+	if _hits_water(bullet.position, hit.position):
+		_spawn_effect(SPLASH_SCENE, Vector3(hit.position.x, _terrain.water_level, hit.position.z))
+		return false
 	if target.has_method("take_damage") and target.is_alive():
 		var shooter := bullet.shooter if is_instance_valid(bullet.shooter) else null
 		# Nobody hurts their own side.
@@ -109,6 +115,15 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 	else:
 		_spawn_effect(DUST_SCENE, hit.position)
 	return false
+
+
+## Whether a bullet travelling between these points goes into a river or lake first.
+func _hits_water(from: Vector3, hit_position: Vector3) -> bool:
+	if _terrain == null:
+		_terrain = get_tree().get_first_node_in_group("terrain") as Terrain
+	if _terrain == null or not _terrain.has_water:
+		return false
+	return from.y > _terrain.water_level and hit_position.y < _terrain.water_level
 
 
 func _spawn_effect(scene: PackedScene, at: Vector3) -> void:

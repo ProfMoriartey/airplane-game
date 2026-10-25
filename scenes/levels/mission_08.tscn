@@ -9,13 +9,14 @@
 [ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
 [ext_resource type="PackedScene" path="res://scenes/targets/hangar.tscn" id="hangar"]
 [ext_resource type="PackedScene" path="res://scenes/targets/parked_plane.tscn" id="parked"]
-[ext_resource type="Environment" path="res://data/environments/mountains.tres" id="env_mountains"]
 
 [node name="Mission08" instance=ExtResource("base")]
 script = ExtResource("mission_level")
 
-[node name="WorldEnvironment" parent="."]
-environment = ExtResource("env_mountains")
+[node name="Weather" parent="."]
+time_of_day = 2
+kind = 0
+cloud_altitude = 950.0
 
 [node name="Terrain" parent="."]
 terrain_seed = 1918
@@ -25,6 +26,10 @@ snow_height = 150.0
 field_colors = Array[Color]([Color(0.32, 0.42, 0.22, 1), Color(0.38, 0.46, 0.26, 1), Color(0.3, 0.38, 0.22, 1), Color(0.42, 0.44, 0.3, 1)])
 rock_color = Color(0.48, 0.47, 0.45, 1)
 tree_color = Color(0.12, 0.2, 0.12, 1)
+water_level = 10.0
+rivers = false
+pine_share = 0.85
+edge_height = 500.0
 
 [node name="PlayerPlane" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 650, 1900)

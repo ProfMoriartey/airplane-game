@@ -9,13 +9,13 @@
 [ext_resource type="PackedScene" path="res://scenes/targets/balloon.tscn" id="balloon"]
 [ext_resource type="PackedScene" path="res://scenes/targets/aa_gun.tscn" id="aa"]
 [ext_resource type="PackedScene" path="res://scenes/targets/supply_shed.tscn" id="shed"]
-[ext_resource type="Environment" path="res://data/environments/mud.tres" id="env_mud"]
 
 [node name="Mission06" instance=ExtResource("base")]
 script = ExtResource("mission_level")
 
-[node name="WorldEnvironment" parent="."]
-environment = ExtResource("env_mud")
+[node name="Weather" parent="."]
+time_of_day = 1
+kind = 2
 
 [node name="Terrain" parent="."]
 terrain_seed = 1916
@@ -24,6 +24,10 @@ forest_cover = 0.15
 field_colors = Array[Color]([Color(0.4, 0.35, 0.24, 1), Color(0.36, 0.33, 0.25, 1), Color(0.45, 0.4, 0.28, 1), Color(0.33, 0.36, 0.22, 1), Color(0.42, 0.38, 0.3, 1)])
 rock_color = Color(0.35, 0.3, 0.24, 1)
 tree_color = Color(0.2, 0.22, 0.14, 1)
+water_level = 4.0
+river_width = 0.03
+river_max_height = 50.0
+pine_share = 0.2
 
 [node name="PlayerPlane" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 330, 1800)
@@ -33,7 +37,7 @@ script = ExtResource("mission")
 mission_id = "m06"
 title = "Artillery Spotters"
 briefing = "The enemy has put up four observation balloons over their side of the mud, ringed with anti-aircraft guns. Their artillery is murdering our infantry. Burn every balloon - their best pilots will be waiting."
-intro_radio = PackedStringArray("Command: Four balloons this time, and heavy flak. Go in fast, get out fast.")
+intro_radio = PackedStringArray("Command: Four balloons this time, and heavy flak. Go in fast, get out fast.", "Command: And it's raining. Of course it is.")
 
 [node name="SilenceGuns" type="Node" parent="Mission" node_paths=PackedStringArray("targets")]
 script = ExtResource("destroy")

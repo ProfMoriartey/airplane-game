@@ -1,0 +1,34 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/one_shot_effect.gd" id="1_effect"]
+[ext_resource type="Texture2D" path="res://assets/textures/soft_puff.tres" id="2_puff"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_spray"]
+transparency = 1
+albedo_texture = ExtResource("2_puff")
+albedo_color = Color(0.9, 0.95, 1, 0.8)
+billboard_mode = 3
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="Mesh_spray"]
+material = SubResource("Mat_spray")
+size = Vector2(1.2, 1.2)
+
+[node name="WaterSplash" type="Node3D"]
+script = ExtResource("1_effect")
+duration = 1.2
+
+[node name="Spray" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 6
+lifetime = 0.9
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("Mesh_spray")
+direction = Vector3(0, 1, 0)
+spread = 12.0
+gravity = Vector3(0, -12, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 9.0
+scale_amount_min = 0.8
+scale_amount_max = 1.6
