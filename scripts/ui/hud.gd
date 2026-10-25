@@ -33,6 +33,8 @@ var _bars := {}
 @onready var _radio: PanelContainer = $Radio
 @onready var _radio_text: Label = $Radio/Text
 @onready var _minimap: Minimap = $Minimap
+## Font sizes as designed, before the text size setting scales them.
+@onready var _base_sizes := {_radio_text: _radio_text.get_theme_font_size("font_size"), _objectives: _objectives.get_theme_font_size("font_size")}
 
 
 func _ready() -> void:
@@ -63,18 +65,20 @@ func setup(plane: Aircraft) -> void:
 ## player's current keys in the controls help.
 func refresh_settings() -> void:
 	_help.visible = Settings.show_help
+	for label: Label in _base_sizes:
+		label.add_theme_font_size_override("font_size", roundi(_base_sizes[label] * Settings.text_scale()))
 	var key := Settings.key_name
 	_help.text = "\n".join([
-		"%s  -  fire guns" % key.call("fire"),
-		"%s  -  drop bomb" % key.call("bomb"),
-		"%s / %s  -  nose down / up" % [key.call("pitch_down"), key.call("pitch_up")],
-		"%s / %s  -  roll left / right" % [key.call("roll_left"), key.call("roll_right")],
-		"%s / %s  -  rudder left / right" % [key.call("yaw_left"), key.call("yaw_right")],
-		"%s / %s  -  throttle up / down" % [key.call("throttle_up"), key.call("throttle_down")],
-		"%s  -  chase / cockpit view" % key.call("camera_toggle"),
-		"%s  -  minimap zoom" % key.call("map_zoom"),
-		"Hold right mouse  -  look around",
-		"%s  -  pause      F1  -  hide help" % key.call("pause"),
+		tr("%s  -  fire guns") % key.call("fire"),
+		tr("%s  -  drop bomb") % key.call("bomb"),
+		tr("%s / %s  -  nose down / up") % [key.call("pitch_down"), key.call("pitch_up")],
+		tr("%s / %s  -  roll left / right") % [key.call("roll_left"), key.call("roll_right")],
+		tr("%s / %s  -  rudder left / right") % [key.call("yaw_left"), key.call("yaw_right")],
+		tr("%s / %s  -  throttle up / down") % [key.call("throttle_up"), key.call("throttle_down")],
+		tr("%s  -  chase / cockpit view") % key.call("camera_toggle"),
+		tr("%s  -  minimap zoom") % key.call("map_zoom"),
+		tr("Hold right mouse  -  look around"),
+		tr("%s  -  pause      F1  -  hide help") % key.call("pause"),
 	])
 
 
@@ -146,7 +150,7 @@ func _process(delta: float) -> void:
 		return
 
 	var guns := _plane.guns
-	_values.SPEED.text = "%d km/h" % roundi(_plane.speed * MS_TO_KMH)
+	_values.SPEED.text = tr("%d km/h") % roundi(_plane.speed * MS_TO_KMH)
 	_values.ALTITUDE.text = "%d m" % roundi(_plane.global_position.y)
 	_values.AMMO.text = str(guns.ammo)
 	_values.BOMBS.text = str(_plane.bombs.count)
@@ -209,7 +213,7 @@ func _update_radio(delta: float) -> void:
 	_radio_text.text = "%s\n%s" % [parts[0].to_upper(), parts[1]] if parts.size() == 2 else line
 	_radio.visible = true
 	Sound.play_ui("radio", -6.0)
-	_radio_timer = RADIO_BASE_TIME + line.length() * RADIO_TIME_PER_CHARACTER
+	_radio_timer = (RADIO_BASE_TIME + line.length() * RADIO_TIME_PER_CHARACTER) * Settings.radio_duration
 	if _radio_queue.size() >= RADIO_BACKLOG:
 		_radio_timer *= 0.5
 
@@ -220,19 +224,19 @@ func _collect_warnings() -> PackedStringArray:
 		return warnings
 	var guns := _plane.guns
 	if _plane.is_stalled:
-		warnings.append("STALL")
+		warnings.append(tr("STALL"))
 	if guns.is_overheated:
-		warnings.append("GUNS OVERHEATED")
+		warnings.append(tr("GUNS OVERHEATED"))
 	elif guns.is_jammed:
-		warnings.append("GUNS JAMMED")
+		warnings.append(tr("GUNS JAMMED"))
 	elif guns.ammo == 0:
-		warnings.append("OUT OF AMMO")
+		warnings.append(tr("OUT OF AMMO"))
 	if _plane.engine_condition < DAMAGED_PART:
-		warnings.append("ENGINE DAMAGED")
+		warnings.append(tr("ENGINE DAMAGED"))
 	if minf(_plane.left_wing_condition, _plane.right_wing_condition) < DAMAGED_PART:
-		warnings.append("WING DAMAGED")
+		warnings.append(tr("WING DAMAGED"))
 	if _plane.tail_condition < DAMAGED_PART:
-		warnings.append("TAIL DAMAGED")
+		warnings.append(tr("TAIL DAMAGED"))
 	if _boundary_warning:
-		warnings.append("LEAVING THE AREA - TURN BACK")
+		warnings.append(tr("LEAVING THE AREA - TURN BACK"))
 	return warnings

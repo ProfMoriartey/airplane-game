@@ -76,11 +76,11 @@ func binding_name(binding: Dictionary) -> String:
 		return "-"
 	if Settings.pad_scheme == InputSetup.PadScheme.GAMEPAD:
 		if binding.has("button"):
-			return BUTTON_NAMES.get(binding.button, "Button %d" % binding.button)
-		return AXIS_NAMES.get(Vector2i(binding.axis, binding.dir), "Axis %d%s" % [binding.axis, "+" if binding.dir > 0 else "-"])
+			return BUTTON_NAMES.get(binding.button, tr("Button %d") % binding.button)
+		return AXIS_NAMES.get(Vector2i(binding.axis, binding.dir), tr("Axis %d%s") % [binding.axis, "+" if binding.dir > 0 else "-"])
 	if binding.has("button"):
-		return "Button %d" % (binding.button + 1)
-	return "Axis %d%s" % [binding.axis + 1, "+" if binding.dir > 0 else "-"]
+		return tr("Button %d") % (binding.button + 1)
+	return tr("Axis %d%s") % [binding.axis + 1, "+" if binding.dir > 0 else "-"]
 
 
 ## The binding for a control in the current controller scheme.

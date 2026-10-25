@@ -90,4 +90,4 @@ func _on_objective_completed(objective: Objective) -> void:
 
 func _on_objective_failed(objective: Objective) -> void:
 	if not objective.optional:
-		fail("Objective failed: %s" % objective.description)
+		fail(tr("Objective failed: %s") % Settings.fill_keys(objective.description))

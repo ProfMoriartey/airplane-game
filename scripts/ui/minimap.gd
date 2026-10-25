@@ -10,9 +10,6 @@ const MAP_EXTENT := 3000.0
 ## Radius of the area shown, in metres; the zoom key cycles through these.
 const RANGES := [1000.0, 2000.0, 4000.0]
 const PLAYER_COLOR := Color(1.0, 0.95, 0.8)
-const ENEMY_COLOR := Color(1.0, 0.35, 0.25)
-const FRIEND_COLOR := Color(0.45, 0.95, 0.5)
-const OBJECTIVE_COLOR := Color(1.0, 0.85, 0.3)
 const RIM_COLOR := Color(0.75, 0.62, 0.35, 0.9)
 
 var plane: Aircraft:
@@ -97,7 +94,7 @@ func _draw_icons() -> void:
 	var north := Vector2(-sin(heading), -cos(heading))
 	var north_point := center + north * (radius - 12.0)
 	_icons.draw_circle(north_point, 9.0, Color(0, 0, 0, 0.6))
-	_icons.draw_string(_font, north_point + Vector2(-5, 6), "N", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, OBJECTIVE_COLOR)
+	_icons.draw_string(_font, north_point + Vector2(-5, 6), "N", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Settings.color("objective"))
 
 	for marker in objective_markers:
 		var spot := _to_map(marker)
@@ -108,14 +105,14 @@ func _draw_icons() -> void:
 		if other == plane or not other.is_alive():
 			continue
 		var spot := _to_map(other.global_position)
-		var color := ENEMY_COLOR if plane.is_hostile_to(other) else FRIEND_COLOR
+		var color := Settings.color("enemy") if plane.is_hostile_to(other) else Settings.color("friend")
 		var other_forward := -other.global_basis.z
 		var direction := atan2(other_forward.x, -other_forward.z) - heading
 		_arrow(spot.point, direction, 4.5 if spot.clamped else 6.0, color)
 
 	# The player, always in the middle, always pointing up.
 	_arrow(center, 0.0, 8.0, PLAYER_COLOR)
-	_icons.draw_string(_font, Vector2(6, size.y - 6), "%d km" % roundi(RANGES[_range_index] / 1000.0), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, RIM_COLOR)
+	_icons.draw_string(_font, Vector2(6, size.y - 6), tr("%d km") % roundi(RANGES[_range_index] / 1000.0), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, RIM_COLOR)
 
 
 ## A small plane-shaped arrow; angle 0 points up the minimap.
@@ -134,4 +131,4 @@ func _arrow(at: Vector2, angle: float, length: float, color: Color) -> void:
 
 func _diamond(at: Vector2, radius: float) -> void:
 	var points := PackedVector2Array([at + Vector2(0, -radius), at + Vector2(radius, 0), at + Vector2(0, radius), at + Vector2(-radius, 0)])
-	_icons.draw_colored_polygon(points, OBJECTIVE_COLOR)
+	_icons.draw_colored_polygon(points, Settings.color("objective"))

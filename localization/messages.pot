@@ -1,0 +1,2338 @@
+# Player-facing text for the game. Copy this file to <language>.po
+# (for example fr.po) to start a translation.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: data/aircraft/ace_black.tres:8
+msgid "Black Knight"
+msgstr ""
+
+#: data/aircraft/ace_hussar.tres:8
+msgid "Blue Hussar"
+msgstr ""
+
+#: data/aircraft/ace_iron.tres:8
+msgid "Iron Baron"
+msgstr ""
+
+#: data/aircraft/allied_bomber.tres:8
+msgid "Bomber"
+msgstr ""
+
+#: data/aircraft/enemy_ace.tres:8
+msgid "Crimson Triplane"
+msgstr ""
+
+#: data/aircraft/enemy_fighter.tres:8
+msgid "Enemy Fighter"
+msgstr ""
+
+#: data/aircraft/falcon.tres:8
+msgid "Falcon"
+msgstr ""
+
+#: data/aircraft/falcon.tres:9
+msgid "Fast and tough. Wins by diving in, firing, and climbing away rather than turning."
+msgstr ""
+
+#: data/aircraft/hornet.tres:8
+msgid "Hornet"
+msgstr ""
+
+#: data/aircraft/hornet.tres:9
+msgid "A twitchy, deadly dogfighter. Turns tighter than anything in the sky and hits hard."
+msgstr ""
+
+#: data/aircraft/kestrel.tres:8
+msgid "Kestrel"
+msgstr ""
+
+#: data/aircraft/kestrel.tres:9
+msgid "The best fighter at the front: fast, agile and heavily armed."
+msgstr ""
+
+#: data/aircraft/lark.tres:8
+msgid "Lark"
+msgstr ""
+
+#: data/aircraft/lark.tres:9
+msgid "Light and quick to roll, and it floats at low speed. Fragile, with a small bomb load."
+msgstr ""
+
+#: data/aircraft/scout.tres:8
+msgid "Scout"
+msgstr ""
+
+#: data/aircraft/scout.tres:9
+msgid "A forgiving all-rounder. Steady in a turn and hard to stall."
+msgstr ""
+
+#: data/campaign/campaign.tres:11
+msgid "Shoot down the enemy observation balloons, then bomb their supply depot."
+msgstr ""
+
+#: data/campaign/campaign.tres:18
+msgid "Fly the morning patrol route and deal with any enemy scouts you meet."
+msgstr ""
+
+#: data/campaign/campaign.tres:25
+msgid "Stop a supply convoy before it reaches the front. Tanks need bombs."
+msgstr ""
+
+#: data/campaign/campaign.tres:32
+msgid "Protect our observation balloons from two waves of raiders."
+msgstr ""
+
+#: data/campaign/campaign.tres:39
+msgid "Escort two slow bombers to an enemy ammunition dump."
+msgstr ""
+
+#: data/campaign/campaign.tres:46
+msgid "Burn four heavily defended enemy balloons. Their veterans will be waiting."
+msgstr ""
+
+#: data/campaign/campaign.tres:53
+msgid "Destroy the convoy on the only valley road, then bomb the depot it feeds."
+msgstr ""
+
+#: data/campaign/campaign.tres:60
+msgid "Raid the hidden airfield of the enemy's best squadron."
+msgstr ""
+
+#: data/campaign/campaign.tres:67
+msgid "Meet the enemy's greatest ace over the high pass, and bring him down."
+msgstr ""
+
+#: data/campaign/campaign.tres:72
+msgid "The Quiet Sector"
+msgstr ""
+
+#: data/campaign/campaign.tres:73
+msgid "Spring. You have just joined the squadron on a calm stretch of the front - green fields, small villages, and an enemy who mostly keeps to his side of the lines. A good place to learn your trade. It won't stay quiet for long."
+msgstr ""
+
+#: data/campaign/campaign.tres:78
+msgid "Mud and Wire"
+msgstr ""
+
+#: data/campaign/campaign.tres:79
+msgid "Summer. The squadron moves to the main front, where the armies are locked in a swamp of trenches and shell holes. Here the air war decides whether the infantry below live or die."
+msgstr ""
+
+#: data/campaign/campaign.tres:84
+msgid "The High Passes"
+msgstr ""
+
+#: data/campaign/campaign.tres:85
+msgid "Autumn. The last campaign of the year, fought over snow-capped mountains. Somewhere in these valleys flies the Crimson Crow - the ace who has never lost a fight."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:34 data/campaign/campaign.tres:10
+msgid "Eyes of the Enemy"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:35
+msgid "Enemy observation balloons along the front are directing their artillery onto our trenches. Fly to the front and bring them down - expect anti-aircraft fire around them.\n\nTheir fighters will come looking for you once the balloons burn. After that, bomb the supply depot behind their lines, then come home."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:38
+msgid "Command: Morning, pilot. Head north to the front line - follow the yellow marker."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:38
+msgid "Command: Bombs are loaded. Press B to drop one, and watch the orange bomb sight for where it will land."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:44
+msgid "Fly to the front line"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:50 scenes/levels/mission_03.tscn:43 scenes/levels/mission_06.tscn:45 scenes/levels/mission_07.tscn:58
+msgid "Silence the anti-aircraft guns"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:53
+msgid "Command: Their guns have gone quiet. Nicely done."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:58 scenes/levels/mission_06.tscn:52
+msgid "Shoot down the observation balloons"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:59
+msgid "Command: There they are - three balloons. Watch out for the flak!"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:60
+msgid "Command: All balloons down! Enemy fighters are scrambling - watch your tail!"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:65 scenes/levels/mission_06.tscn:65 scenes/levels/mission_07.tscn:77
+msgid "Shoot down the enemy fighters"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:66
+msgid "Command: Sky's clear. Now hit their supply depot to the north-west."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:71 scenes/levels/mission_03.tscn:50
+msgid "Destroy the supply convoy"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:74
+msgid "Scout: There's a convoy on the road heading for the front. Hit it if you can - the trucks burn easily, the tank will need bombs."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:75
+msgid "Scout: Convoy destroyed. That'll hurt them."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:80 scenes/levels/mission_07.tscn:71
+msgid "Bomb the supply depot"
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:81
+msgid "Command: Line up on the depot and drop your bombs. Guns won't do much against buildings."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:82
+msgid "Command: Depot destroyed! Outstanding work. Return to base."
+msgstr ""
+
+#: scenes/levels/mission_01.tscn:88 scenes/levels/mission_02.tscn:67 scenes/levels/mission_03.tscn:62 scenes/levels/mission_04.tscn:69
+msgid "Return to base"
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:24 data/campaign/campaign.tres:17
+msgid "Dawn Patrol"
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:25
+msgid "A quiet morning patrol along our side of the lines. Fly the patrol route and report anything you see. Intelligence says enemy scouts have been sneaking across at dawn - if you meet them, shoot them down."
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:26
+msgid "Command: Patrol route is marked. First checkpoint is north-east of the field."
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:26
+msgid "Command: Keep your eyes open, pilot."
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:31
+msgid "Fly to the first checkpoint"
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:38
+msgid "Fly to the second checkpoint"
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:41
+msgid "Scout: Enemy aircraft to the north - three of them!"
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:46
+msgid "Shoot down the enemy scouts"
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:47
+msgid "Command: Good work. Finish the patrol."
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:52
+msgid "Strafe the parked supply trucks"
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:55
+msgid "Scout: There are enemy trucks parked by the woods to the west. Fair game."
+msgstr ""
+
+#: scenes/levels/mission_02.tscn:60
+msgid "Fly to the last checkpoint"
+msgstr ""
+
+#: scenes/levels/mission_03.tscn:36 data/campaign/campaign.tres:24
+msgid "Convoy Hunt"
+msgstr ""
+
+#: scenes/levels/mission_03.tscn:37
+msgid "An enemy supply convoy is moving up to the front along the valley road. Destroy every vehicle before it arrives. Guns will handle the trucks; save your bombs for the tanks. Expect anti-aircraft guns along the road and fighters once they realise what's happening."
+msgstr ""
+
+#: scenes/levels/mission_03.tscn:38
+msgid "Command: The convoy is on the road north of the front. Find it and stop it."
+msgstr ""
+
+#: scenes/levels/mission_03.tscn:38
+msgid "Command: Remember - tanks need bombs."
+msgstr ""
+
+#: scenes/levels/mission_03.tscn:51
+msgid "Command: Convoy destroyed! But their fighters are coming - deal with them."
+msgstr ""
+
+#: scenes/levels/mission_03.tscn:56 scenes/levels/mission_05.tscn:46
+msgid "Shoot down the interceptors"
+msgstr ""
+
+#: scenes/levels/mission_03.tscn:57
+msgid "Command: Well done. Come home."
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:37 data/campaign/campaign.tres:31
+msgid "Guardian Angels"
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:38
+msgid "Our own observation balloons are spotting for the big guns, and the enemy wants them burned. Patrol over the balloons and shoot down every attacker. We can afford to lose one balloon - no more."
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:39
+msgid "Command: Welcome to the front, pilot. Our balloons are just ahead."
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:39
+msgid "Command: Enemy fighters will try to burn them. Don't let them."
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:44
+msgid "Fly to our balloons"
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:52
+msgid "Protect the balloons"
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:54
+msgid "Command: Here they come - balloon raiders from the north!"
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:55
+msgid "Command: First wave beaten off. Stay sharp - there will be more."
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:61
+msgid "Protect the balloons from the second wave"
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:63
+msgid "Command: Second wave, and these ones know their business!"
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:64
+msgid "Command: The balloons are safe. Splendid flying. Come home."
+msgstr ""
+
+#: scenes/levels/mission_04.tscn:85 scenes/levels/mission_04.tscn:90 scenes/levels/mission_04.tscn:95
+msgid "Our balloon"
+msgstr ""
+
+#: scenes/levels/mission_05.tscn:39 data/campaign/campaign.tres:38
+msgid "Escort Duty"
+msgstr ""
+
+#: scenes/levels/mission_05.tscn:40
+msgid "Two of our bombers are going after an enemy ammunition dump. They're slow and can't fight back. Stay close and shoot down any fighter that goes for them. At least one bomber has to reach the target."
+msgstr ""
+
+#: scenes/levels/mission_05.tscn:41
+msgid "Bomber Lead: Morning, escort. Glad to have you along."
+msgstr ""
+
+#: scenes/levels/mission_05.tscn:41
+msgid "Command: Stick with the bombers. They are your priority."
+msgstr ""
+
+#: scenes/levels/mission_05.tscn:54
+msgid "Protect the bombers to the target"
+msgstr ""
+
+#: scenes/levels/mission_05.tscn:57
+msgid "Bomber Lead: Bombs away! Thanks for the cover, escort - we're heading home."
+msgstr ""
+
+#: scenes/levels/mission_06.tscn:38 data/campaign/campaign.tres:45
+msgid "Artillery Spotters"
+msgstr ""
+
+#: scenes/levels/mission_06.tscn:39
+msgid "The enemy has put up four observation balloons over their side of the mud, ringed with anti-aircraft guns. Their artillery is murdering our infantry. Burn every balloon - their best pilots will be waiting."
+msgstr ""
+
+#: scenes/levels/mission_06.tscn:40
+msgid "Command: Four balloons this time, and heavy flak. Go in fast, get out fast."
+msgstr ""
+
+#: scenes/levels/mission_06.tscn:40
+msgid "Command: And it's raining. Of course it is."
+msgstr ""
+
+#: scenes/levels/mission_06.tscn:53
+msgid "Command: All four down! Their veterans are up - watch yourself."
+msgstr ""
+
+#: scenes/levels/mission_06.tscn:58
+msgid "Bomb the depot behind the balloons"
+msgstr ""
+
+#: scenes/levels/mission_06.tscn:66
+msgid "Command: You've earned your pay today. Come home."
+msgstr ""
+
+#: scenes/levels/mission_07.tscn:51 data/campaign/campaign.tres:52
+msgid "Mountain Supply Line"
+msgstr ""
+
+#: scenes/levels/mission_07.tscn:52
+msgid "In the mountains the enemy can only supply their troops along one valley road. Destroy the convoy on it and bomb the depot it's driving to. Mind the peaks - they're higher than they look."
+msgstr ""
+
+#: scenes/levels/mission_07.tscn:53
+msgid "Command: Welcome to the mountains. Watch your altitude - the peaks will kill you as surely as any enemy."
+msgstr ""
+
+#: scenes/levels/mission_07.tscn:65
+msgid "Destroy the convoy"
+msgstr ""
+
+#: scenes/levels/mission_07.tscn:66
+msgid "Command: Convoy's finished. Now the depot at the end of the road."
+msgstr ""
+
+#: scenes/levels/mission_07.tscn:72
+msgid "Command: Depot destroyed. Fighters inbound from the north!"
+msgstr ""
+
+#: scenes/levels/mission_07.tscn:78
+msgid "Command: Clear skies. Bring her home."
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:49 data/campaign/campaign.tres:59
+msgid "Nest of Vipers"
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:50
+msgid "We've found the airfield of the enemy's best squadron, hidden in a mountain valley. Destroy their hangars and the aircraft parked outside before they can take off. Some of them will get airborne - finish them too."
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:51
+msgid "Command: The airfield is in the valley to the north. Hit it hard."
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:51
+msgid "Command: Planes on the ground can't shoot back. Make the most of it."
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:63
+msgid "Shoot down the zeppelin"
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:66
+msgid "Scout: There's a zeppelin crossing the valley to the east. Big target, slow, and full of hydrogen."
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:71
+msgid "Destroy the hangars and parked aircraft"
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:72
+msgid "Scout: They're scrambling some fighters from a field further north!"
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:73
+msgid "Command: Their airfield is burning! Now the ones that got away."
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:78
+msgid "Shoot down the scrambled fighters"
+msgstr ""
+
+#: scenes/levels/mission_08.tscn:87
+msgid "Command: Head home when you're ready."
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:38 data/campaign/campaign.tres:66
+msgid "The Crimson Crow"
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:39
+msgid "The enemy's greatest ace - the pilot our men call the Crimson Crow - has challenged our squadron to meet him over the high pass. He flies a red triplane and has never been beaten. Bring him down and the war in the mountains is ours."
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:40
+msgid "Command: This is it. The Crow is waiting over the pass to the north."
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:40
+msgid "Command: He's fast, he turns like a devil, and he's brought friends. Good luck."
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:45
+msgid "Fly to the high pass"
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:48
+msgid "Crimson Crow: So, they sent you. I shall paint your wings on my hangar wall."
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:53
+msgid "Shoot down the Crimson Crow and his wingmen"
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:55
+msgid "Command: The Crow is down! The Crow is down! You've done it, pilot!"
+msgstr ""
+
+#: scenes/levels/mission_09.tscn:77
+msgid "Crimson Crow"
+msgstr ""
+
+#: scenes/levels/training.tscn:104
+msgid "Bomb the old barn ({bomb})"
+msgstr ""
+
+#: scenes/levels/training.tscn:106
+msgid "Instructor: Bullseye. Last lesson: a target plane is coming. It won't shoot back. Get behind it, put your sight on the small circle in front of it, and fire."
+msgstr ""
+
+#: scenes/levels/training.tscn:111
+msgid "Shoot down the target plane"
+msgstr ""
+
+#: scenes/levels/training.tscn:113
+msgid "Instructor: That's how it's done! Bring her home, cadet - your training is complete."
+msgstr ""
+
+#: scenes/levels/training.tscn:118
+msgid "Return to the airfield"
+msgstr ""
+
+#: scenes/levels/training.tscn:135
+msgid "Practice balloon"
+msgstr ""
+
+#: scenes/levels/training.tscn:143
+msgid "Old barn"
+msgstr ""
+
+#: scenes/levels/training.tscn:26
+msgid "Flight Training"
+msgstr ""
+
+#: scenes/levels/training.tscn:27
+msgid "Welcome to the flying school, cadet. Your instructor will talk you through the controls one step at a time - just follow the instructions on the radio. Nothing here can shoot back."
+msgstr ""
+
+#: scenes/levels/training.tscn:28
+msgid "Instructor: Good morning, cadet. Let's get you flying."
+msgstr ""
+
+#: scenes/levels/training.tscn:28
+msgid "Instructor: First, open the throttle all the way: hold {throttle_up}."
+msgstr ""
+
+#: scenes/levels/training.tscn:32
+msgid "Open the throttle fully ({throttle_up})"
+msgstr ""
+
+#: scenes/levels/training.tscn:36
+msgid "Instructor: Good. Now pull the nose up with {pitch_up} and climb to 450 metres. Watch your speed - too slow and you'll stall."
+msgstr ""
+
+#: scenes/levels/training.tscn:40
+msgid "Climb to 450 metres ({pitch_up})"
+msgstr ""
+
+#: scenes/levels/training.tscn:44
+msgid "Instructor: To turn, roll the wings over with {roll_left} or {roll_right}, then pull back with {pitch_up}. Turn half a circle."
+msgstr ""
+
+#: scenes/levels/training.tscn:48
+msgid "Make a half-circle turn ({roll_left}/{roll_right}, then {pitch_up})"
+msgstr ""
+
+#: scenes/levels/training.tscn:52
+msgid "Instructor: Lovely. See the yellow marker? Fly over it. The arrows at the edge of the screen and the minimap will lead you."
+msgstr ""
+
+#: scenes/levels/training.tscn:57
+msgid "Fly to the yellow marker"
+msgstr ""
+
+#: scenes/levels/training.tscn:60
+msgid "Instructor: Now press {camera_toggle} to see from the cockpit."
+msgstr ""
+
+#: scenes/levels/training.tscn:64
+msgid "Switch to the cockpit view ({camera_toggle})"
+msgstr ""
+
+#: scenes/levels/training.tscn:68
+msgid "Instructor: Hold the right mouse button and move the mouse to look around - always check behind you!"
+msgstr ""
+
+#: scenes/levels/training.tscn:72
+msgid "Look around (hold right mouse and move it)"
+msgstr ""
+
+#: scenes/levels/training.tscn:76
+msgid "Instructor: Press {camera_toggle} again to go back outside."
+msgstr ""
+
+#: scenes/levels/training.tscn:80
+msgid "Back to the outside view ({camera_toggle})"
+msgstr ""
+
+#: scenes/levels/training.tscn:84
+msgid "Instructor: Time for the guns. Hold {fire} and fire a few bursts. Keep an eye on the heat gauge - if it fills up, the guns stop."
+msgstr ""
+
+#: scenes/levels/training.tscn:88
+msgid "Fire your guns ({fire})"
+msgstr ""
+
+#: scenes/levels/training.tscn:92
+msgid "Instructor: There's a practice balloon ahead. Put the gun sight on it and shoot it down."
+msgstr ""
+
+#: scenes/levels/training.tscn:97
+msgid "Shoot down the practice balloon"
+msgstr ""
+
+#: scenes/levels/training.tscn:99
+msgid "Instructor: Splendid! Now bombs. Fly low over the old barn, line up the orange bomb sight with it, and press {bomb}."
+msgstr ""
+
+#: scenes/targets/aa_gun.tscn:42
+msgid "Anti-aircraft gun"
+msgstr ""
+
+#: scenes/targets/balloon.tscn:43
+msgid "Observation balloon"
+msgstr ""
+
+#: scenes/targets/fuel_tanks.tscn:26
+msgid "Fuel tanks"
+msgstr ""
+
+#: scenes/targets/hangar.tscn:32 scenes/ui/menu.tscn:141
+msgid "Hangar"
+msgstr ""
+
+#: scenes/targets/parked_plane.tscn:14
+msgid "Parked aircraft"
+msgstr ""
+
+#: scenes/targets/supply_shed.tscn:33
+msgid "Supply shed"
+msgstr ""
+
+#: scenes/targets/tank.tscn:13
+msgid "Tank"
+msgstr ""
+
+#: scenes/targets/truck.tscn:13
+msgid "Supply truck"
+msgstr ""
+
+#: scenes/targets/zeppelin.tscn:61
+msgid "Zeppelin"
+msgstr ""
+
+#: scenes/ui/briefing.tscn:43
+msgid "MISSION BRIEFING"
+msgstr ""
+
+#: scenes/ui/briefing.tscn:49
+msgid "MISSION"
+msgstr ""
+
+#: scenes/ui/briefing.tscn:61
+msgid "OBJECTIVES"
+msgstr ""
+
+#: scenes/ui/briefing.tscn:73
+msgid "AIRCRAFT"
+msgstr ""
+
+#: scenes/ui/briefing.tscn:99 scenes/ui/quick_battle_screen.tscn:80 scenes/ui/two_player_screen.tscn:80
+msgid "Take off"
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:150
+msgid "Fly mission"
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:168
+msgid "Service record"
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:179 scenes/ui/campaign_screen.tscn:232
+msgid "Reset campaign"
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:205 scenes/ui/debrief.tscn:74
+msgid "SERVICE RECORD"
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:228
+msgid "Close"
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:234
+msgid "Reset"
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:235
+msgid "Erase all campaign progress, medals and unlocked aircraft? This can't be undone."
+msgstr ""
+
+#: scenes/ui/campaign_screen.tscn:59
+msgid "CAMPAIGN"
+msgstr ""
+
+#: scenes/ui/credits.tscn:42
+msgid "CREDITS"
+msgstr ""
+
+#: scenes/ui/debrief.tscn:111 scenes/ui/menu.tscn:109
+msgid "Campaign"
+msgstr ""
+
+#: scenes/ui/debrief.tscn:37
+msgid "DEBRIEFING"
+msgstr ""
+
+#: scenes/ui/debrief.tscn:97
+msgid "Next mission"
+msgstr ""
+
+#: scenes/ui/duels_screen.tscn:42
+msgid "ACE DUELS"
+msgstr ""
+
+#: scenes/ui/duels_screen.tscn:48
+msgid "One against one. Choose an enemy ace to challenge - you start head-on, and only one of you flies home."
+msgstr ""
+
+#: scenes/ui/duels_screen.tscn:98
+msgid "Challenge"
+msgstr ""
+
+#: scenes/ui/hangar.tscn:77
+msgid "HANGAR"
+msgstr ""
+
+#: scenes/ui/hud.tscn:134
+msgid "Space / left mouse  —  fire guns\nB  —  drop bomb\nW / S  —  nose down / up\nA / D  —  roll left / right\nQ / E  —  rudder left / right\nShift / Ctrl  —  throttle up / down\nC  —  chase / cockpit view\nHold right mouse  —  look around\nEsc  —  pause      F1  —  hide help      F3  —  debug"
+msgstr ""
+
+#: scenes/ui/menu.tscn:101
+msgid "Training"
+msgstr ""
+
+#: scenes/ui/menu.tscn:117
+msgid "Ace duels"
+msgstr ""
+
+#: scenes/ui/menu.tscn:125
+msgid "Quick battle"
+msgstr ""
+
+#: scenes/ui/menu.tscn:133
+msgid "Two players"
+msgstr ""
+
+#: scenes/ui/menu.tscn:149 scenes/ui/pause_menu.tscn:57
+msgid "Settings"
+msgstr ""
+
+#: scenes/ui/menu.tscn:157
+msgid "Credits"
+msgstr ""
+
+#: scenes/ui/menu.tscn:165
+msgid "Quit"
+msgstr ""
+
+#: scenes/ui/menu.tscn:78 scenes/ui/splash.tscn:53
+msgid "RED ACE"
+msgstr ""
+
+#: scenes/ui/menu.tscn:84
+msgid "working title"
+msgstr ""
+
+#: scenes/ui/pause_menu.tscn:35
+msgid "PAUSED"
+msgstr ""
+
+#: scenes/ui/pause_menu.tscn:43
+msgid "Resume"
+msgstr ""
+
+#: scenes/ui/pause_menu.tscn:64
+msgid "Main menu"
+msgstr ""
+
+#: scenes/ui/quick_battle_screen.tscn:44
+msgid "QUICK BATTLE"
+msgstr ""
+
+#: scenes/ui/quick_battle_screen.tscn:50
+msgid "Endless waves of enemy fighters. You are repaired and rearmed after each wave. How long can you last?"
+msgstr ""
+
+#: scenes/ui/settings_menu.tscn:38
+msgid "SETTINGS"
+msgstr ""
+
+#: scenes/ui/settings_menu.tscn:54
+msgid "Reset controls"
+msgstr ""
+
+#: scenes/ui/splash.tscn:44
+msgid "Chrollo presents"
+msgstr ""
+
+#: scenes/ui/splash.tscn:60
+msgid "Made with Godot Engine"
+msgstr ""
+
+#: scenes/ui/two_player_screen.tscn:44
+msgid "TWO PLAYERS"
+msgstr ""
+
+#: scripts/aircraft/aircraft_stats.gd:10
+msgid "Aircraft"
+msgstr ""
+
+#: scripts/autoload/controls.gd:102
+msgid "Left stick left"
+msgstr ""
+
+#: scripts/autoload/controls.gd:102
+msgid "Left stick right"
+msgstr ""
+
+#: scripts/autoload/controls.gd:103
+msgid "Left stick up"
+msgstr ""
+
+#: scripts/autoload/controls.gd:103
+msgid "Left stick down"
+msgstr ""
+
+#: scripts/autoload/controls.gd:104
+msgid "Right stick left"
+msgstr ""
+
+#: scripts/autoload/controls.gd:104
+msgid "Right stick right"
+msgstr ""
+
+#: scripts/autoload/controls.gd:105
+msgid "Right stick up"
+msgstr ""
+
+#: scripts/autoload/controls.gd:105
+msgid "Right stick down"
+msgstr ""
+
+#: scripts/autoload/controls.gd:106
+msgid "Left trigger"
+msgstr ""
+
+#: scripts/autoload/controls.gd:106
+msgid "Right trigger"
+msgstr ""
+
+#: scripts/autoload/controls.gd:11
+msgid "Nose up"
+msgstr ""
+
+#: scripts/autoload/controls.gd:11
+msgid "Nose down"
+msgstr ""
+
+#: scripts/autoload/controls.gd:11
+msgid "Roll left"
+msgstr ""
+
+#: scripts/autoload/controls.gd:11
+msgid "Roll right"
+msgstr ""
+
+#: scripts/autoload/controls.gd:12
+msgid "Rudder left"
+msgstr ""
+
+#: scripts/autoload/controls.gd:12
+msgid "Rudder right"
+msgstr ""
+
+#: scripts/autoload/controls.gd:12
+msgid "Throttle up"
+msgstr ""
+
+#: scripts/autoload/controls.gd:12
+msgid "Throttle down"
+msgstr ""
+
+#: scripts/autoload/controls.gd:13
+msgid "Throttle lever (back)"
+msgstr ""
+
+#: scripts/autoload/controls.gd:13
+msgid "Throttle lever (forward)"
+msgstr ""
+
+#: scripts/autoload/controls.gd:14
+msgid "Fire guns"
+msgstr ""
+
+#: scripts/autoload/controls.gd:14
+msgid "Drop bomb"
+msgstr ""
+
+#: scripts/autoload/controls.gd:14
+msgid "Change view"
+msgstr ""
+
+#: scripts/autoload/controls.gd:14
+msgid "Minimap zoom"
+msgstr ""
+
+#: scripts/autoload/controls.gd:15
+msgid "Look left"
+msgstr ""
+
+#: scripts/autoload/controls.gd:15
+msgid "Look right"
+msgstr ""
+
+#: scripts/autoload/controls.gd:15
+msgid "Look up"
+msgstr ""
+
+#: scripts/autoload/controls.gd:15
+msgid "Look down"
+msgstr ""
+
+#: scripts/autoload/controls.gd:16 scenes/ui/pause_menu.tscn:50
+msgid "Restart"
+msgstr ""
+
+#: scripts/autoload/controls.gd:79 scripts/autoload/controls.gd:79 scripts/autoload/controls.gd:82 scripts/autoload/controls.gd:82
+#, c-format
+msgid "Button %d"
+msgstr ""
+
+#: scripts/autoload/controls.gd:80 scripts/autoload/controls.gd:80 scripts/autoload/controls.gd:83 scripts/autoload/controls.gd:83
+#, c-format
+msgid "Axis %d%s"
+msgstr ""
+
+#: scripts/autoload/controls.gd:95
+msgid "A / Cross"
+msgstr ""
+
+#: scripts/autoload/controls.gd:95
+msgid "B / Circle"
+msgstr ""
+
+#: scripts/autoload/controls.gd:95
+msgid "X / Square"
+msgstr ""
+
+#: scripts/autoload/controls.gd:95
+msgid "Y / Triangle"
+msgstr ""
+
+#: scripts/autoload/controls.gd:96
+msgid "Left bumper"
+msgstr ""
+
+#: scripts/autoload/controls.gd:96
+msgid "Right bumper"
+msgstr ""
+
+#: scripts/autoload/controls.gd:97
+msgid "Back / Select"
+msgstr ""
+
+#: scripts/autoload/controls.gd:97
+msgid "Start"
+msgstr ""
+
+#: scripts/autoload/controls.gd:97
+msgid "Left stick click"
+msgstr ""
+
+#: scripts/autoload/controls.gd:98
+msgid "Right stick click"
+msgstr ""
+
+#: scripts/autoload/controls.gd:98
+msgid "D-pad up"
+msgstr ""
+
+#: scripts/autoload/controls.gd:98
+msgid "D-pad down"
+msgstr ""
+
+#: scripts/autoload/controls.gd:99
+msgid "D-pad left"
+msgstr ""
+
+#: scripts/autoload/controls.gd:99
+msgid "D-pad right"
+msgstr ""
+
+#: scripts/autoload/profile.gd:47 scripts/autoload/profile.gd:47
+#, c-format
+msgid "Pilot %d"
+msgstr ""
+
+#: scripts/autoload/scene_loader.gd:77
+msgid "LOADING"
+msgstr ""
+
+#: scripts/autoload/settings.gd:22
+msgid "Easy"
+msgstr ""
+
+#: scripts/autoload/settings.gd:23 scripts/ui/settings_menu.gd:187
+msgid "Normal"
+msgstr ""
+
+#: scripts/autoload/settings.gd:24
+msgid "Hard"
+msgstr ""
+
+#: scripts/autoload/settings.gd:244 scripts/autoload/settings.gd:244
+#, c-format
+msgid "Mouse %d"
+msgstr ""
+
+#: scripts/autoload/settings.gd:249
+msgid "Left mouse"
+msgstr ""
+
+#: scripts/autoload/settings.gd:249
+msgid "Right mouse"
+msgstr ""
+
+#: scripts/autoload/settings.gd:249
+msgid "Middle mouse"
+msgstr ""
+
+#: scripts/autoload/settings.gd:25
+msgid "Ace"
+msgstr ""
+
+#: scripts/autoload/settings.gd:250
+msgid "Wheel up"
+msgstr ""
+
+#: scripts/autoload/settings.gd:250
+msgid "Wheel down"
+msgstr ""
+
+#: scripts/autoload/settings.gd:251
+msgid "Mouse back"
+msgstr ""
+
+#: scripts/autoload/settings.gd:251
+msgid "Mouse forward"
+msgstr ""
+
+#: scripts/autoload/settings.gd:29
+msgid "Low"
+msgstr ""
+
+#: scripts/autoload/settings.gd:30
+msgid "Medium"
+msgstr ""
+
+#: scripts/autoload/settings.gd:31
+msgid "High"
+msgstr ""
+
+#: scripts/autoload/settings.gd:39
+msgid "Standard"
+msgstr ""
+
+#: scripts/autoload/settings.gd:43
+msgid "Colour-blind friendly (orange / blue)"
+msgstr ""
+
+#: scripts/campaign/aces.gd:12
+msgid "Flies a fast, all-black fighter and fights at dusk. He dives in from out of the sun, fires once, and climbs away. Never follow him into a long chase."
+msgstr ""
+
+#: scripts/campaign/aces.gd:13
+msgid "Black Knight: You will not even see me coming."
+msgstr ""
+
+#: scripts/campaign/aces.gd:17
+msgid "A patient, methodical veteran in an armoured grey triplane. Slow to kill and slow to anger. You will need every bullet."
+msgstr ""
+
+#: scripts/campaign/aces.gd:18
+msgid "Iron Baron: Let us see what they teach young pilots these days."
+msgstr ""
+
+#: scripts/campaign/aces.gd:22
+msgid "The greatest ace of the war, in his red triplane. A rematch, one on one, with no wingmen to hide behind."
+msgstr ""
+
+#: scripts/campaign/aces.gd:23
+msgid "Crimson Crow: So. Again. This time there will be no luck."
+msgstr ""
+
+#: scripts/campaign/aces.gd:7
+msgid "A former cavalry officer who flies like he rides: all dash and daring. His blue-and-gold machine turns tighter than anything in the sky, but it can't take much punishment."
+msgstr ""
+
+#: scripts/campaign/aces.gd:8
+msgid "Blue Hussar: En garde, little bird!"
+msgstr ""
+
+#: scripts/campaign/liveries.gd:10
+msgid "Squadron blue"
+msgstr ""
+
+#: scripts/campaign/liveries.gd:6
+msgid "Factory finish"
+msgstr ""
+
+#: scripts/campaign/liveries.gd:7
+msgid "Khaki"
+msgstr ""
+
+#: scripts/campaign/liveries.gd:8
+msgid "Forest green"
+msgstr ""
+
+#: scripts/campaign/liveries.gd:9
+msgid "Silver dope"
+msgstr ""
+
+#: scripts/campaign/medals.gd:10
+msgid "Golden Wings"
+msgstr ""
+
+#: scripts/campaign/medals.gd:10
+msgid "Shoot down 15 enemy aircraft in total."
+msgstr ""
+
+#: scripts/campaign/medals.gd:11
+msgid "Balloon Buster"
+msgstr ""
+
+#: scripts/campaign/medals.gd:11
+msgid "Destroy 5 observation balloons in total."
+msgstr ""
+
+#: scripts/campaign/medals.gd:12
+msgid "Ground Attack Clasp"
+msgstr ""
+
+#: scripts/campaign/medals.gd:12
+msgid "Destroy 25 ground targets in total."
+msgstr ""
+
+#: scripts/campaign/medals.gd:13
+msgid "Untouchable"
+msgstr ""
+
+#: scripts/campaign/medals.gd:13
+msgid "Complete a mission without taking any damage."
+msgstr ""
+
+#: scripts/campaign/medals.gd:14
+msgid "Mention in Dispatches"
+msgstr ""
+
+#: scripts/campaign/medals.gd:14
+msgid "Complete every bonus objective in a mission."
+msgstr ""
+
+#: scripts/campaign/medals.gd:15
+msgid "Marksman Medal"
+msgstr ""
+
+#: scripts/campaign/medals.gd:15
+msgid "Complete a mission with at least 35% gun accuracy (50+ shots)."
+msgstr ""
+
+#: scripts/campaign/medals.gd:16
+msgid "Quiet Sector Ribbon"
+msgstr ""
+
+#: scripts/campaign/medals.gd:16
+msgid "Complete every mission in The Quiet Sector."
+msgstr ""
+
+#: scripts/campaign/medals.gd:17
+msgid "Mud and Wire Ribbon"
+msgstr ""
+
+#: scripts/campaign/medals.gd:17
+msgid "Complete every mission in Mud and Wire."
+msgstr ""
+
+#: scripts/campaign/medals.gd:18
+msgid "High Passes Ribbon"
+msgstr ""
+
+#: scripts/campaign/medals.gd:18
+msgid "Complete every mission in The High Passes."
+msgstr ""
+
+#: scripts/campaign/medals.gd:19
+msgid "Order of the Crow"
+msgstr ""
+
+#: scripts/campaign/medals.gd:19
+msgid "Shoot down the Crimson Crow."
+msgstr ""
+
+#: scripts/campaign/medals.gd:20
+msgid "Knight of the Air"
+msgstr ""
+
+#: scripts/campaign/medals.gd:20
+msgid "Win every Ace Duel."
+msgstr ""
+
+#: scripts/campaign/medals.gd:8
+msgid "Flying Cross"
+msgstr ""
+
+#: scripts/campaign/medals.gd:8
+msgid "Shoot down your first enemy aircraft."
+msgstr ""
+
+#: scripts/campaign/medals.gd:9
+msgid "Ace Badge"
+msgstr ""
+
+#: scripts/campaign/medals.gd:9
+msgid "Shoot down 5 enemy aircraft in total."
+msgstr ""
+
+#: scripts/campaign/ranks.gd:10
+msgid "Major"
+msgstr ""
+
+#: scripts/campaign/ranks.gd:11
+msgid "Lieutenant Colonel"
+msgstr ""
+
+#: scripts/campaign/ranks.gd:12
+msgid "Colonel"
+msgstr ""
+
+#: scripts/campaign/ranks.gd:5
+msgid "Corporal"
+msgstr ""
+
+#: scripts/campaign/ranks.gd:6
+msgid "Sergeant"
+msgstr ""
+
+#: scripts/campaign/ranks.gd:7
+msgid "Second Lieutenant"
+msgstr ""
+
+#: scripts/campaign/ranks.gd:8
+msgid "Lieutenant"
+msgstr ""
+
+#: scripts/campaign/ranks.gd:9
+msgid "Captain"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:47 scripts/levels/duel_level.gd:47
+#, c-format
+msgid "DUEL: %s"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:55 scripts/levels/duel_level.gd:55
+#, c-format
+msgid "DUEL     TIME %02d:%02d"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:64 scripts/levels/mission_level.gd:119
+msgid "You were shot down."
+msgstr ""
+
+#: scripts/levels/duel_level.gd:64 scripts/levels/mission_level.gd:119
+msgid "You crashed."
+msgstr ""
+
+#: scripts/levels/duel_level.gd:68
+#, c-format
+msgid "%s is going down!"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:75
+msgid "VICTORY"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:75
+msgid "DEFEATED"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:89 scripts/levels/mission_level.gd:144
+msgid "Time"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:90
+msgid "Damage taken"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:91 scripts/levels/mission_level.gd:149
+msgid "Gun accuracy"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:94 scripts/levels/duel_level.gd:94 scripts/ui/debrief.gd:88 scripts/ui/debrief.gd:88
+#, c-format
+msgid "MEDAL: %s"
+msgstr ""
+
+#: scripts/levels/duel_level.gd:98
+msgid "Duels"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:102 scripts/levels/split_screen_level.gd:241
+msgid "WAVE CLEARED - REPAIRED AND REARMED"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:107
+msgid "SHOT DOWN"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:107
+msgid "CRASHED"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:108
+#, c-format
+msgid "%s\nPress R to restart"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:40
+msgid "ALLIED FIGHTERS INBOUND"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:40 scripts/levels/split_screen_level.gd:67
+msgid "ENEMY FIGHTERS INBOUND"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:65 scripts/levels/free_flight.gd:65 scripts/levels/split_screen_level.gd:214 scripts/levels/split_screen_level.gd:214
+#, c-format
+msgid "WAVE %d"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:91 scripts/levels/free_flight.gd:91 scripts/levels/split_screen_level.gd:263 scripts/levels/split_screen_level.gd:263
+#, c-format
+msgid "WAVE %d     KILLS %d"
+msgstr ""
+
+#: scripts/levels/free_flight.gd:98 scripts/levels/mission_level.gd:101 scripts/levels/split_screen_level.gd:235
+msgid "ENEMY DOWN"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:110
+#, c-format
+msgid "%s DESTROYED"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:123 scripts/ui/debrief.gd:21
+msgid "MISSION COMPLETE"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:128 scripts/ui/debrief.gd:21
+msgid "MISSION FAILED"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:145
+msgid "Objectives"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:146
+msgid "Bonus objectives"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:147
+msgid "Aircraft shot down"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:148
+msgid "Ground targets destroyed"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:150
+msgid "Score"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:49 scripts/levels/mission_level.gd:49
+#, c-format
+msgid "(Bonus) %s"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:54 scripts/levels/mission_level.gd:54
+#, c-format
+msgid "TIME %s     SCORE %d"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:88
+msgid "BONUS COMPLETE"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:88
+msgid "OBJECTIVE COMPLETE"
+msgstr ""
+
+#: scripts/levels/mission_level.gd:99
+#, c-format
+msgid "%s SHOT DOWN!"
+msgstr ""
+
+#: scripts/levels/split_screen_level.gd:161
+msgid "SHOT DOWN\nBack in the air shortly..."
+msgstr ""
+
+#: scripts/levels/split_screen_level.gd:161
+msgid "CRASHED\nBack in the air shortly..."
+msgstr ""
+
+#: scripts/levels/split_screen_level.gd:194 scripts/levels/split_screen_level.gd:194
+#, c-format
+msgid "PLAYER %d WINS!\n%d - %d\nPause to restart or quit"
+msgstr ""
+
+#: scripts/levels/split_screen_level.gd:264 scripts/levels/split_screen_level.gd:264
+#, c-format
+msgid "PLAYER 1   %d  -  %d   PLAYER 2"
+msgstr ""
+
+#: scripts/levels/split_screen_level.gd:70 scripts/levels/split_screen_level.gd:70
+#, c-format
+msgid "FIRST TO %d WINS"
+msgstr ""
+
+#: scripts/mission/escort_objective.gd:48
+#, c-format
+msgid "%d/%d alive"
+msgstr ""
+
+#: scripts/mission/mission.gd:17
+msgid "Mission"
+msgstr ""
+
+#: scripts/mission/mission.gd:93 scripts/mission/mission.gd:93
+#, c-format
+msgid "Objective failed: %s"
+msgstr ""
+
+#: scripts/targets/ground_target.gd:14
+msgid "Target"
+msgstr ""
+
+#: scripts/ui/briefing.gd:29 scripts/ui/briefing.gd:29
+#, c-format
+msgid "Bonus: %s"
+msgstr ""
+
+#: scripts/ui/briefing.gd:64
+#, c-format
+msgid "%s\nTop speed %d km/h   Armour %d   Guns %d   Bombs %d"
+msgstr ""
+
+#: scripts/ui/briefing.gd:72 scripts/ui/briefing.gd:72
+msgid "More aircraft unlock as you are promoted."
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:100 scripts/ui/campaign_screen.gd:100
+#, c-format
+msgid "Missions flown: %d   (won %d)"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:101 scripts/ui/campaign_screen.gd:101
+#, c-format
+msgid "Aircraft shot down: %d"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:102 scripts/ui/campaign_screen.gd:102
+#, c-format
+msgid "Ground targets destroyed: %d   (balloons %d)"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:103 scripts/ui/campaign_screen.gd:103
+#, c-format
+msgid "Gun accuracy: %s"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:105 scripts/ui/campaign_screen.gd:105
+#, c-format
+msgid "[b]MEDALS[/b]  (%d / %d)"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:113 scripts/ui/campaign_screen.gd:113
+msgid "[b]AIRCRAFT[/b]"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:118 scripts/ui/campaign_screen.gd:118
+#, c-format
+msgid "[color=#77746c]%s - unlocks at %s[/color]"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:43
+#, c-format
+msgid "%d career points - highest rank"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:47
+#, c-format
+msgid "%d / %d points to %s"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:67
+#, c-format
+msgid "%d. %s   (locked)"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:74
+#, c-format
+msgid "%d. %s   - NEW"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:87 scripts/ui/campaign_screen.gd:87
+#, c-format
+msgid "Completed - best score %d"
+msgstr ""
+
+#: scripts/ui/campaign_screen.gd:98 scripts/ui/campaign_screen.gd:98
+#, c-format
+msgid "[b]%s[/b] - %d career points"
+msgstr ""
+
+#: scripts/ui/credits.gd:21
+msgid "[center][b]Design, programming and art[/b]\nChrollo[/center]"
+msgstr ""
+
+#: scripts/ui/credits.gd:23
+msgid "[center][b]Sound effects and music[/b]\nSynthesised in-house - no recorded samples[/center]"
+msgstr ""
+
+#: scripts/ui/credits.gd:25
+msgid "[center][b]Aircraft, vehicles and landscapes[/b]\nBuilt procedurally in code[/center]"
+msgstr ""
+
+#: scripts/ui/credits.gd:27
+msgid "[center][b]Made with the Godot Engine[/b]\ngodotengine.org[/center]"
+msgstr ""
+
+#: scripts/ui/credits.gd:30
+msgid "[b]Godot Engine licence[/b]"
+msgstr ""
+
+#: scripts/ui/credits.gd:33
+msgid "[b]Third-party components in the Godot Engine[/b]"
+msgstr ""
+
+#: scripts/ui/debrief.gd:52
+msgid "Fly again"
+msgstr ""
+
+#: scripts/ui/debrief.gd:52 scenes/ui/debrief.tscn:104
+msgid "Retry"
+msgstr ""
+
+#: scripts/ui/debrief.gd:71 scripts/ui/debrief.gd:71
+#, c-format
+msgid "+%d career points  (%d total)"
+msgstr ""
+
+#: scripts/ui/debrief.gd:73 scripts/ui/debrief.gd:73
+msgid "No new points - beat your best score to earn more."
+msgstr ""
+
+#: scripts/ui/debrief.gd:75 scripts/ui/debrief.gd:75
+msgid "Complete the mission to earn career points."
+msgstr ""
+
+#: scripts/ui/debrief.gd:79 scripts/ui/debrief.gd:79
+#, c-format
+msgid "PROMOTED to %s!"
+msgstr ""
+
+#: scripts/ui/debrief.gd:81 scripts/ui/debrief.gd:81
+#, c-format
+msgid "Rank: %s"
+msgstr ""
+
+#: scripts/ui/debrief.gd:84
+#, c-format
+msgid "%d points to %s"
+msgstr ""
+
+#: scripts/ui/debrief.gd:93 scripts/ui/debrief.gd:93
+#, c-format
+msgid "NEW AIRCRAFT: %s"
+msgstr ""
+
+#: scripts/ui/duels_screen.gd:18
+#, c-format
+msgid "%s   (locked)"
+msgstr ""
+
+#: scripts/ui/duels_screen.gd:20
+#, c-format
+msgid "%s   - defeated"
+msgstr ""
+
+#: scripts/ui/duels_screen.gd:41
+msgid "Defeat him in the campaign first."
+msgstr ""
+
+#: scripts/ui/duels_screen.gd:43
+msgid "You have beaten him. Fancy another go?"
+msgstr ""
+
+#: scripts/ui/duels_screen.gd:45
+msgid "Undefeated."
+msgstr ""
+
+#: scripts/ui/hangar.gd:10 scripts/ui/hangar.gd:69
+msgid "Firepower"
+msgstr ""
+
+#: scripts/ui/hangar.gd:11 scripts/ui/hangar.gd:70
+msgid "Bombs"
+msgstr ""
+
+#: scripts/ui/hangar.gd:27
+#, c-format
+msgid "%s   (unlocks at %s)"
+msgstr ""
+
+#: scripts/ui/hangar.gd:54 scripts/ui/hangar.gd:54
+#, c-format
+msgid "Unlocks at %s"
+msgstr ""
+
+#: scripts/ui/hangar.gd:56
+msgid "Selected"
+msgstr ""
+
+#: scripts/ui/hangar.gd:58 scenes/ui/hangar.tscn:179
+msgid "Fly this aircraft"
+msgstr ""
+
+#: scripts/ui/hangar.gd:7 scripts/ui/hangar.gd:66
+msgid "Top speed"
+msgstr ""
+
+#: scripts/ui/hangar.gd:8 scripts/ui/hangar.gd:67
+msgid "Agility"
+msgstr ""
+
+#: scripts/ui/hangar.gd:9 scripts/ui/hangar.gd:68
+msgid "Armour"
+msgstr ""
+
+#: scripts/ui/hud.gd:153
+#, c-format
+msgid "%d km/h"
+msgstr ""
+
+#: scripts/ui/hud.gd:164
+#, c-format
+msgid "FPS %d\nauthority %.2f\npitch %.2f  roll %.2f  yaw %.2f\nengine %.2f  wings %.2f/%.2f  tail %.2f"
+msgstr ""
+
+#: scripts/ui/hud.gd:227 scripts/ui/hud.gd:227
+msgid "STALL"
+msgstr ""
+
+#: scripts/ui/hud.gd:229 scripts/ui/hud.gd:229
+msgid "GUNS OVERHEATED"
+msgstr ""
+
+#: scripts/ui/hud.gd:231 scripts/ui/hud.gd:231
+msgid "GUNS JAMMED"
+msgstr ""
+
+#: scripts/ui/hud.gd:233 scripts/ui/hud.gd:233
+msgid "OUT OF AMMO"
+msgstr ""
+
+#: scripts/ui/hud.gd:235 scripts/ui/hud.gd:235
+msgid "ENGINE DAMAGED"
+msgstr ""
+
+#: scripts/ui/hud.gd:237 scripts/ui/hud.gd:237
+msgid "WING DAMAGED"
+msgstr ""
+
+#: scripts/ui/hud.gd:239 scripts/ui/hud.gd:239
+msgid "TAIL DAMAGED"
+msgstr ""
+
+#: scripts/ui/hud.gd:241 scripts/ui/hud.gd:241
+msgid "LEAVING THE AREA - TURN BACK"
+msgstr ""
+
+#: scripts/ui/hud.gd:41
+msgid "SPEED"
+msgstr ""
+
+#: scripts/ui/hud.gd:41
+msgid "ALTITUDE"
+msgstr ""
+
+#: scripts/ui/hud.gd:43 scripts/ui/hud.gd:157
+msgid "THROTTLE"
+msgstr ""
+
+#: scripts/ui/hud.gd:43 scripts/ui/hud.gd:158
+msgid "HULL"
+msgstr ""
+
+#: scripts/ui/hud.gd:43 scripts/ui/hud.gd:159
+msgid "GUN HEAT"
+msgstr ""
+
+#: scripts/ui/hud.gd:50
+msgid "AMMO"
+msgstr ""
+
+#: scripts/ui/hud.gd:50
+msgid "BOMBS"
+msgstr ""
+
+#: scripts/ui/hud.gd:72
+#, c-format
+msgid "%s  -  fire guns"
+msgstr ""
+
+#: scripts/ui/hud.gd:73
+#, c-format
+msgid "%s  -  drop bomb"
+msgstr ""
+
+#: scripts/ui/hud.gd:74
+#, c-format
+msgid "%s / %s  -  nose down / up"
+msgstr ""
+
+#: scripts/ui/hud.gd:75
+#, c-format
+msgid "%s / %s  -  roll left / right"
+msgstr ""
+
+#: scripts/ui/hud.gd:76
+#, c-format
+msgid "%s / %s  -  rudder left / right"
+msgstr ""
+
+#: scripts/ui/hud.gd:77
+#, c-format
+msgid "%s / %s  -  throttle up / down"
+msgstr ""
+
+#: scripts/ui/hud.gd:78
+#, c-format
+msgid "%s  -  chase / cockpit view"
+msgstr ""
+
+#: scripts/ui/hud.gd:79
+#, c-format
+msgid "%s  -  minimap zoom"
+msgstr ""
+
+#: scripts/ui/hud.gd:80 scripts/ui/hud.gd:80
+msgid "Hold right mouse  -  look around"
+msgstr ""
+
+#: scripts/ui/hud.gd:81
+#, c-format
+msgid "%s  -  pause      F1  -  hide help"
+msgstr ""
+
+#: scripts/ui/menu.gd:26
+msgid "Web"
+msgstr ""
+
+#: scripts/ui/menu.gd:44
+#, c-format
+msgid "%s  -  %s  -  %d pts    (change)"
+msgstr ""
+
+#: scripts/ui/menu.gd:45
+msgid "Change pilot"
+msgstr ""
+
+#: scripts/ui/menu.gd:64
+msgid "Sorry about that"
+msgstr ""
+
+#: scripts/ui/menu.gd:65
+msgid "The game closed unexpectedly last time.\nYour progress is saved after every mission, so nothing should be lost.\n\nIf this keeps happening, please send us the log files from the log folder."
+msgstr ""
+
+#: scripts/ui/menu.gd:66 scripts/ui/settings_menu.gd:173
+msgid "Open log folder"
+msgstr ""
+
+#: scripts/ui/minimap.gd:115
+#, c-format
+msgid "%d km"
+msgstr ""
+
+#: scripts/ui/pause_menu.gd:43
+msgid "Controller reconnected - press Resume when you're ready."
+msgstr ""
+
+#: scripts/ui/pause_menu.gd:47 scripts/ui/pause_menu.gd:47
+#, c-format
+msgid "Controller %d was disconnected.\nPlug it back in, or carry on with another device."
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:101
+msgid "Create pilot"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:104
+msgid "Flying as this pilot"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:107
+msgid "Fly as this pilot"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:117 scripts/ui/pilots_screen.gd:157
+msgid "Rename"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:122 scripts/ui/pilots_screen.gd:147
+msgid "Delete"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:133
+msgid "Pilot name"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:146
+msgid "Delete pilot"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:157
+msgid "Create"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:177 scripts/ui/pilots_screen.gd:177
+#, c-format
+msgid "Delete %s and all their progress?\nThis can't be undone."
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:28
+msgid "PILOTS"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:31
+msgid "Each pilot has their own campaign progress, medals, aircraft and duels. Settings are shared."
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:37 scenes/ui/campaign_screen.tscn:161 scenes/ui/credits.tscn:64 scenes/ui/duels_screen.tscn:105
+msgid "Back"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:71 scripts/ui/pilots_screen.gd:71
+#, c-format
+msgid "SLOT %d"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:73 scripts/ui/pilots_screen.gd:73
+msgid "FLYING NOW"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:78
+msgid "Empty"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Jan"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Feb"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Mar"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Apr"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "May"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Jun"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Jul"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Aug"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Sep"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Oct"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Nov"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:8
+msgid "Dec"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:83
+msgid "No pilot yet."
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:87
+#, c-format
+msgid "%d career points"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:88 scripts/ui/pilots_screen.gd:88
+#, c-format
+msgid "Campaign: %d / %d missions"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:89 scripts/ui/pilots_screen.gd:89
+#, c-format
+msgid "Medals: %d / %d"
+msgstr ""
+
+#: scripts/ui/pilots_screen.gd:90 scripts/ui/pilots_screen.gd:90
+#, c-format
+msgid "Last flown: %s"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:11 scripts/ui/two_player_screen.gd:43
+msgid "Landscape"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:12 scripts/ui/two_player_screen.gd:44
+msgid "Time of day"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:12 scripts/ui/two_player_screen.gd:44
+msgid "Dawn"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:12 scripts/ui/two_player_screen.gd:44
+msgid "Noon"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:12 scripts/ui/two_player_screen.gd:44
+msgid "Dusk"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:13 scripts/ui/two_player_screen.gd:45
+msgid "Weather"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:13 scripts/ui/two_player_screen.gd:45
+msgid "Clear"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:13 scripts/ui/two_player_screen.gd:45
+msgid "Overcast"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:13 scripts/ui/two_player_screen.gd:45
+msgid "Rain"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:13 scripts/ui/two_player_screen.gd:45
+msgid "Fog"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:14
+msgid "Fly for"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:14
+msgid "The Allies"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:14
+msgid "The Central Powers"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:15
+msgid "Enemy pilots"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:15
+msgid "Getting better each wave"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:15
+msgid "Rookies"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:15
+msgid "Veterans"
+msgstr ""
+
+#: scripts/ui/quick_battle_screen.gd:15
+msgid "Aces"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:101
+msgid "The right mouse button is used to look around - pick another."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:111
+#, c-format
+msgid "%s was used for %s - that slot is empty now."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:136
+#, c-format
+msgid "%s was used for %s - that control is empty now."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:152
+msgid "Gameplay"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:156
+msgid "Difficulty"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:157
+msgid "Easy: enemies aim worse and you take less damage. Ace: the opposite."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:158
+msgid "Invert pitch (nose up/down swapped)"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:159
+msgid "Auto-level wings"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:160
+msgid "Show aiming circle (lead indicator)"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:161
+msgid "Show bomb sight"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:162
+msgid "Show target markers and arrows"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:163
+msgid "Show controls help"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:164
+msgid "Show minimap"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:166
+msgid "Automatic (same as the computer)"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:169
+msgid "Language"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:171
+msgid "Pause when the game window loses focus"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:176
+msgid "Found a bug? Send us the log files"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:177 scripts/ui/settings_menu.gd:177
+#, c-format
+msgid "Version %s"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:181
+msgid "Accessibility"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:185
+msgid "Marker colours"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:186
+msgid "Enemy, friendly and objective colours on the HUD, minimap and briefing map."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:187
+msgid "Radio and objective text size"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:187
+msgid "Large"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:187
+msgid "Extra large"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:188
+msgid "How long radio messages stay"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:189
+msgid "Screen shake"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:19 scripts/ui/settings_menu.gd:194
+msgid "Keyboard & Mouse"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:19
+msgid "Reset keyboard"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:19 scripts/ui/settings_menu.gd:217 scripts/ui/settings_menu.gd:268
+msgid "Controller"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:19
+msgid "Reset controller"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:190
+msgid "Every key and button can be changed in the Keyboard & Mouse and Controller tabs. The old-film grain can be turned off under Graphics."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:195
+msgid "Mouse look sensitivity"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:196
+msgid "Each control can have two keys or mouse buttons. Click one, then press the new key or mouse button. Esc cancels, Delete empties it. Hold the right mouse button to look around."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:198 scripts/ui/settings_menu.gd:227
+msgid "Control"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:198
+msgid "Primary"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:198
+msgid "Secondary"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:209
+msgid "Press a key..."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:220
+msgid "Layout"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:220
+msgid "Gamepad"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:220
+msgid "Flight stick (with throttle lever)"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:223
+msgid "Stick dead zone"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:224
+msgid "Rumble when hit"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:225
+msgid "These controls are saved for the chosen layout and work on every controller you connect, in single player and split-screen. Click a control, then press a button or move a stick, trigger or lever. Esc or Start cancels, Delete clears."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:227
+msgid "Button or axis"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:237
+msgid "Press or move..."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:245 scripts/ui/settings_menu.gd:245
+#, c-format
+msgid "Connected: %s"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:245 scripts/ui/settings_menu.gd:245
+msgid "none - plug one in to use it"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:277
+msgid "Audio"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:278
+msgid "Master volume"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:278
+msgid "Music"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:278
+msgid "Sound effects"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:278
+msgid "Menus and radio"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:284
+msgid "Graphics"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:285
+msgid "Fullscreen"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:290
+msgid "Window size"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:297
+msgid "Quality"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:298
+msgid "Quality changes shadows, smoothing and how many trees there are (trees change on the next mission)."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:299
+msgid "Render resolution"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:300
+msgid "V-Sync"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:302
+msgid "Frame rate limit"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:302
+msgid "Unlimited"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:304
+msgid "Old-film grain and vignette"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:57
+msgid "Controller:  LB / RB  change tab    A  choose    B  back"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:100 scenes/ui/hangar.tscn:153
+msgid "Paint"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:167
+msgid "Keyboard and mouse"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:170 scripts/ui/two_player_screen.gd:170
+#, c-format
+msgid "Controller %d (%s)"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:188
+msgid "Connect a controller or flight stick - two players can't share one keyboard."
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:190
+msgid "Each player needs their own device."
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:38
+msgid "Mode"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:38
+msgid "Co-op (enemy waves)"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:38
+msgid "Versus (first to 5)"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:41
+msgid "Screen"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:41
+msgid "Side by side"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:41
+msgid "Top and bottom"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:74 scripts/ui/two_player_screen.gd:74
+#, c-format
+msgid "PLAYER %d"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:91
+msgid "Uses"
+msgstr ""
+
+#: scripts/ui/two_player_screen.gd:96
+msgid "Flies"
+msgstr ""
+
+#: scripts/world/theater_presets.gd:13
+msgid "Mud and Wire (front line)"
+msgstr ""
+
+#: scripts/world/theater_presets.gd:24
+msgid "The High Passes (mountains)"
+msgstr ""
+
+#: scripts/world/theater_presets.gd:7
+msgid "The Quiet Sector (farmland)"
+msgstr ""

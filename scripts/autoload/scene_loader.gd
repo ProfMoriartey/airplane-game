@@ -4,8 +4,17 @@ extends CanvasLayer
 
 const MAIN_MENU := "res://scenes/ui/menu.tscn"
 
+## Crash detection and log details (see session.gd).
+var session: Node
+
 var _loading_path := ""
 var _progress: ProgressBar
+
+
+func _enter_tree() -> void:
+	session = preload("res://scripts/autoload/session.gd").new()
+	session.name = "Session"
+	add_child(session)
 
 
 func _ready() -> void:

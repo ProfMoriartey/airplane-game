@@ -21,8 +21,9 @@ static func rank_for(points: int) -> int:
 	return rank
 
 
+## The rank's name, in the player's language.
 static func name_of(rank: int) -> String:
-	return RANKS[rank].name
+	return TranslationServer.translate(RANKS[rank].name)
 
 
 ## Points needed for the next rank, or -1 at the top rank.

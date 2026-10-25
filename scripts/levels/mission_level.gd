@@ -46,12 +46,12 @@ func _process(delta: float) -> void:
 		var progress := objective.get_progress_text()
 		if progress != "":
 			line += "  %s" % progress
-		lines.append("(Bonus) %s" % line if objective.optional else line)
+		lines.append(tr("(Bonus) %s") % line if objective.optional else line)
 		if not objective.optional:
 			markers.append_array(objective.get_markers())
 	hud.set_objectives(lines)
 	hud.set_objective_markers(markers)
-	hud.set_status_text("TIME %s     SCORE %d" % [_format_time(_elapsed), _score])
+	hud.set_status_text(tr("TIME %s     SCORE %d") % [_format_time(_elapsed), _score])
 
 
 func _show_briefing() -> void:
@@ -96,7 +96,7 @@ func _on_aircraft_destroyed(aircraft: Aircraft, attacker: Aircraft) -> void:
 		_score += AIRCRAFT_SCORE
 		if aircraft.pilot_name != "":
 			_aces_downed.append(aircraft.pilot_name)
-			hud.flash_banner("%s SHOT DOWN!" % aircraft.pilot_name.to_upper())
+			hud.flash_banner(tr("%s SHOT DOWN!") % tr(aircraft.pilot_name).to_upper())
 		else:
 			hud.flash_banner("ENEMY DOWN")
 
@@ -107,7 +107,7 @@ func _on_ground_target_destroyed(target: GroundTarget, attacker: Aircraft) -> vo
 		_score += target.score_value
 		if target is Balloon:
 			_balloons += 1
-		hud.flash_banner("%s DESTROYED" % target.display_name.to_upper())
+		hud.flash_banner(tr("%s DESTROYED") % tr(target.display_name).to_upper())
 
 
 func _on_player_damaged(amount: float, attacker: Aircraft) -> void:

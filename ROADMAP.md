@@ -301,15 +301,17 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 ## 10. Systems & Tech
 
 - [x] Save/load system (campaign progress, unlocks, settings)
-- [ ] Multiple save slots
+- [x] Multiple save slots (three pilots; safe saving with backups)
 - [x] Scene loading with progress (threaded loading)
 - [x] Object pooling for bullets, effects, debris
 - [x] Input handling for keyboard/mouse, gamepad, joystick (with dead zones)
 - [x] Rumble / haptics for gamepad
-- [ ] Pause handling (process modes)
-- [ ] Localization support (string tables) — even if English only at first
-- [ ] Accessibility: subtitles, colorblind-safe HUD, remappable controls
-- [ ] Error logging and crash handling
+- [x] Pause handling (process modes; pauses on focus loss and controller disconnect)
+- [x] Localization support (string tables) — even if English only at first
+  - [x] Language setting, .po files loaded from `localization/`, `tools/extract_strings.py` builds the template
+- [x] Accessibility: subtitles, colorblind-safe HUD, remappable controls
+  - [x] Radio text size and duration, screen shake strength
+- [x] Error logging and crash handling (log header, crash notice, Open log folder)
 
 ---
 

@@ -11,8 +11,6 @@ const LEAD_RANGE := 700.0
 const EDGE_MARGIN := 48.0
 const SIGHT_COLOR := Color(1.0, 1.0, 1.0, 0.85)
 const HIT_COLOR := Color(1.0, 0.3, 0.2)
-const ENEMY_COLOR := Color(1.0, 0.4, 0.3)
-const OBJECTIVE_COLOR := Color(1.0, 0.85, 0.3)
 const BOMB_SIGHT_COLOR := Color(1.0, 0.6, 0.2, 0.9)
 ## Only show the bomb sight when this low over the ground.
 const BOMB_SIGHT_MAX_HEIGHT := 1200.0
@@ -91,29 +89,29 @@ func _draw_objective(camera: Camera3D, marker: Vector3) -> void:
 	var behind := camera.is_position_behind(marker)
 	var projected := camera.unproject_position(marker)
 	if behind or not on_screen_area.has_point(projected):
-		_draw_offscreen_arrow(projected, behind, label, screen, OBJECTIVE_COLOR)
+		_draw_offscreen_arrow(projected, behind, label, screen, Settings.color("objective"))
 		return
 	var radius := 9.0
 	var diamond := PackedVector2Array([
 		projected + Vector2(0, -radius), projected + Vector2(radius, 0),
 		projected + Vector2(0, radius), projected + Vector2(-radius, 0), projected + Vector2(0, -radius),
 	])
-	draw_polyline(diamond, OBJECTIVE_COLOR, 2.0)
-	draw_string(_font, projected + Vector2(-20.0, radius + 16.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, OBJECTIVE_COLOR)
+	draw_polyline(diamond, Settings.color("objective"), 2.0)
+	draw_string(_font, projected + Vector2(-20.0, radius + 16.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Settings.color("objective"))
 
 
 func _draw_enemy(camera: Camera3D, enemy: Aircraft) -> void:
 	var distance := plane.global_position.distance_to(enemy.global_position)
 	var label := "%d m" % roundi(distance)
 	if enemy.pilot_name != "":
-		label = "%s  %s" % [enemy.pilot_name, label]
+		label = "%s  %s" % [tr(enemy.pilot_name), label]
 	var screen := get_viewport_rect().size
 	var on_screen_area := Rect2(Vector2.ONE * EDGE_MARGIN, screen - Vector2.ONE * EDGE_MARGIN * 2.0)
 
 	var behind := camera.is_position_behind(enemy.global_position)
 	var projected := camera.unproject_position(enemy.global_position)
 	if behind or not on_screen_area.has_point(projected):
-		_draw_offscreen_arrow(projected, behind, label, screen, ENEMY_COLOR)
+		_draw_offscreen_arrow(projected, behind, label, screen, Settings.color("enemy"))
 		return
 
 	# Corner brackets that shrink with distance.
@@ -121,9 +119,9 @@ func _draw_enemy(camera: Camera3D, enemy: Aircraft) -> void:
 	var arm := half * 0.5
 	for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1)]:
 		var tip := projected + corner * half
-		draw_line(tip, tip - Vector2(corner.x * arm, 0.0), ENEMY_COLOR, 2.0)
-		draw_line(tip, tip - Vector2(0.0, corner.y * arm), ENEMY_COLOR, 2.0)
-	draw_string(_font, projected + Vector2(-20.0, half + 18.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, ENEMY_COLOR)
+		draw_line(tip, tip - Vector2(corner.x * arm, 0.0), Settings.color("enemy"), 2.0)
+		draw_line(tip, tip - Vector2(0.0, corner.y * arm), Settings.color("enemy"), 2.0)
+	draw_string(_font, projected + Vector2(-20.0, half + 18.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Settings.color("enemy"))
 
 	# Lead indicator: put the gun sight on this to hit a moving target.
 	if distance < LEAD_RANGE and Settings.show_lead_indicator:
@@ -131,8 +129,8 @@ func _draw_enemy(camera: Camera3D, enemy: Aircraft) -> void:
 		var lead := enemy.global_position + (enemy.velocity - plane.velocity) * flight_time
 		if not camera.is_position_behind(lead):
 			var lead_screen := camera.unproject_position(lead)
-			draw_arc(lead_screen, 6.0, 0.0, TAU, 16, ENEMY_COLOR, 2.0)
-			draw_line(projected, lead_screen, Color(ENEMY_COLOR, 0.35), 1.0)
+			draw_arc(lead_screen, 6.0, 0.0, TAU, 16, Settings.color("enemy"), 2.0)
+			draw_line(projected, lead_screen, Color(Settings.color("enemy"), 0.35), 1.0)
 
 
 func _draw_offscreen_arrow(projected: Vector2, behind: bool, label: String, screen: Vector2, color: Color) -> void:

@@ -71,7 +71,7 @@ func _player_card(player: int) -> Control:
 	box.add_theme_constant_override("separation", 6)
 	card.add_child(box)
 	var title := Label.new()
-	title.text = "PLAYER %d" % (player + 1)
+	title.text = tr("PLAYER %d") % (player + 1)
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", PLAYER_COLORS[player])
 	box.add_child(title)
@@ -167,7 +167,7 @@ func _fill_devices() -> void:
 	var names: Array[String] = ["Keyboard and mouse"]
 	for device in Input.get_connected_joypads():
 		_device_ids.append(device)
-		names.append("Controller %d (%s)" % [device + 1, Input.get_joy_name(device)])
+		names.append(tr("Controller %d (%s)") % [device + 1, Input.get_joy_name(device)])
 	for player in 2:
 		var picker := _device_pickers[player]
 		picker.clear()

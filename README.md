@@ -2,7 +2,7 @@
 
 A WWI-inspired arcade dogfighting game made with [Godot 4.7](https://godotengine.org/).
 
-From the main menu you can start with **Training**, play the **Campaign** – 9 missions across three theaters, ending in a duel with the Crimson Crow – challenge enemy aces in **Ace Duels**, fight endless waves in **Quick Battle** (for either side), or play **Two players** on one screen – co-op or versus, each player with their own keyboard or controller. Campaign progress, ranks, medals and unlocked aircraft are saved automatically.
+From the main menu you can start with **Training**, play the **Campaign** – 9 missions across three theaters, ending in a duel with the Crimson Crow – challenge enemy aces in **Ace Duels**, fight endless waves in **Quick Battle** (for either side), or play **Two players** on one screen – co-op or versus, each player with their own keyboard or controller. Campaign progress, ranks, medals and unlocked aircraft are saved automatically, for up to three **pilots** (save slots - click the pilot's name on the main menu).
 
 ## Running the game
 

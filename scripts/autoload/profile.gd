@@ -1,9 +1,18 @@
 extends Node
 ## The player's saved career: campaign progress, totals, medals and chosen plane.
-## Saved as JSON in the user data folder after every mission.
+## There are SLOT_COUNT pilots, each saved as JSON in the user data folder after
+## every mission. Saves are written to a temporary file first, and the previous
+## save is kept as a backup, so a crash mid-save can't lose a career.
 
-const SAVE_PATH := "user://profile.json"
-const SAVE_VERSION := 1
+signal pilot_changed
+
+const SLOT_COUNT := 3
+const SAVE_FOLDER := "user://pilots"
+const CURRENT_PATH := "user://pilots/current.txt"
+## Where saves lived before there were save slots.
+const OLD_SAVE_PATH := "user://profile.json"
+const SAVE_VERSION := 2
+const MAX_NAME_LENGTH := 20
 const CAMPAIGN := preload("res://data/campaign/campaign.tres")
 const PLAYER_AIRCRAFT: Array[AircraftStats] = [
 	preload("res://data/aircraft/scout.tres"),
@@ -14,10 +23,94 @@ const PLAYER_AIRCRAFT: Array[AircraftStats] = [
 ]
 
 var _data := {}
+## Which save slot is in use.
+var current_slot := 0
 
 
 func _ready() -> void:
-	_load()
+	DirAccess.make_dir_recursive_absolute(SAVE_FOLDER)
+	_move_old_save()
+	if FileAccess.file_exists(CURRENT_PATH):
+		current_slot = clampi(FileAccess.get_file_as_string(CURRENT_PATH).to_int(), 0, SLOT_COUNT - 1)
+	_data = _read(current_slot)
+	if _data.is_empty():
+		_data = _new_profile(default_name(current_slot))
+
+
+## --- Pilots (save slots) ---
+
+func pilot_name() -> String:
+	return _data.name
+
+
+func default_name(slot: int) -> String:
+	return tr("Pilot %d") % (slot + 1)
+
+
+func slot_exists(slot: int) -> bool:
+	return slot == current_slot or FileAccess.file_exists(_slot_path(slot))
+
+
+## A short summary of a slot for the pilots screen, or {} if it's empty.
+func slot_summary(slot: int) -> Dictionary:
+	var data := _data if slot == current_slot else _read(slot)
+	if data.is_empty():
+		return {}
+	var completed := 0
+	for id: String in data.missions:
+		if data.missions[id].get("completed", false):
+			completed += 1
+	var points := _points_of(data)
+	return {
+		name = data.name,
+		rank = Ranks.rank_for(points),
+		points = points,
+		missions_completed = completed,
+		missions_total = CAMPAIGN.all_missions().size(),
+		medals = data.medals.size(),
+		last_played = int(data.get("last_played", 0)),
+	}
+
+
+## Switches to another pilot, creating them (with this name) if the slot is empty.
+func use_slot(slot: int, new_name := "") -> void:
+	_save()
+	current_slot = slot
+	_data = _read(slot)
+	if _data.is_empty():
+		_data = _new_profile(clean_name(new_name, slot))
+	_save()
+	_write_text(CURRENT_PATH, str(slot))
+	pilot_changed.emit()
+
+
+func rename_slot(slot: int, new_name: String) -> void:
+	if slot == current_slot:
+		_data.name = clean_name(new_name, slot)
+		_save()
+		pilot_changed.emit()
+		return
+	var data := _read(slot)
+	if not data.is_empty():
+		data.name = clean_name(new_name, slot)
+		_write_slot(slot, data)
+
+
+## Deletes a pilot. Deleting the current pilot starts them afresh.
+func delete_slot(slot: int) -> void:
+	for path in [_slot_path(slot), _slot_path(slot) + ".bak"]:
+		if FileAccess.file_exists(path):
+			DirAccess.remove_absolute(path)
+	if slot == current_slot:
+		_data = _new_profile(default_name(slot))
+		_save()
+		pilot_changed.emit()
+
+
+## Trims a typed name and falls back to "Pilot N" if nothing's left.
+func clean_name(text: String, slot: int) -> String:
+	text = text.strip_edges().left(MAX_NAME_LENGTH)
+	return text if text != "" else default_name(slot)
 
 
 ## --- Campaign progress ---
@@ -54,10 +147,14 @@ func is_theater_complete(index: int) -> bool:
 ## --- Career ---
 
 func career_points() -> int:
-	var points: int = _data.medals.size() * Medals.MEDAL_POINTS
-	for id: String in _data.missions:
-		if _data.missions[id].completed:
-			points += int(_data.missions[id].best_score)
+	return _points_of(_data)
+
+
+func _points_of(data: Dictionary) -> int:
+	var points: int = data.medals.size() * Medals.MEDAL_POINTS
+	for id: String in data.missions:
+		if data.missions[id].get("completed", false):
+			points += int(data.missions[id].get("best_score", 0))
 	return points
 
 
@@ -176,7 +273,7 @@ func record_duel_win(ace_id: String) -> Array[String]:
 
 
 func reset() -> void:
-	_data = _new_profile()
+	_data = _new_profile(_data.name)
 	_save()
 
 
@@ -190,9 +287,11 @@ func _mission_record(mission_id: String) -> Dictionary:
 	}
 
 
-func _new_profile() -> Dictionary:
+func _new_profile(pilot: String) -> Dictionary:
 	return {
 		version = SAVE_VERSION,
+		name = pilot,
+		last_played = 0,
 		missions = {},
 		totals = {missions_flown = 0, missions_won = 0, air_kills = 0, ground_kills = 0, balloons = 0, shots = 0, hits = 0},
 		medals = [],
@@ -202,29 +301,71 @@ func _new_profile() -> Dictionary:
 	}
 
 
-func _load() -> void:
-	_data = _new_profile()
-	if not FileAccess.file_exists(SAVE_PATH):
-		return
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
-	if parsed is not Dictionary:
-		push_warning("Save file is unreadable; starting a new profile.")
-		return
-	# Merge onto a fresh profile so saves from older versions get any new fields.
-	_data.missions = parsed.get("missions", {})
-	_data.medals = parsed.get("medals", [])
-	_data.selected_aircraft = parsed.get("selected_aircraft", "scout")
-	_data.liveries = parsed.get("liveries", {})
-	_data.duels = parsed.get("duels", [])
+func _slot_path(slot: int) -> String:
+	return "%s/slot_%d.json" % [SAVE_FOLDER, slot + 1]
+
+
+## Reads a slot, falling back to its backup if the save is damaged.
+## Returns {} if the slot is empty.
+func _read(slot: int) -> Dictionary:
+	var path := _slot_path(slot)
+	for candidate in [path, path + ".bak"]:
+		if not FileAccess.file_exists(candidate):
+			continue
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(candidate))
+		if parsed is Dictionary:
+			if candidate != path:
+				push_warning("Save %s was damaged; using its backup." % path)
+			return _upgrade(parsed, slot)
+		push_warning("Save %s is unreadable." % candidate)
+	return {}
+
+
+## Merges a loaded save onto a fresh profile so saves from older versions get
+## any new fields.
+func _upgrade(parsed: Dictionary, slot: int) -> Dictionary:
+	var data := _new_profile(clean_name(str(parsed.get("name", "")), slot))
+	data.last_played = int(parsed.get("last_played", 0))
+	data.missions = parsed.get("missions", {})
+	data.medals = parsed.get("medals", [])
+	data.selected_aircraft = parsed.get("selected_aircraft", "scout")
+	data.liveries = parsed.get("liveries", {})
+	data.duels = parsed.get("duels", [])
 	var saved_totals: Dictionary = parsed.get("totals", {})
-	for key: String in _data.totals:
+	for key: String in data.totals:
 		# JSON stores every number as a float.
-		_data.totals[key] = int(saved_totals.get(key, 0))
+		data.totals[key] = int(saved_totals.get(key, 0))
+	return data
+
+
+## Saves from before there were slots become the first pilot.
+func _move_old_save() -> void:
+	if FileAccess.file_exists(OLD_SAVE_PATH) and not FileAccess.file_exists(_slot_path(0)):
+		DirAccess.rename_absolute(OLD_SAVE_PATH, _slot_path(0))
 
 
 func _save() -> void:
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	if file == null:
-		push_error("Could not save profile: %s" % error_string(FileAccess.get_open_error()))
+	_data.last_played = int(Time.get_unix_time_from_system())
+	_write_slot(current_slot, _data)
+
+
+func _write_slot(slot: int, data: Dictionary) -> void:
+	var path := _slot_path(slot)
+	# Write the new save beside the old one, keep the old one as a backup, then
+	# swap the new one in. A crash at any point leaves a readable save.
+	if not _write_text(path + ".tmp", JSON.stringify(data, "\t")):
 		return
-	file.store_string(JSON.stringify(_data, "\t"))
+	if FileAccess.file_exists(path):
+		DirAccess.remove_absolute(path + ".bak")
+		DirAccess.rename_absolute(path, path + ".bak")
+	DirAccess.rename_absolute(path + ".tmp", path)
+
+
+func _write_text(path: String, text: String) -> bool:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("Could not save %s: %s" % [path, error_string(FileAccess.get_open_error())])
+		return false
+	file.store_string(text)
+	file.close()
+	return true

@@ -24,7 +24,7 @@ func _ready() -> void:
 		var button := Button.new()
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		var unlocked := aircraft.unlock_rank <= Profile.rank()
-		button.text = aircraft.display_name if unlocked else "%s   (unlocks at %s)" % [aircraft.display_name, Ranks.name_of(aircraft.unlock_rank)]
+		button.text = aircraft.display_name if unlocked else tr("%s   (unlocks at %s)") % [tr(aircraft.display_name), Ranks.name_of(aircraft.unlock_rank)]
 		button.pressed.connect(_show.bind(aircraft))
 		%PlaneList.add_child(button)
 	_show(Profile.selected_aircraft())
@@ -51,7 +51,7 @@ func _show(aircraft: AircraftStats) -> void:
 	%SelectButton.disabled = not unlocked
 	%LiveryPicker.disabled = not unlocked
 	if not unlocked:
-		%SelectButton.text = "Unlocks at %s" % Ranks.name_of(aircraft.unlock_rank)
+		%SelectButton.text = tr("Unlocks at %s") % Ranks.name_of(aircraft.unlock_rank)
 	elif aircraft == Profile.selected_aircraft():
 		%SelectButton.text = "Selected"
 	else:

@@ -60,7 +60,7 @@ func is_looking_around() -> bool:
 
 ## Adds camera shake, from 0 (none) to 1 (violent).
 func add_shake(amount: float) -> void:
-	_shake = minf(_shake + amount, 1.0)
+	_shake = minf(_shake + amount * Settings.screen_shake, 1.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:

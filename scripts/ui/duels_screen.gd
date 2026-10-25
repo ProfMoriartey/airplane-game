@@ -15,9 +15,9 @@ func _ready() -> void:
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.custom_minimum_size = Vector2(0, 44)
 		if not Aces.is_unlocked(ace):
-			button.text = "%s   (locked)" % ace.name
+			button.text = tr("%s   (locked)") % tr(ace.name)
 		elif Profile.has_won_duel(ace.id):
-			button.text = "%s   - defeated" % ace.name
+			button.text = tr("%s   - defeated") % tr(ace.name)
 		else:
 			button.text = ace.name
 		button.pressed.connect(_select.bind(index))

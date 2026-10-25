@@ -5,10 +5,16 @@ extends Node
 signal changed
 
 const SAVE_PATH := "user://settings.cfg"
+## Translations (.po files, one per language) are loaded from here.
+const LANGUAGE_FOLDER := "res://localization"
+## The language the game is written in.
+const SOURCE_LANGUAGE := "en"
 
 enum Difficulty { EASY, NORMAL, HARD, ACE }
 enum Quality { LOW, MEDIUM, HIGH }
 enum WindowMode { WINDOWED, FULLSCREEN }
+enum Palette { STANDARD, COLORBLIND }
+enum TextSize { NORMAL, LARGE, EXTRA_LARGE }
 
 ## How each difficulty changes the enemy: aim error, pause between bursts, and
 ## how much damage the player takes.
@@ -26,10 +32,24 @@ const QUALITY_SETTINGS := {
 }
 ## How many keys or mouse buttons each control can have.
 const KEY_SLOTS := 2
+## Marker colours. The colour-blind palette swaps red / green for orange / blue
+## (from the Okabe-Ito set), which stay apart with every common colour blindness.
+const PALETTES := {
+	Palette.STANDARD: {
+		name = "Standard", enemy = Color(1.0, 0.35, 0.25), friend = Color(0.45, 0.95, 0.5),
+		objective = Color(1.0, 0.85, 0.3), optional = Color(0.7, 0.85, 1.0),
+	},
+	Palette.COLORBLIND: {
+		name = "Colour-blind friendly (orange / blue)", enemy = Color(0.95, 0.45, 0.05), friend = Color(0.35, 0.72, 0.95),
+		objective = Color(0.95, 0.9, 0.3), optional = Color(0.92, 0.92, 0.92),
+	},
+}
+const TEXT_SCALES := {TextSize.NORMAL: 1.0, TextSize.LARGE: 1.3, TextSize.EXTRA_LARGE: 1.6}
 const BUSES := ["Master", "Music", "SFX", "UI"]
 ## Settings written to the save file.
 const SAVED := [
-	"difficulty", "auto_level", "show_lead_indicator", "show_bomb_sight", "show_markers", "show_help", "show_minimap",
+	"difficulty", "auto_level", "show_lead_indicator", "show_bomb_sight", "show_markers", "show_help", "show_minimap", "pause_on_focus_loss",
+	"palette", "text_size", "radio_duration", "screen_shake", "language",
 	"invert_pitch", "mouse_sensitivity", "key_bindings", "volumes",
 	"pad_scheme", "pad_bindings", "pad_deadzone", "rumble",
 	"window_mode", "vsync", "max_fps", "render_scale", "quality", "film_grain",
@@ -43,6 +63,16 @@ var show_bomb_sight := true
 var show_markers := true
 var show_help := true
 var show_minimap := true
+var pause_on_focus_loss := true
+## Language code like "fr", or "" to follow the computer's language.
+var language := ""
+# Accessibility
+var palette := Palette.STANDARD
+var text_size := TextSize.NORMAL
+## How long radio messages stay on screen (1 = normal).
+var radio_duration := 1.0
+## How strongly the camera shakes (0 = never).
+var screen_shake := 1.0
 # Controls
 var invert_pitch := false
 var mouse_sensitivity := 1.0
@@ -66,12 +96,39 @@ var quality := Quality.HIGH
 var film_grain := true
 
 func _ready() -> void:
+	_load_translations()
 	_load()
 	apply()
 
 
+## Every language the game can show: the original English plus each translation found.
+func languages() -> Array[String]:
+	var codes: Array[String] = [SOURCE_LANGUAGE]
+	for code in TranslationServer.get_loaded_locales():
+		if not codes.has(code):
+			codes.append(code)
+	return codes
+
+
+func _load_translations() -> void:
+	for file in ResourceLoader.list_directory(LANGUAGE_FOLDER):
+		if file.get_extension() == "po":
+			var translation := load(LANGUAGE_FOLDER.path_join(file)) as Translation
+			if translation:
+				TranslationServer.add_translation(translation)
+
+
 func difficulty_value(key: String) -> float:
 	return DIFFICULTY_SETTINGS[difficulty][key]
+
+
+## A marker colour from the chosen palette: enemy, friend, objective or optional.
+func color(role: String) -> Color:
+	return PALETTES[palette][role]
+
+
+func text_scale() -> float:
+	return TEXT_SCALES[text_size]
 
 
 func quality_value(key: String) -> Variant:
@@ -90,6 +147,7 @@ func apply() -> void:
 	var viewport := get_viewport()
 	viewport.scaling_3d_scale = render_scale
 	viewport.msaa_3d = quality_value("msaa")
+	TranslationServer.set_locale(language if language != "" else OS.get_locale())
 	Controls.rebuild()
 	_save()
 	changed.emit()
@@ -162,6 +220,7 @@ func reset_controller() -> void:
 
 ## Replaces action names in braces, like {fire}, with the player's keys.
 func fill_keys(text: String) -> String:
+	text = tr(text)
 	for action: String in Controls.CONTROLS:
 		text = text.replace("{%s}" % action, key_name(action))
 	return text
@@ -182,7 +241,7 @@ static func binding_text(binding: Dictionary) -> String:
 	if binding.has("key"):
 		return OS.get_keycode_string(binding.key)
 	if binding.has("mouse"):
-		return MOUSE_NAMES.get(binding.mouse, "Mouse %d" % binding.mouse)
+		return MOUSE_NAMES.get(binding.mouse, TranslationServer.translate("Mouse %d") % binding.mouse)
 	return "-"
 
 

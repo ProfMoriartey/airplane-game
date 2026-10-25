@@ -44,7 +44,7 @@ func _ready() -> void:
 	_ace.destroyed.connect(_on_ace_destroyed)
 	add_child(_ace)
 
-	hud.flash_banner("DUEL: %s" % ace.name.to_upper())
+	hud.flash_banner(tr("DUEL: %s") % tr(ace.name).to_upper())
 	hud.radio(ace.taunt)
 	Sound.start_flight_music()
 
@@ -52,7 +52,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not _finished:
 		_elapsed += delta
-	hud.set_status_text("DUEL     TIME %02d:%02d" % [floori(_elapsed / 60.0), int(_elapsed) % 60])
+	hud.set_status_text(tr("DUEL     TIME %02d:%02d") % [floori(_elapsed / 60.0), int(_elapsed) % 60])
 
 
 func _on_player_damaged(amount: float, attacker: Aircraft) -> void:
@@ -65,7 +65,7 @@ func _on_player_destroyed(attacker: Aircraft) -> void:
 
 
 func _on_ace_destroyed(_attacker: Aircraft) -> void:
-	_finish(true, "%s is going down!" % Aces.ACES[ace_index].name)
+	_finish(true, tr("%s is going down!") % tr(Aces.ACES[ace_index].name))
 
 
 func _finish(success: bool, reason: String) -> void:
@@ -91,7 +91,7 @@ func _finish(success: bool, reason: String) -> void:
 		["Gun accuracy", "-" if shots == 0 else "%d%%" % roundi(100.0 * player_hits / shots)],
 	]
 	for id in medals:
-		reason += "\nMEDAL: %s" % Medals.find(id).name
+		reason += "\n" + tr("MEDAL: %s") % tr(Medals.find(id).name)
 	var debrief := DEBRIEF_SCENE.instantiate()
 	add_child(debrief)
 	debrief.setup(success, reason, stats, {}, null)

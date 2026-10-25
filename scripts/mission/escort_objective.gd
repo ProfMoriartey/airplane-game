@@ -45,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func get_progress_text() -> String:
-	return "%d/%d alive" % [_alive(), _escorts.size()]
+	return tr("%d/%d alive") % [_alive(), _escorts.size()]
 
 
 func get_markers() -> Array[Vector3]:

@@ -67,7 +67,7 @@ func _ready() -> void:
 		_announce("ENEMY FIGHTERS INBOUND")
 		get_tree().create_timer(3.0, false).timeout.connect(_start_next_wave)
 	else:
-		_announce("FIRST TO %d WINS" % VERSUS_TARGET)
+		_announce(tr("FIRST TO %d WINS") % VERSUS_TARGET)
 	_update_status()
 
 
@@ -191,7 +191,7 @@ func _respawn(index: int) -> void:
 func _finish(winner: int) -> void:
 	_finished = true
 	for index in 2:
-		_huds[index].show_message("PLAYER %d WINS!\n%d - %d\nPause to restart or quit" % [winner + 1, _scores[0], _scores[1]])
+		_huds[index].show_message(tr("PLAYER %d WINS!\n%d - %d\nPause to restart or quit") % [winner + 1, _scores[0], _scores[1]])
 	Sound.stop_flight_music()
 	Sound.play_music("victory")
 
@@ -211,7 +211,7 @@ func _start_next_wave() -> void:
 	var angle := randf() * TAU
 	for index in mini(_wave + 1, MAX_WAVE_SIZE):
 		_spawn_enemy(skill, center, angle + index * 0.08)
-	_announce("WAVE %d" % _wave)
+	_announce(tr("WAVE %d") % _wave)
 	_update_status()
 
 
@@ -260,8 +260,8 @@ func _announce(text: String) -> void:
 
 
 func _update_status() -> void:
-	var text := "WAVE %d     KILLS %d" % [_wave, _kills] if TwoPlayer.mode == TwoPlayer.Mode.COOP \
-		else "PLAYER 1   %d  -  %d   PLAYER 2" % [_scores[0], _scores[1]]
+	var text := tr("WAVE %d     KILLS %d") % [_wave, _kills] if TwoPlayer.mode == TwoPlayer.Mode.COOP \
+		else tr("PLAYER 1   %d  -  %d   PLAYER 2") % [_scores[0], _scores[1]]
 	for each_hud in _huds:
 		each_hud.set_status_text(text)
 

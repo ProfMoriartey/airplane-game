@@ -4,6 +4,7 @@ extends CanvasLayer
 
 signal closed
 
+const PANEL_WIDTH := 920.0
 const BINDING_WIDTH := 170.0
 const HEADER_COLOR := Color(0.85, 0.7, 0.45)
 const WINDOW_SIZES := [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1920, 1080)]
@@ -32,10 +33,14 @@ var _connected_note: Label
 
 
 func _ready() -> void:
+	# Wide enough for every tab title.
+	$Panel.offset_left = -PANEL_WIDTH / 2
+	$Panel.offset_right = PANEL_WIDTH / 2
 	%BackButton.pressed.connect(close)
 	%ResetButton.pressed.connect(_reset_current_tab)
 	%Tabs.tab_changed.connect(func(_tab: int) -> void: _update_reset_button())
 	_build_gameplay()
+	_build_accessibility()
 	_build_keyboard()
 	_build_controller()
 	_build_audio()
@@ -103,7 +108,7 @@ func _capture_key(event: InputEvent) -> void:
 
 func _finish_key(binding: Dictionary) -> void:
 	var taken := Settings.bind_key(_rebinding, _rebinding_slot, binding)
-	_stop_rebinding("%s was used for %s - that slot is empty now." % [Settings.binding_text(binding), taken] if taken != "" else "")
+	_stop_rebinding(tr("%s was used for %s - that slot is empty now.") % [Settings.binding_text(binding), taken] if taken != "" else "")
 
 
 ## Waiting for a controller: a button press, or an axis moved well away from
@@ -128,7 +133,7 @@ func _capture_pad(event: InputEvent) -> void:
 			_stop_rebinding("")
 	if not binding.is_empty():
 		var taken := Settings.bind_pad(_rebinding_pad, binding)
-		_stop_rebinding("%s was used for %s - that control is empty now." % [Controls.binding_name(binding), taken] if taken != "" else "")
+		_stop_rebinding(tr("%s was used for %s - that control is empty now.") % [Controls.binding_name(binding), taken] if taken != "" else "")
 	get_viewport().set_input_as_handled()
 
 
@@ -157,6 +162,32 @@ func _build_gameplay() -> void:
 	_toggle(tab, "Show target markers and arrows", Settings.show_markers, func(on: bool) -> void: Settings.show_markers = on)
 	_toggle(tab, "Show controls help", Settings.show_help, func(on: bool) -> void: Settings.show_help = on)
 	_toggle(tab, "Show minimap", Settings.show_minimap, func(on: bool) -> void: Settings.show_minimap = on)
+	var codes := Settings.languages()
+	var names: Array[String] = ["Automatic (same as the computer)"]
+	for code in codes:
+		names.append(TranslationServer.get_locale_name(code))
+	_choice(tab, "Language", names, codes.find(Settings.language) + 1, func(index: int) -> void:
+		Settings.language = codes[index - 1] if index > 0 else "")
+	_toggle(tab, "Pause when the game window loses focus", Settings.pause_on_focus_loss, func(on: bool) -> void: Settings.pause_on_focus_loss = on)
+	var logs := Button.new()
+	logs.text = "Open log folder"
+	logs.custom_minimum_size = Vector2(200, 0)
+	logs.pressed.connect(SceneLoader.session.open_log_folder)
+	_row(tab, "Found a bug? Send us the log files", logs)
+	_note(tab, tr("Version %s") % SceneLoader.session.version())
+
+
+func _build_accessibility() -> void:
+	var tab := _tab("Accessibility")
+	var palettes: Array[String] = []
+	for palette in Settings.PALETTES.values():
+		palettes.append(palette.name)
+	_choice(tab, "Marker colours", palettes, Settings.palette, func(index: int) -> void: Settings.palette = index)
+	_note(tab, "Enemy, friendly and objective colours on the HUD, minimap and briefing map.")
+	_choice(tab, "Radio and objective text size", ["Normal", "Large", "Extra large"], Settings.text_size, func(index: int) -> void: Settings.text_size = index)
+	_slider(tab, "How long radio messages stay", 1.0, 2.5, Settings.radio_duration, func(value: float) -> void: Settings.radio_duration = value)
+	_slider(tab, "Screen shake", 0.0, 1.0, Settings.screen_shake, func(value: float) -> void: Settings.screen_shake = value)
+	_note(tab, "Every key and button can be changed in the Keyboard & Mouse and Controller tabs. The old-film grain can be turned off under Graphics.")
 
 
 func _build_keyboard() -> void:
@@ -211,7 +242,7 @@ func _build_controller() -> void:
 
 func _refresh_connected() -> void:
 	var connected := Input.get_connected_joypads().map(func(device: int) -> String: return Input.get_joy_name(device))
-	_connected_note.text = "Connected: %s" % (", ".join(connected) if not connected.is_empty() else "none - plug one in to use it")
+	_connected_note.text = tr("Connected: %s") % (", ".join(connected) if not connected.is_empty() else tr("none - plug one in to use it"))
 
 
 func _refresh_pads() -> void:
@@ -320,14 +351,14 @@ func _header(tab: VBoxContainer, titles: Array) -> void:
 		columns.append(column)
 	_row(tab, "", columns)
 	var first := tab.get_child(-1).get_child(0) as Label
-	first.text = titles[0].to_upper()
+	first.text = tr(titles[0]).to_upper()
 	first.add_theme_font_size_override("font_size", 14)
 	first.add_theme_color_override("font_color", HEADER_COLOR)
 
 
 func _header_label(title: String) -> Label:
 	var label := Label.new()
-	label.text = title.to_upper()
+	label.text = tr(title).to_upper()
 	label.add_theme_font_size_override("font_size", 14)
 	label.add_theme_color_override("font_color", HEADER_COLOR)
 	return label

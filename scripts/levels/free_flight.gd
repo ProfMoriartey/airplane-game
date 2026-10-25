@@ -62,7 +62,7 @@ func _start_next_wave() -> void:
 	for index in mini(_wave, MAX_WAVE_SIZE):
 		_spawn_enemy(skill, spawn_angle + index * 0.08)
 	_update_status()
-	hud.flash_banner("WAVE %d" % _wave)
+	hud.flash_banner(tr("WAVE %d") % _wave)
 
 
 func _spawn_enemy(skill: AircraftAI.Skill, angle: float) -> void:
@@ -88,7 +88,7 @@ func _flying_for_central() -> bool:
 
 
 func _update_status() -> void:
-	hud.set_status_text("WAVE %d     KILLS %d" % [_wave, _kills])
+	hud.set_status_text(tr("WAVE %d     KILLS %d") % [_wave, _kills])
 
 
 func _on_enemy_destroyed(attacker: Aircraft) -> void:
@@ -105,4 +105,4 @@ func _on_enemy_destroyed(attacker: Aircraft) -> void:
 
 func _on_player_destroyed(attacker: Aircraft) -> void:
 	var reason := "SHOT DOWN" if attacker else "CRASHED"
-	hud.show_message("%s\nPress R to restart" % reason)
+	hud.show_message(tr("%s\nPress R to restart") % reason)

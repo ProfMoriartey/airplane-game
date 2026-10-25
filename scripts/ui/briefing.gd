@@ -18,7 +18,7 @@ func _ready() -> void:
 
 
 func setup(mission: Mission, terrain: Terrain, player: Aircraft) -> void:
-	%Title.text = mission.title.to_upper()
+	%Title.text = tr(mission.title).to_upper()
 	%Story.text = mission.briefing
 
 	var lines: PackedStringArray = []
@@ -26,7 +26,7 @@ func setup(mission: Mission, terrain: Terrain, player: Aircraft) -> void:
 	var number := 0
 	for objective in mission.objectives:
 		if objective.optional:
-			lines.append("Bonus: %s" % Settings.fill_keys(objective.description))
+			lines.append(tr("Bonus: %s") % Settings.fill_keys(objective.description))
 			markers.append({position = objective.get_map_position(), label = "+", optional = true})
 		else:
 			number += 1
@@ -61,13 +61,13 @@ func _on_aircraft_picked(index: int) -> void:
 
 
 func _show_aircraft_info(aircraft: AircraftStats) -> void:
-	var text := "%s\nTop speed %d km/h   Armour %d   Guns %d   Bombs %d" % [
-		aircraft.description,
+	var text := tr("%s\nTop speed %d km/h   Armour %d   Guns %d   Bombs %d") % [
+		tr(aircraft.description),
 		roundi(aircraft.max_speed * 3.6),
 		roundi(aircraft.max_health),
 		roundi(aircraft.gun_damage * aircraft.gun_fire_rate),
 		aircraft.bomb_capacity,
 	]
 	if _aircraft.size() < Profile.PLAYER_AIRCRAFT.size():
-		text += "\nMore aircraft unlock as you are promoted."
+		text += "\n" + tr("More aircraft unlock as you are promoted.")
 	%AircraftInfo.text = text
