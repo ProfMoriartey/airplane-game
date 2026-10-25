@@ -207,6 +207,8 @@ func _build_gameplay() -> void:
 	_choice(tab, "Difficulty", difficulties, Settings.difficulty, func(index: int) -> void: Settings.difficulty = index)
 	_note(tab, "Easy: enemies aim worse and you take less damage. Ace: the opposite.")
 	_toggle(tab, "Invert pitch (nose up/down swapped)", Settings.invert_pitch, func(on: bool) -> void: Settings.invert_pitch = on)
+	_choice(tab, "Aim assist", ["Off", "Light", "Strong"], Settings.aim_assist, func(index: int) -> void: Settings.aim_assist = index)
+	_note(tab, "Bullets that only just miss an enemy plane still hit it.")
 	_toggle(tab, "Auto-level wings", Settings.auto_level, func(on: bool) -> void: Settings.auto_level = on)
 	_toggle(tab, "Show aiming circle (lead indicator)", Settings.show_lead_indicator, func(on: bool) -> void: Settings.show_lead_indicator = on)
 	_toggle(tab, "Show bomb sight", Settings.show_bomb_sight, func(on: bool) -> void: Settings.show_bomb_sight = on)
@@ -225,6 +227,11 @@ func _build_gameplay() -> void:
 	logs.custom_minimum_size = Vector2(200, 0)
 	logs.pressed.connect(SceneLoader.session.open_log_folder)
 	_row(tab, "Found a bug? Send us the log files", logs)
+	var playtest := Button.new()
+	playtest.text = "Open playtest folder"
+	playtest.custom_minimum_size = Vector2(200, 0)
+	playtest.pressed.connect(SceneLoader.session.open_playtest_folder)
+	_row(tab, "Playtest results and feedback", playtest)
 	_note(tab, tr("Version %s") % SceneLoader.session.version())
 
 

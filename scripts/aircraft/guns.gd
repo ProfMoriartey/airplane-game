@@ -10,7 +10,9 @@ extends Node3D
 @export var damage := 6.0 ## Per bullet.
 @export var spread_degrees := 0.6
 @export var max_ammo := 800
-@export var heat_per_shot := 0.012
+## Heat gained per second of firing, the same for every gun type: holding the
+## trigger overheats the guns after about 6 seconds (cooling included).
+@export var heat_per_second := 0.52
 @export var cooling_rate := 0.35 ## Heat lost per second.
 ## After overheating, the guns can fire again once heat drops below this.
 @export var overheat_recovery := 0.4
@@ -92,7 +94,7 @@ func can_fire() -> bool:
 func _fire_round() -> void:
 	ammo -= 1
 	shots_fired += 1
-	heat += heat_per_shot
+	heat += heat_per_second / fire_rate
 	if heat >= 1.0:
 		heat = 1.0
 		is_overheated = true

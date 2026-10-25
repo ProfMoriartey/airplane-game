@@ -13,6 +13,8 @@ const WHIZZ_DISTANCE := 12.0
 const LIFETIME := 1.3
 const BULLET_DROP := 4.0 ## A little gravity, in m/s².
 const TRACER_LENGTH := 6.0
+## Roughly how far a plane's body reaches from its centre, for aim assist.
+const ASSIST_BODY_RADIUS := 2.5
 const HIT_MASK := 1 | 2 | 4 | 16 ## World, player, enemy and ground target layers.
 const SPARKS_SCENE := preload("res://scenes/effects/hit_sparks.tscn")
 const DUST_SCENE := preload("res://scenes/effects/ground_dust.tscn")
@@ -102,6 +104,10 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 	_ray.exclude = [bullet.shooter.get_rid()] if is_instance_valid(bullet.shooter) else []
 	var hit := space.intersect_ray(_ray)
 	if hit.is_empty():
+		var near_miss := _assisted_hit(bullet, next_position)
+		if near_miss:
+			_hit_aircraft(bullet, near_miss, near_miss.global_position)
+			return false
 		bullet.position = next_position
 		return true
 
@@ -110,16 +116,36 @@ func _step(bullet: Bullet, space: PhysicsDirectSpaceState3D, delta: float) -> bo
 		_spawn_effect(SPLASH_SCENE, Vector3(hit.position.x, _terrain.water_level, hit.position.z))
 		return false
 	if target.has_method("take_damage") and target.is_alive():
-		var shooter := bullet.shooter if is_instance_valid(bullet.shooter) else null
-		# Nobody hurts their own side.
-		if shooter == null or target.team != shooter.team:
-			target.take_damage(bullet.damage, hit.position, shooter, Damage.Kind.BULLET)
-			hit_landed.emit(shooter, target, hit.position)
-			Sound.play_at("bullet_hit", hit.position, 0.0, 6.0)
-		_spawn_effect(SPARKS_SCENE, hit.position)
+		_hit_aircraft(bullet, target, hit.position)
 	else:
 		_spawn_effect(DUST_SCENE, hit.position)
 	return false
+
+
+func _hit_aircraft(bullet: Bullet, target: Node3D, at: Vector3) -> void:
+	var shooter := bullet.shooter if is_instance_valid(bullet.shooter) else null
+	# Nobody hurts their own side.
+	if shooter == null or target.team != shooter.team:
+		target.take_damage(bullet.damage, at, shooter, Damage.Kind.BULLET)
+		hit_landed.emit(shooter, target, at)
+		Sound.play_at("bullet_hit", at, 0.0, 6.0)
+	_spawn_effect(SPARKS_SCENE, at)
+
+
+## Aim assist: a player's bullet that passes just outside an enemy plane still
+## counts. Returns the plane it hit, or null.
+func _assisted_hit(bullet: Bullet, next_position: Vector3) -> Node3D:
+	var assist: float = Settings.AIM_ASSIST_RADIUS[Settings.aim_assist]
+	if assist <= 0.0 or not is_instance_valid(bullet.shooter) or not bullet.shooter.player_controlled:
+		return null
+	for node in get_tree().get_nodes_in_group("aircraft"):
+		var plane := node as Aircraft
+		if plane.team == bullet.shooter.team or not plane.is_alive():
+			continue
+		var closest := Geometry3D.get_closest_point_to_segment(plane.global_position, bullet.position, next_position)
+		if closest.distance_to(plane.global_position) < ASSIST_BODY_RADIUS + assist:
+			return plane
+	return null
 
 
 ## The crack of a bullet passing close by - only for bullets from the player's enemies.

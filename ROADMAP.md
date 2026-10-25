@@ -317,13 +317,13 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 
 ## 11. Balancing & Playtesting
 
-- [ ] Tune flight model per aircraft
-- [ ] Tune AI difficulty curve across campaign
-- [ ] Tune weapon damage, heat, and ammo
-- [ ] Tune scoring and rank progression pace
+- [x] Tune flight model per aircraft (flight test tool; Lark reworked)
+- [x] Tune AI difficulty curve across campaign (campaign report; squadrons mix veterans)
+- [x] Tune weapon damage, heat, and ammo (gun heat now works; aim assist option)
+- [x] Tune scoring and rank progression pace (aircraft unlock one rank earlier)
 - [x] Difficulty levels (Easy / Normal / Hard / Ace)
-- [ ] Internal playtest passes per milestone
-- [ ] External playtests with feedback form
+- [ ] Internal playtest passes per milestone (results log and feedback form in the game; see PLAYTEST.md)
+- [ ] External playtests with feedback form (form built; testers still needed)
 - [ ] Fix pacing issues in missions (too long, too empty, too hard)
 
 ---

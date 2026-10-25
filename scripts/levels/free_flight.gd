@@ -17,6 +17,7 @@ const ALLIED_FIGHTERS: Array[AircraftStats] = [
 var _wave := 0
 var _kills := 0
 var _enemies_alive := 0
+var _started_at := 0
 
 
 func _enter_tree() -> void:
@@ -36,6 +37,7 @@ func _ready() -> void:
 	player.team = QuickBattle.side
 	player.set_stats(aircraft, Profile.livery_of(aircraft.id))
 	Sound.start_flight_music()
+	_started_at = Time.get_ticks_msec()
 	_update_status()
 	hud.flash_banner("ALLIED FIGHTERS INBOUND" if _flying_for_central() else "ENEMY FIGHTERS INBOUND")
 	get_tree().create_timer(FIRST_WAVE_DELAY, false).timeout.connect(_start_next_wave)
@@ -105,4 +107,9 @@ func _on_enemy_destroyed(attacker: Aircraft) -> void:
 
 func _on_player_destroyed(attacker: Aircraft) -> void:
 	var reason := "SHOT DOWN" if attacker else "CRASHED"
+	SceneLoader.session.record_flight({
+		mode = "quick_battle", name = TheaterPresets.THEATERS[QuickBattle.theater].name,
+		result = "%s in wave %d" % [reason.to_lower(), _wave], seconds = (Time.get_ticks_msec() - _started_at) / 1000.0,
+		air_kills = _kills, shots = player.guns.shots_fired, hits = player_hits, aircraft = player.stats.id,
+	})
 	hud.show_message(tr("%s\nPress R to restart") % reason)

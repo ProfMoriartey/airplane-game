@@ -57,7 +57,7 @@ msgid "Lark"
 msgstr ""
 
 #: data/aircraft/lark.tres:9
-msgid "Light and quick to roll, and it floats at low speed. Fragile, with a small bomb load."
+msgid "Light and the quickest to roll, and it climbs like a lift. Fragile, with a small bomb load."
 msgstr ""
 
 #: data/aircraft/scout.tres:8
@@ -999,72 +999,97 @@ msgstr ""
 msgid "LOADING"
 msgstr ""
 
-#: scripts/autoload/settings.gd:22
+#: scripts/autoload/session.gd:100
+#, c-format
+msgid "About: %s\n"
+msgstr ""
+
+#: scripts/autoload/session.gd:101
+#, c-format
+msgid "Last finished flight: %s\n"
+msgstr ""
+
+#: scripts/autoload/session.gd:102
+#, c-format
+msgid "Difficulty felt: %s\nFun: %s\n"
+msgstr ""
+
+#: scripts/autoload/session.gd:104
+#, c-format
+msgid "Comments: %s\n"
+msgstr ""
+
+#: scripts/autoload/session.gd:99
+#, c-format
+msgid "--- %s (version %s)\n"
+msgstr ""
+
+#: scripts/autoload/settings.gd:23
 msgid "Easy"
 msgstr ""
 
-#: scripts/autoload/settings.gd:23 scripts/ui/settings_menu.gd:187
+#: scripts/autoload/settings.gd:24 scripts/ui/settings_menu.gd:245
 msgid "Normal"
 msgstr ""
 
-#: scripts/autoload/settings.gd:24
+#: scripts/autoload/settings.gd:25
 msgid "Hard"
 msgstr ""
 
-#: scripts/autoload/settings.gd:244 scripts/autoload/settings.gd:244
+#: scripts/autoload/settings.gd:26
+msgid "Ace"
+msgstr ""
+
+#: scripts/autoload/settings.gd:274 scripts/autoload/settings.gd:274
 #, c-format
 msgid "Mouse %d"
 msgstr ""
 
-#: scripts/autoload/settings.gd:249
+#: scripts/autoload/settings.gd:279
 msgid "Left mouse"
 msgstr ""
 
-#: scripts/autoload/settings.gd:249
+#: scripts/autoload/settings.gd:279
 msgid "Right mouse"
 msgstr ""
 
-#: scripts/autoload/settings.gd:249
+#: scripts/autoload/settings.gd:279
 msgid "Middle mouse"
 msgstr ""
 
-#: scripts/autoload/settings.gd:25
-msgid "Ace"
-msgstr ""
-
-#: scripts/autoload/settings.gd:250
+#: scripts/autoload/settings.gd:280
 msgid "Wheel up"
 msgstr ""
 
-#: scripts/autoload/settings.gd:250
+#: scripts/autoload/settings.gd:280
 msgid "Wheel down"
 msgstr ""
 
-#: scripts/autoload/settings.gd:251
+#: scripts/autoload/settings.gd:281
 msgid "Mouse back"
 msgstr ""
 
-#: scripts/autoload/settings.gd:251
+#: scripts/autoload/settings.gd:281
 msgid "Mouse forward"
 msgstr ""
 
-#: scripts/autoload/settings.gd:29
+#: scripts/autoload/settings.gd:30
 msgid "Low"
 msgstr ""
 
-#: scripts/autoload/settings.gd:30
+#: scripts/autoload/settings.gd:31
 msgid "Medium"
 msgstr ""
 
-#: scripts/autoload/settings.gd:31
+#: scripts/autoload/settings.gd:32
 msgid "High"
 msgstr ""
 
-#: scripts/autoload/settings.gd:39
+#: scripts/autoload/settings.gd:40
 msgid "Standard"
 msgstr ""
 
-#: scripts/autoload/settings.gd:43
+#: scripts/autoload/settings.gd:44
 msgid "Colour-blind friendly (orange / blue)"
 msgstr ""
 
@@ -1256,6 +1281,10 @@ msgstr ""
 msgid "Captain"
 msgstr ""
 
+#: scripts/levels/duel_level.gd:103
+msgid "Duels"
+msgstr ""
+
 #: scripts/levels/duel_level.gd:47 scripts/levels/duel_level.gd:47
 #, c-format
 msgid "DUEL: %s"
@@ -1287,64 +1316,64 @@ msgstr ""
 msgid "DEFEATED"
 msgstr ""
 
-#: scripts/levels/duel_level.gd:89 scripts/levels/mission_level.gd:144
+#: scripts/levels/duel_level.gd:80 scripts/levels/mission_level.gd:173
+msgid "lost: "
+msgstr ""
+
+#: scripts/levels/duel_level.gd:94 scripts/levels/mission_level.gd:144
 msgid "Time"
 msgstr ""
 
-#: scripts/levels/duel_level.gd:90
+#: scripts/levels/duel_level.gd:95
 msgid "Damage taken"
 msgstr ""
 
-#: scripts/levels/duel_level.gd:91 scripts/levels/mission_level.gd:149
+#: scripts/levels/duel_level.gd:96 scripts/levels/mission_level.gd:149
 msgid "Gun accuracy"
 msgstr ""
 
-#: scripts/levels/duel_level.gd:94 scripts/levels/duel_level.gd:94 scripts/ui/debrief.gd:88 scripts/ui/debrief.gd:88
+#: scripts/levels/duel_level.gd:99 scripts/levels/duel_level.gd:99 scripts/ui/debrief.gd:97 scripts/ui/debrief.gd:97
 #, c-format
 msgid "MEDAL: %s"
 msgstr ""
 
-#: scripts/levels/duel_level.gd:98
-msgid "Duels"
+#: scripts/levels/free_flight.gd:100 scripts/levels/mission_level.gd:101 scripts/levels/split_screen_level.gd:235
+msgid "ENEMY DOWN"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:102 scripts/levels/split_screen_level.gd:241
+#: scripts/levels/free_flight.gd:104 scripts/levels/split_screen_level.gd:241
 msgid "WAVE CLEARED - REPAIRED AND REARMED"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:107
+#: scripts/levels/free_flight.gd:109
 msgid "SHOT DOWN"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:107
+#: scripts/levels/free_flight.gd:109
 msgid "CRASHED"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:108
+#: scripts/levels/free_flight.gd:115
 #, c-format
 msgid "%s\nPress R to restart"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:40
+#: scripts/levels/free_flight.gd:42
 msgid "ALLIED FIGHTERS INBOUND"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:40 scripts/levels/split_screen_level.gd:67
+#: scripts/levels/free_flight.gd:42 scripts/levels/split_screen_level.gd:67
 msgid "ENEMY FIGHTERS INBOUND"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:65 scripts/levels/free_flight.gd:65 scripts/levels/split_screen_level.gd:214 scripts/levels/split_screen_level.gd:214
+#: scripts/levels/free_flight.gd:67 scripts/levels/free_flight.gd:67 scripts/levels/split_screen_level.gd:214 scripts/levels/split_screen_level.gd:214
 #, c-format
 msgid "WAVE %d"
 msgstr ""
 
-#: scripts/levels/free_flight.gd:91 scripts/levels/free_flight.gd:91 scripts/levels/split_screen_level.gd:263 scripts/levels/split_screen_level.gd:263
+#: scripts/levels/free_flight.gd:93 scripts/levels/free_flight.gd:93 scripts/levels/split_screen_level.gd:263 scripts/levels/split_screen_level.gd:263
 #, c-format
 msgid "WAVE %d     KILLS %d"
-msgstr ""
-
-#: scripts/levels/free_flight.gd:98 scripts/levels/mission_level.gd:101 scripts/levels/split_screen_level.gd:235
-msgid "ENEMY DOWN"
 msgstr ""
 
 #: scripts/levels/mission_level.gd:110
@@ -1352,11 +1381,11 @@ msgstr ""
 msgid "%s DESTROYED"
 msgstr ""
 
-#: scripts/levels/mission_level.gd:123 scripts/ui/debrief.gd:21
+#: scripts/levels/mission_level.gd:123 scripts/ui/debrief.gd:30
 msgid "MISSION COMPLETE"
 msgstr ""
 
-#: scripts/levels/mission_level.gd:128 scripts/ui/debrief.gd:21
+#: scripts/levels/mission_level.gd:128 scripts/ui/debrief.gd:30
 msgid "MISSION FAILED"
 msgstr ""
 
@@ -1546,45 +1575,49 @@ msgstr ""
 msgid "[b]Third-party components in the Godot Engine[/b]"
 msgstr ""
 
-#: scripts/ui/debrief.gd:52
+#: scripts/ui/debrief.gd:102 scripts/ui/debrief.gd:102
+#, c-format
+msgid "NEW AIRCRAFT: %s"
+msgstr ""
+
+#: scripts/ui/debrief.gd:16 scripts/ui/pause_menu.gd:27
+msgid "Feedback"
+msgstr ""
+
+#: scripts/ui/debrief.gd:61
 msgid "Fly again"
 msgstr ""
 
-#: scripts/ui/debrief.gd:52 scenes/ui/debrief.tscn:104
+#: scripts/ui/debrief.gd:61 scenes/ui/debrief.tscn:104
 msgid "Retry"
 msgstr ""
 
-#: scripts/ui/debrief.gd:71 scripts/ui/debrief.gd:71
+#: scripts/ui/debrief.gd:80 scripts/ui/debrief.gd:80
 #, c-format
 msgid "+%d career points  (%d total)"
 msgstr ""
 
-#: scripts/ui/debrief.gd:73 scripts/ui/debrief.gd:73
+#: scripts/ui/debrief.gd:82 scripts/ui/debrief.gd:82
 msgid "No new points - beat your best score to earn more."
 msgstr ""
 
-#: scripts/ui/debrief.gd:75 scripts/ui/debrief.gd:75
+#: scripts/ui/debrief.gd:84 scripts/ui/debrief.gd:84
 msgid "Complete the mission to earn career points."
 msgstr ""
 
-#: scripts/ui/debrief.gd:79 scripts/ui/debrief.gd:79
+#: scripts/ui/debrief.gd:88 scripts/ui/debrief.gd:88
 #, c-format
 msgid "PROMOTED to %s!"
 msgstr ""
 
-#: scripts/ui/debrief.gd:81 scripts/ui/debrief.gd:81
+#: scripts/ui/debrief.gd:90 scripts/ui/debrief.gd:90
 #, c-format
 msgid "Rank: %s"
 msgstr ""
 
-#: scripts/ui/debrief.gd:84
+#: scripts/ui/debrief.gd:93
 #, c-format
 msgid "%d points to %s"
-msgstr ""
-
-#: scripts/ui/debrief.gd:93 scripts/ui/debrief.gd:93
-#, c-format
-msgid "NEW AIRCRAFT: %s"
 msgstr ""
 
 #: scripts/ui/duels_screen.gd:18
@@ -1607,6 +1640,79 @@ msgstr ""
 
 #: scripts/ui/duels_screen.gd:45
 msgid "Undefeated."
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:11
+msgid "Far too easy"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:11
+msgid "A bit easy"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:11
+msgid "About right"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:11
+msgid "A bit hard"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:11
+msgid "Far too hard"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:12
+msgid "1 - Not fun"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:12
+msgid "3 - OK"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:12
+msgid "5 - Great fun"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:37
+msgid "FEEDBACK"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:42 scripts/ui/feedback_form.gd:42
+msgid "the game in general"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:43 scripts/ui/feedback_form.gd:43
+#, c-format
+msgid "About: %s"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:50
+msgid "How hard was it?"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:51
+msgid "How much fun was it?"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:53
+msgid "Anything else? (optional)"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:58
+msgid "What was confusing, too hard, or the best part?"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:68
+msgid "Cancel"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:73
+msgid "Save feedback"
+msgstr ""
+
+#: scripts/ui/feedback_form.gd:94 scripts/ui/feedback_form.gd:94
+msgid "Thanks! Saved to the playtest folder (Settings > Gameplay)."
 msgstr ""
 
 #: scripts/ui/hangar.gd:10 scripts/ui/hangar.gd:69
@@ -1787,7 +1893,7 @@ msgstr ""
 msgid "The game closed unexpectedly last time.\nYour progress is saved after every mission, so nothing should be lost.\n\nIf this keeps happening, please send us the log files from the log folder."
 msgstr ""
 
-#: scripts/ui/menu.gd:66 scripts/ui/settings_menu.gd:173
+#: scripts/ui/menu.gd:66 scripts/ui/settings_menu.gd:226
 msgid "Open log folder"
 msgstr ""
 
@@ -1796,11 +1902,16 @@ msgstr ""
 msgid "%d km"
 msgstr ""
 
-#: scripts/ui/pause_menu.gd:43
+#: scripts/ui/pause_menu.gd:31 scripts/ui/pause_menu.gd:31
+#, c-format
+msgid "this flight, still in progress (%s)"
+msgstr ""
+
+#: scripts/ui/pause_menu.gd:54
 msgid "Controller reconnected - press Resume when you're ready."
 msgstr ""
 
-#: scripts/ui/pause_menu.gd:47 scripts/ui/pause_menu.gd:47
+#: scripts/ui/pause_menu.gd:58 scripts/ui/pause_menu.gd:58
 #, c-format
 msgid "Controller %d was disconnected.\nPlug it back in, or carry on with another device."
 msgstr ""
@@ -2011,114 +2122,25 @@ msgstr ""
 msgid "Aces"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:101
+#: scripts/ui/settings_menu.gd:105
+msgid "Saved"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:151
 msgid "The right mouse button is used to look around - pick another."
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:111
+#: scripts/ui/settings_menu.gd:161
 #, c-format
 msgid "%s was used for %s - that slot is empty now."
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:136
+#: scripts/ui/settings_menu.gd:186
 #, c-format
 msgid "%s was used for %s - that control is empty now."
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:152
-msgid "Gameplay"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:156
-msgid "Difficulty"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:157
-msgid "Easy: enemies aim worse and you take less damage. Ace: the opposite."
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:158
-msgid "Invert pitch (nose up/down swapped)"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:159
-msgid "Auto-level wings"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:160
-msgid "Show aiming circle (lead indicator)"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:161
-msgid "Show bomb sight"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:162
-msgid "Show target markers and arrows"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:163
-msgid "Show controls help"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:164
-msgid "Show minimap"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:166
-msgid "Automatic (same as the computer)"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:169
-msgid "Language"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:171
-msgid "Pause when the game window loses focus"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:176
-msgid "Found a bug? Send us the log files"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:177 scripts/ui/settings_menu.gd:177
-#, c-format
-msgid "Version %s"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:181
-msgid "Accessibility"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:185
-msgid "Marker colours"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:186
-msgid "Enemy, friendly and objective colours on the HUD, minimap and briefing map."
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:187
-msgid "Radio and objective text size"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:187
-msgid "Large"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:187
-msgid "Extra large"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:188
-msgid "How long radio messages stay"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:189
-msgid "Screen shake"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:19 scripts/ui/settings_menu.gd:194
+#: scripts/ui/settings_menu.gd:19 scripts/ui/settings_menu.gd:252
 msgid "Keyboard & Mouse"
 msgstr ""
 
@@ -2126,7 +2148,7 @@ msgstr ""
 msgid "Reset keyboard"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:19 scripts/ui/settings_menu.gd:217 scripts/ui/settings_menu.gd:268
+#: scripts/ui/settings_menu.gd:19 scripts/ui/settings_menu.gd:275 scripts/ui/settings_menu.gd:326
 msgid "Controller"
 msgstr ""
 
@@ -2134,137 +2156,278 @@ msgstr ""
 msgid "Reset controller"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:190
-msgid "Every key and button can be changed in the Keyboard & Mouse and Controller tabs. The old-film grain can be turned off under Graphics."
+#: scripts/ui/settings_menu.gd:203
+msgid "Gameplay"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:195
-msgid "Mouse look sensitivity"
+#: scripts/ui/settings_menu.gd:207
+msgid "Difficulty"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:196
-msgid "Each control can have two keys or mouse buttons. Click one, then press the new key or mouse button. Esc cancels, Delete empties it. Hold the right mouse button to look around."
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:198 scripts/ui/settings_menu.gd:227
-msgid "Control"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:198
-msgid "Primary"
-msgstr ""
-
-#: scripts/ui/settings_menu.gd:198
-msgid "Secondary"
+#: scripts/ui/settings_menu.gd:208
+msgid "Easy: enemies aim worse and you take less damage. Ace: the opposite."
 msgstr ""
 
 #: scripts/ui/settings_menu.gd:209
-msgid "Press a key..."
+msgid "Invert pitch (nose up/down swapped)"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:220
-msgid "Layout"
+#: scripts/ui/settings_menu.gd:210
+msgid "Aim assist"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:220
-msgid "Gamepad"
+#: scripts/ui/settings_menu.gd:210
+msgid "Off"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:220
-msgid "Flight stick (with throttle lever)"
+#: scripts/ui/settings_menu.gd:210
+msgid "Light"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:223
-msgid "Stick dead zone"
+#: scripts/ui/settings_menu.gd:210
+msgid "Strong"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:211
+msgid "Bullets that only just miss an enemy plane still hit it."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:212
+msgid "Auto-level wings"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:213
+msgid "Show aiming circle (lead indicator)"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:214
+msgid "Show bomb sight"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:215
+msgid "Show target markers and arrows"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:216
+msgid "Show controls help"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:217
+msgid "Show minimap"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:219
+msgid "Automatic (same as the computer)"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:222
+msgid "Language"
 msgstr ""
 
 #: scripts/ui/settings_menu.gd:224
+msgid "Pause when the game window loses focus"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:229
+msgid "Found a bug? Send us the log files"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:231
+msgid "Open playtest folder"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:234
+msgid "Playtest results and feedback"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:235 scripts/ui/settings_menu.gd:235
+#, c-format
+msgid "Version %s"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:239
+msgid "Accessibility"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:243
+msgid "Marker colours"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:244
+msgid "Enemy, friendly and objective colours on the HUD, minimap and briefing map."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:245
+msgid "Radio and objective text size"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:245
+msgid "Large"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:245
+msgid "Extra large"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:246
+msgid "How long radio messages stay"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:247
+msgid "Screen shake"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:248
+msgid "Every key and button can be changed in the Keyboard & Mouse and Controller tabs. The old-film grain can be turned off under Graphics."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:253
+msgid "Mouse look sensitivity"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:254
+msgid "Each control can have two keys or mouse buttons. Click one, then press the new key or mouse button. Esc cancels, Delete empties it. Hold the right mouse button to look around."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:256 scripts/ui/settings_menu.gd:285
+msgid "Control"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:256
+msgid "Primary"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:256
+msgid "Secondary"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:267
+msgid "Press a key..."
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:278
+msgid "Layout"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:278
+msgid "Gamepad"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:278
+msgid "Flight stick (with throttle lever)"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:281
+msgid "Stick dead zone"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:282
 msgid "Rumble when hit"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:225
+#: scripts/ui/settings_menu.gd:283
 msgid "These controls are saved for the chosen layout and work on every controller you connect, in single player and split-screen. Click a control, then press a button or move a stick, trigger or lever. Esc or Start cancels, Delete clears."
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:227
+#: scripts/ui/settings_menu.gd:285
 msgid "Button or axis"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:237
+#: scripts/ui/settings_menu.gd:295
 msgid "Press or move..."
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:245 scripts/ui/settings_menu.gd:245
+#: scripts/ui/settings_menu.gd:303 scripts/ui/settings_menu.gd:303
 #, c-format
 msgid "Connected: %s"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:245 scripts/ui/settings_menu.gd:245
+#: scripts/ui/settings_menu.gd:303 scripts/ui/settings_menu.gd:303
 msgid "none - plug one in to use it"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:277
+#: scripts/ui/settings_menu.gd:336
 msgid "Audio"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:278
+#: scripts/ui/settings_menu.gd:337
 msgid "Master volume"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:278
+#: scripts/ui/settings_menu.gd:337
 msgid "Music"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:278
+#: scripts/ui/settings_menu.gd:337
 msgid "Sound effects"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:278
+#: scripts/ui/settings_menu.gd:337
 msgid "Menus and radio"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:284
+#: scripts/ui/settings_menu.gd:343
 msgid "Graphics"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:285
+#: scripts/ui/settings_menu.gd:344
 msgid "Fullscreen"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:290
+#: scripts/ui/settings_menu.gd:349
 msgid "Window size"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:297
+#: scripts/ui/settings_menu.gd:356
 msgid "Quality"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:298
+#: scripts/ui/settings_menu.gd:357
 msgid "Quality changes shadows, smoothing and how many trees there are (trees change on the next mission)."
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:299
+#: scripts/ui/settings_menu.gd:358
 msgid "Render resolution"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:300
+#: scripts/ui/settings_menu.gd:359
 msgid "V-Sync"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:302
+#: scripts/ui/settings_menu.gd:361
 msgid "Frame rate limit"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:302
+#: scripts/ui/settings_menu.gd:361
 msgid "Unlimited"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:304
+#: scripts/ui/settings_menu.gd:363
 msgid "Old-film grain and vignette"
 msgstr ""
 
-#: scripts/ui/settings_menu.gd:57
+#: scripts/ui/settings_menu.gd:63
 msgid "Controller:  LB / RB  change tab    A  choose    B  back"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:74 scripts/ui/settings_menu.gd:82 scripts/ui/settings_menu.gd:105
+msgid "Save"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:80
+msgid "Unsaved changes"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:81
+msgid "Save your changes before leaving?"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:83
+msgid "Keep editing"
+msgstr ""
+
+#: scripts/ui/settings_menu.gd:84
+msgid "Don't save"
 msgstr ""
 
 #: scripts/ui/two_player_screen.gd:100 scenes/ui/hangar.tscn:153

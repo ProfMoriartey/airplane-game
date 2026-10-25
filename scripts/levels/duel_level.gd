@@ -76,6 +76,11 @@ func _finish(success: bool, reason: String) -> void:
 	var medals: Array[String] = []
 	if success:
 		medals = Profile.record_duel_win(Aces.ACES[ace_index].id)
+	SceneLoader.session.record_flight({
+		mode = "duel", name = Aces.ACES[ace_index].id, result = "won" if success else "lost: " + reason,
+		seconds = _elapsed, damage_taken = roundi(_damage_taken), shots = player.guns.shots_fired,
+		hits = player_hits, air_kills = 1 if success else 0, aircraft = player.stats.id,
+	})
 	await get_tree().create_timer(DEBRIEF_DELAY).timeout
 	Sound.stop_flight_music()
 	Sound.play_music("victory" if success else "defeat")

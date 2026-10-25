@@ -168,6 +168,12 @@ func _show_debrief(success: bool, reason: String) -> void:
 		})
 		next_mission = Profile.CAMPAIGN.next_after(mission.mission_id)
 
+	SceneLoader.session.record_flight({
+		mode = "mission", name = mission.mission_id if mission.mission_id != "" else scene_file_path.get_file().get_basename(),
+		result = "won" if success else "lost: " + reason, seconds = _elapsed, score = _score,
+		air_kills = _air_kills, ground_kills = _ground_kills, damage_taken = roundi(_damage_taken),
+		shots = shots, hits = player_hits, aircraft = player.stats.id,
+	})
 	var debrief := DEBRIEF_SCENE.instantiate()
 	add_child(debrief)
 	debrief.setup(success, reason, stats, career, next_mission if success else null)

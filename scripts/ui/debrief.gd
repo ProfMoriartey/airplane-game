@@ -6,11 +6,20 @@ signal retry_pressed
 var _return_scene := CAMPAIGN_SCREEN
 
 const CAMPAIGN_SCREEN := "res://scenes/ui/campaign_screen.tscn"
+const FEEDBACK_FORM := preload("res://scripts/ui/feedback_form.gd")
 const SUCCESS_COLOR := Color(0.55, 0.9, 0.5)
 const FAILURE_COLOR := Color(1.0, 0.45, 0.35)
 
 
 func _ready() -> void:
+	var feedback := Button.new()
+	feedback.text = "Feedback"
+	feedback.custom_minimum_size = Vector2(140, %RetryButton.custom_minimum_size.y)
+	feedback.pressed.connect(func() -> void:
+		var form := FEEDBACK_FORM.new()
+		add_child(form)
+		form.closed.connect(feedback.grab_focus))
+	$Box/Buttons.add_child(feedback)
 	%RetryButton.pressed.connect(func() -> void: retry_pressed.emit())
 	%CampaignButton.pressed.connect(func() -> void: SceneLoader.change_scene(_return_scene))
 

@@ -15,6 +15,7 @@ enum Quality { LOW, MEDIUM, HIGH }
 enum WindowMode { WINDOWED, FULLSCREEN }
 enum Palette { STANDARD, COLORBLIND }
 enum TextSize { NORMAL, LARGE, EXTRA_LARGE }
+enum AimAssist { OFF, LIGHT, STRONG }
 
 ## How each difficulty changes the enemy: aim error, pause between bursts, and
 ## how much damage the player takes.
@@ -44,11 +45,13 @@ const PALETTES := {
 		objective = Color(0.95, 0.9, 0.3), optional = Color(0.92, 0.92, 0.92),
 	},
 }
+## How far (metres) the player's bullets can pass outside an enemy plane and still hit it.
+const AIM_ASSIST_RADIUS := {AimAssist.OFF: 0.0, AimAssist.LIGHT: 1.5, AimAssist.STRONG: 3.0}
 const TEXT_SCALES := {TextSize.NORMAL: 1.0, TextSize.LARGE: 1.3, TextSize.EXTRA_LARGE: 1.6}
 const BUSES := ["Master", "Music", "SFX", "UI"]
 ## Settings written to the save file.
 const SAVED := [
-	"difficulty", "auto_level", "show_lead_indicator", "show_bomb_sight", "show_markers", "show_help", "show_minimap", "pause_on_focus_loss",
+	"difficulty", "auto_level", "show_lead_indicator", "show_bomb_sight", "show_markers", "show_help", "show_minimap", "pause_on_focus_loss", "aim_assist",
 	"palette", "text_size", "radio_duration", "screen_shake", "language",
 	"invert_pitch", "mouse_sensitivity", "key_bindings", "volumes",
 	"pad_scheme", "pad_bindings", "pad_deadzone", "rumble",
@@ -64,6 +67,7 @@ var show_markers := true
 var show_help := true
 var show_minimap := true
 var pause_on_focus_loss := true
+var aim_assist := AimAssist.LIGHT
 ## Language code like "fr", or "" to follow the computer's language.
 var language := ""
 # Accessibility

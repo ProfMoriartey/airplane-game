@@ -107,7 +107,7 @@ team = 0
 [node name="Raiders1" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 420, -1400)
 script = ExtResource("squadron")
-count = 3
+count = 2
 skill = 0
 attack_ground_targets = true
 
@@ -115,5 +115,6 @@ attack_ground_targets = true
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 600, 450, -1500)
 script = ExtResource("squadron")
 count = 3
-skill = 1
+skill = 0
+veterans = 1
 attack_ground_targets = true

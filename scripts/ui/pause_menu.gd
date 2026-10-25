@@ -7,6 +7,7 @@ extends CanvasLayer
 signal restart_requested
 
 const SETTINGS_SCENE := preload("res://scenes/ui/settings_menu.tscn")
+const FEEDBACK_FORM := preload("res://scripts/ui/feedback_form.gd")
 
 ## Turned off while other screens (briefing, debrief) are showing.
 var enabled := true
@@ -21,6 +22,16 @@ func _ready() -> void:
 	%RestartButton.pressed.connect(func() -> void: restart_requested.emit())
 	%MainMenuButton.pressed.connect(SceneLoader.go_to_main_menu)
 	%SettingsButton.pressed.connect(_open_settings)
+	var feedback := %SettingsButton.duplicate() as Button
+	feedback.name = "FeedbackButton"
+	feedback.text = "Feedback"
+	feedback.unique_name_in_owner = false
+	feedback.pressed.connect(func() -> void:
+		var form := FEEDBACK_FORM.new()
+		form.about = tr("this flight, still in progress (%s)") % get_tree().current_scene.scene_file_path.get_file().get_basename().replace("_", " ")
+		add_child(form)
+		form.closed.connect(feedback.grab_focus))
+	%SettingsButton.add_sibling(feedback)
 	_reason = Label.new()
 	_reason.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_reason.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

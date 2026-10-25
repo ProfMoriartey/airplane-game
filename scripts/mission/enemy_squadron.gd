@@ -7,6 +7,9 @@ const ENEMY_SCENE := preload("res://scenes/aircraft/enemy_plane.tscn")
 
 @export var count := 2
 @export var skill := AircraftAI.Skill.ROOKIE
+## How many of the planes have a pilot one level better than skill, e.g. a
+## veteran leading rookies. A named leader doesn't count towards these.
+@export var veterans := 0
 ## Distance between planes, side by side.
 @export var spacing := 60.0
 ## Go after balloons, guns and other ground targets, not just aircraft.
@@ -28,7 +31,8 @@ func spawn() -> Array[Aircraft]:
 		var side := (index - (count - 1) * 0.5) * spacing
 		var enemy := ENEMY_SCENE.instantiate() as Aircraft
 		var ai := enemy.get_node("AI") as AircraftAI
-		ai.skill = skill
+		var first_wingman := 1 if leader_name != "" else 0
+		ai.skill = mini(skill + 1, AircraftAI.Skill.ACE) if index >= first_wingman and index < first_wingman + veterans else skill
 		ai.patrol_center = global_position
 		ai.attack_ground_targets = attack_ground_targets
 		ai.passive = passive

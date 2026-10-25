@@ -113,4 +113,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 0, -1330)
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 480, -1800)
 script = ExtResource("squadron")
 count = 3
-skill = 1
+skill = 0
+veterans = 2
