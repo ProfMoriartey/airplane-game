@@ -333,7 +333,7 @@ All sounds and music are synthesised by `tools/generate_audio.py` – no samples
 - [ ] Profile CPU (AI, physics, bullets)
 - [ ] Profile GPU (terrain, vegetation, clouds, particles)
 - [ ] Hit target framerate on minimum-spec hardware
-- [ ] Test on all target platforms
+- [ ] Test on all target platforms (Windows and Mac builds: `sh tools/export.sh`; Mac build tested here, Windows needs a Windows PC)
 - [ ] Test all input devices on real hardware (keyboard/mouse, Xbox, PlayStation, flight sticks) — routing tested with simulated input
 - [ ] Bug tracking list and triage
 - [ ] Full campaign playthrough without blockers

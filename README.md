@@ -63,3 +63,11 @@ Aircraft are defined in `data/aircraft/*.tres` – flight handling, guns, bombs,
 - `assets/` – textures and other art
 
 See [ROADMAP.md](ROADMAP.md) for the full development plan.
+
+## Building for testers
+
+Close the Godot editor, then run `sh tools/export.sh` from the project folder. It builds
+`builds/RedAce-<version>-windows.zip` and `builds/RedAce-<version>-mac.zip`, each with a
+"How to play" note for testers (including how to open an unsigned build and send feedback).
+The version comes from `config/version` in `project.godot`; the icons are made from
+`icon.svg` with `godot --headless --path . -s res://tools/make_icons.gd`.
